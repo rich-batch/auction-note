@@ -1,3 +1,8 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+baseURL = 'https://rich-batch.github.io/auction-note/'
+locale = 'ko-kr'
+title = '오늘의 경매 노트'
+theme = 'PaperMod'
+
+[params]
+description = '경매, 공매 투자 정보 블로그'
+author = '경매 투자자'
