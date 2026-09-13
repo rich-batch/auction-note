@@ -5,4 +5,4 @@ theme = 'PaperMod'
 
 [params]
 description = '경매, 공매 투자 정보 블로그'
-author = '경매 투자자'
+author = 'rich-batch'
