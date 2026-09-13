@@ -3,6 +3,9 @@
 /resources/
 .hugo_build.lock
 
+# Claude Code 로컬 설정 (개인별 권한 등)
+.claude/settings.local.json
+
 # 백업 파일
 *.backup
 keywords.backup-*.csv
