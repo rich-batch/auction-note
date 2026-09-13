@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif">
+<rect width="1200" height="630" fill="#FFF8EE"/>
+<rect x="60" y="44" width="120" height="36" rx="18" fill="#C2410C"/>
+<text x="120" y="68" font-size="20" font-weight="700" fill="#FFFFFF" text-anchor="middle">한 장 요약</text>
+<text x="60" y="146" font-size="52" font-weight="800" fill="#1F2A37">경매가 뭔지 한눈에</text>
+<text x="60" y="194" font-size="28" fill="#4B5563">물건을 가장 높은 값을 부른 사람에게 파는 특별한 시장이에요</text>
+<rect x="60" y="238" width="237" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="98" cy="276" r="20" fill="#C2410C"/>
+<text x="98" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="178.5" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">경매란</text>
+<text x="178.5" y="390" font-size="22" fill="#4B5563" text-anchor="middle">가장 높은 값을 부른</text>
+<text x="178.5" y="420" font-size="22" fill="#4B5563" text-anchor="middle">사람이 사가는 거래</text>
+<path d="M305 341 H333" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+<path d="M323 331 L333 341 L323 351" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="341" y="238" width="237" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="379" cy="276" r="20" fill="#C2410C"/>
+<text x="379" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="459.5" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">누가 파나</text>
+<text x="459.5" y="390" font-size="22" fill="#4B5563" text-anchor="middle">법원이면 법원경매,</text>
+<text x="459.5" y="420" font-size="22" fill="#4B5563" text-anchor="middle">관청이면 공매</text>
+<path d="M586 341 H614" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+<path d="M604 331 L614 341 L604 351" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="622" y="238" width="237" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="660" cy="276" r="20" fill="#C2410C"/>
+<text x="660" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="740.5" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">왜 파나</text>
+<text x="740.5" y="390" font-size="22" fill="#4B5563" text-anchor="middle">담보 빚이면 임의,</text>
+<text x="740.5" y="420" font-size="22" fill="#4B5563" text-anchor="middle">소송 빚이면 강제경매</text>
+<path d="M867 341 H895" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+<path d="M885 331 L895 341 L885 351" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="903" y="238" width="237" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="941" cy="276" r="20" fill="#C2410C"/>
+<text x="941" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="1021.5" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">언제 내 것</text>
+<text x="1021.5" y="390" font-size="22" fill="#4B5563" text-anchor="middle">낙찰이 아니라 돈을 다</text>
+<text x="1021.5" y="420" font-size="22" fill="#4B5563" text-anchor="middle">낸 순간부터</text>
+<rect x="60" y="474" width="1080" height="84" rx="18" fill="#FDE7C7"/>
+<rect x="80" y="498" width="174.6" height="36" rx="18" fill="#FFFFFF"/>
+<text x="167.3" y="523" font-size="22" font-weight="700" fill="#C2410C" text-anchor="middle">기억할 한 가지</text>
+<text x="276.6" y="527" font-size="30" font-weight="700" fill="#1F2A37">낙찰 받아도 대금을 다 내야 진짜 내 것이 돼요</text>
+<text x="1140" y="596" font-size="18" fill="#6B7280" text-anchor="end">오늘의 경매 노트</text>
+</svg>

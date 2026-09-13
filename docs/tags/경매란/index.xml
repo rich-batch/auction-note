@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>오늘의 경매 노트</title>
-    <link>https://rich-batch.github.io/auction-note/</link>
-    <description>Recent content on 오늘의 경매 노트</description>
+    <title>경매란 on 오늘의 경매 노트</title>
+    <link>https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%A7%A4%EB%9E%80/</link>
+    <description>Recent content in 경매란 on 오늘의 경매 노트</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
     <lastBuildDate>Sun, 13 Sep 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://rich-batch.github.io/auction-note/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%A7%A4%EB%9E%80/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>경매란? | 부동산 경매의 정의·절차·공매와의 차이 완벽 정리</title>
       <link>https://rich-batch.github.io/auction-note/posts/what-is-auction/</link>
       <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
       <guid>https://rich-batch.github.io/auction-note/posts/what-is-auction/</guid>
       <description>경매는 임의경매·강제경매·법원경매·공매로 나뉘며, 소유권은 낙찰이 아니라 매각대금을 완납한 시점에 넘어갑니다.</description>
-    </item>
-    <item>
-      <title>무주택자 경락잔금대출 조건 | 생애최초 한도·금리·세제 완벽 정리</title>
-      <link>https://rich-batch.github.io/auction-note/posts/no-home-auction-loan/</link>
-      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
-      <guid>https://rich-batch.github.io/auction-note/posts/no-home-auction-loan/</guid>
-      <description>생애최초와 일반 무주택자의 경락잔금대출 한도·금리·세제를 비교합니다. 법령 기준과 2026년 최신 규제가 적용된 조건입니다.</description>
     </item>
   </channel>
 </rss>
