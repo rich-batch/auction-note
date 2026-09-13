@@ -9,10 +9,31 @@
     <lastBuildDate>Sun, 13 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://rich-batch.github.io/auction-note/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>LTV</title>
+      <link>https://rich-batch.github.io/auction-note/tags/ltv/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/ltv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>경락잔금대출</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%9D%BD%EC%9E%94%EA%B8%88%EB%8C%80%EC%B6%9C/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%9D%BD%EC%9E%94%EA%B8%88%EB%8C%80%EC%B6%9C/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>경매</title>
       <link>https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%A7%A4/</link>
       <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
       <guid>https://rich-batch.github.io/auction-note/tags/%EA%B2%BD%EB%A7%A4/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>금리</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EA%B8%88%EB%A6%AC/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EA%B8%88%EB%A6%AC/</guid>
       <description></description>
     </item>
     <item>
@@ -23,10 +44,45 @@
       <description></description>
     </item>
     <item>
+      <title>무주택자</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EB%AC%B4%EC%A3%BC%ED%83%9D%EC%9E%90/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EB%AC%B4%EC%A3%BC%ED%83%9D%EC%9E%90/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>생애최초</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EC%83%9D%EC%95%A0%EC%B5%9C%EC%B4%88/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EC%83%9D%EC%95%A0%EC%B5%9C%EC%B4%88/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>양도소득세</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EC%84%B8/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EC%84%B8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>취득세</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%EC%B7%A8%EB%93%9D%EC%84%B8/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%EC%B7%A8%EB%93%9D%EC%84%B8/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>투자</title>
       <link>https://rich-batch.github.io/auction-note/tags/%ED%88%AC%EC%9E%90/</link>
       <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
       <guid>https://rich-batch.github.io/auction-note/tags/%ED%88%AC%EC%9E%90/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>한도</title>
+      <link>https://rich-batch.github.io/auction-note/tags/%ED%95%9C%EB%8F%84/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      <guid>https://rich-batch.github.io/auction-note/tags/%ED%95%9C%EB%8F%84/</guid>
       <description></description>
     </item>
   </channel>
