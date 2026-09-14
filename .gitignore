@@ -25,3 +25,8 @@ Thumbs.db
 # 임시 파일
 *.tmp
 *.temp
+
+# 자동 글쓰기 스케줄러 로그
+scripts/auto-write.log
+scripts/launchd.out.log
+scripts/launchd.err.log

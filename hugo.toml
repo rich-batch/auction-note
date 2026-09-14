@@ -3,6 +3,9 @@ locale = 'ko-kr'
 title = '오늘의 경매 노트'
 theme = 'PaperMod'
 
+[pagination]
+pagerSize = 6
+
 [params]
 description = '경매, 공매 투자 정보 블로그'
 author = 'rich-batch'
