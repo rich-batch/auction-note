@@ -1,0 +1,64 @@
+# 워크플로의 이름 (Actions 탭에 표시됨)
+name: Build and Deploy
+
+# 언제 비서를 깨울 것인가 (트리거)
+on:
+  schedule:
+    # 매일 UTC 22:00 = 한국 시간(KST) 익일 오전 7:00
+    - cron: "0 22 * * *"
+  workflow_dispatch: # 깃허브 화면에서 수동으로 "Run workflow" 버튼을 눌러 실행할 수 있게 함
+  push:
+    branches: [main] # main 브랜치에 새 글이 push될 때도 바로 배포되도록 함
+
+# GitHub Pages에 배포하려면 워크플로에 이 권한이 있어야 함
+permissions:
+  contents: read # 저장소 코드를 읽어올 권한
+  pages: write # GitHub Pages에 배포할 권한
+  id-token: write # 배포 신원 확인용 토큰 발급 권한
+
+# 동시에 두 배포가 겹쳐 충돌하지 않도록 최신 실행만 유지
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # 깃허브가 무료로 빌려주는 리눅스 컴퓨터
+    steps:
+      # 1) 저장소의 코드(글, 테마 등)를 작업 컴퓨터로 가져온다
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          submodules: true # 테마가 서브모듈(themes/PaperMod)로 들어 있으므로 함께 받아온다
+          fetch-depth: 0 # 마지막 수정일 등 전체 git 이력이 필요할 수 있어 전체 이력을 받아온다
+
+      # 2) Hugo를 설치한다 (정적 사이트 빌더)
+      #    ※ 액션 이름·버전은 예시이며, 실제 사용 전 마켓플레이스(github.com/marketplace)에서 최신 버전을 확인할 것
+      - name: Hugo 설치
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "latest"
+          extended: true # PaperMod 테마가 요구하는 Hugo Extended(Sass 처리) 버전 사용
+
+      # 3) 사이트를 빌드한다 → 결과물이 public/ 폴더에 쌓인다
+      - name: Hugo 빌드
+        run: hugo --minify
+
+      # 4) 빌드 결과물(public/)을 GitHub Pages가 배포할 수 있는 형태로 포장한다
+      - name: 빌드 결과물 업로드
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build # build 단계가 성공해야 이 단계를 실행한다
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # 5) 포장해 둔 결과물을 실제 GitHub Pages로 배포한다
+      #    ※ 이 저장소 Settings → Pages → Source를 "GitHub Actions"로 설정해 두어야 동작함
+      - name: GitHub Pages 배포
+        id: deployment
+        uses: actions/deploy-pages@v4
