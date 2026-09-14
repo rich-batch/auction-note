@@ -95,6 +95,8 @@ check(!lastmod || !date || lastmod >= date, 'lastmod가 date보다 이름');
 check(/^volatile:\s*(true|false)\s*$/m.test(front), 'volatile은 true 또는 false');
 const title = front.match(/^title:\s*"?(.+?)"?\s*$/m)?.[1] ?? '';
 check(!/\b20\d{2}\b/.test(title), '제목에 연도가 들어 있음');
+warn(title.length <= 22, `제목이 ${title.length}자 — 20자 안팎 권장(검색 결과·헤더에서 잘림): "${title}"`);
+warn(!/완벽\s*정리|총정리|모든\s*것/.test(title), `제목에 상투적 표현("완벽 정리" 등)이 있음 — 구체적 차별점으로 교체 권장: "${title}"`);
 const description = front.match(/^description:\s*"?(.+?)"?\s*$/m)?.[1] ?? '';
 check(!/정리(합니다|했습니다)\.?$|알아봅니다\.?$/.test(description), 'description이 "~정리합니다/알아봅니다"로 끝남');
 
@@ -180,8 +182,7 @@ check(!filler.length, `알맹이 없는 문장: ${filler.map(s => s.trim().slice
 const fakePerson = body.match(/[^.\n]*(제 지인|지인 [가-힣]|[가-힣] ?씨는|한 수강생|제 친구|후배 [가-힣]|실제로 이런 (일|경우)가 많)[^.\n]*/g) ?? [];
 check(!fakePerson.length, `가상 인물·확인 안 된 사례 의심: ${fakePerson.map(s => s.trim().slice(0, 40)).join(' / ')}`);
 check(!/추천합니다|사야 합니다|수익(이|을) 보장/.test(body), '투자 권유 표현이 있음');
-const tail = body.trim().split('\n').slice(-3).join('\n');
-check(/투자 권유가 아닌 정보 제공/.test(tail), '글 끝에 투자 권유 아님 고지가 없음');
+check(!/투자 권유가 아닌 정보 제공/.test(body), '면책 문구는 사이트 템플릿(layouts/_partials/disclaimer.html)이 모든 글 하단에 자동으로 붙인다. 본문에 중복해서 쓰지 마라');
 check(/^\|.+\|\s*\n\|\s*:?-{3,}/m.test(body), '마크다운 표가 없음');
 
 const placeholders = body.match(/\[경험 추가 필요[^\]]*\]/g) ?? [];

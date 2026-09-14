@@ -111,3 +111,15 @@ body.dark .post-content blockquote {
     padding: 8px 10px;
   }
 }
+
+/* ── 투자 면책 문구 — 모든 글 본문 하단에 자동 삽입 (extend_post_content.html) ── */
+.post-disclaimer {
+  margin: 24px auto 0;
+  padding: 16px 20px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
