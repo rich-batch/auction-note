@@ -18,10 +18,10 @@
 .post-content h4 a {
   color: inherit;
 }
-body.dark .post-content a {
+:root[data-theme="dark"] .post-content a {
   color: #6fb2ff;
 }
-body.dark .post-content a:hover {
+:root[data-theme="dark"] .post-content a:hover {
   background: rgba(111, 178, 255, 0.12);
 }
 
@@ -48,7 +48,7 @@ body.dark .post-content a:hover {
   border-radius: 0 8px 8px 0;
   font-style: normal;
 }
-body.dark .post-content blockquote {
+:root[data-theme="dark"] .post-content blockquote {
   background: rgba(217, 118, 31, 0.12);
   border-left-color: #e08d3f;
 }
@@ -110,6 +110,38 @@ body.dark .post-content blockquote {
   .post-content td {
     padding: 8px 10px;
   }
+}
+
+/* ── 목록에서 글과 글 사이 경계 강화 ──
+   PaperMod 기본 .post-entry는 배경(--theme)과 카드(--entry) 색 차이가 아주 미묘해서
+   (다크: rgb(29,30,32) vs rgb(46,46,51), 명도차 17 정도) 그림자만으로는 안 보인다.
+   ELI5 커버 이미지처럼 색이 강한 요소가 있으면 카드 자체는 더더욱 묻혀서, "이미지-텍스트"가
+   계속 나열되는 것처럼 보이고 텍스트가 어느 이미지에 속하는지 애매해진다.
+   → 카드 배경색 자체의 명도차를 키우고, 밝은 테두리로 윤곽을 뚜렷하게 만든다. */
+.post-entry,
+.first-entry {
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+}
+:root:not([data-theme="dark"]) .post-entry,
+:root:not([data-theme="dark"]) .first-entry {
+  background: #ffffff;
+  border-color: rgb(225, 225, 225);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+:root[data-theme="dark"] .post-entry,
+:root[data-theme="dark"] .first-entry {
+  background: rgb(56, 57, 63);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.post-entry .entry-cover,
+.first-entry .entry-cover {
+  margin-bottom: var(--content-gap);
+}
+.post-entry .entry-cover img,
+.first-entry .entry-cover img {
+  border-radius: var(--radius);
 }
 
 /* ── 투자 면책 문구 — 모든 글 본문 하단에 자동 삽입 (extend_post_content.html) ── */
