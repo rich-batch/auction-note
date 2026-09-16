@@ -1,0 +1,11 @@
+{{- $related := site.RegularPages.Related . | first 5 }}
+{{- with $related }}
+<div class="related-posts">
+  <h2>함께 보면 좋은 글</h2>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}
