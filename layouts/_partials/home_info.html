@@ -5,7 +5,7 @@
 {{- range $id, $c := site.Data.cases -}}
   {{- if ge ($c.sale.sale_date | default "") $today -}}
     {{- with site.GetPage (printf "/analysis/%s" $id) -}}
-      {{- $items = $items | append (dict "date" $c.sale.sale_date "area" (partial "case-area.html" $c.case.region) "type" $c.case.property_type "page" .) -}}
+      {{- $items = $items | append (dict "date" $c.sale.sale_date "area" (partial "case-area.html" $c.case.region) "type" (partial "category-name.html" $c.case.category) "page" .) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

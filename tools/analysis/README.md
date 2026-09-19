@@ -2,7 +2,7 @@
 
 물건 분석 글의 **사실 원본**. 사람이 서류를 보고 입력하고(`computed` 제외), Hugo 표·계산 도구·검사 스크립트·AI가 모두 이 파일을 읽는다.
 
-- 새 파일: `node tools/analysis/new-case.mjs <id> <사건번호>`
+- 새 파일: `node tools/analysis/new-case.mjs <id> <사건번호> <분류>`
 - 계산: `node tools/analysis/compute.mjs <id>` (검증 실패 시 무엇이 틀렸는지 알려 줌)
 - 단계 확인: `node tools/analysis/status.mjs`
 - 엔진 테스트: `node --test tools/analysis/rights.test.mjs`
@@ -24,7 +24,7 @@
 | `case.item_no` | | 물건번호 (1이면 표에 안 나옴) |
 | `case.court` | ✓ | `서울중앙지방법원` |
 | `case.kind` | | `임의경매` / `강제경매` |
-| `case.property_type` | ✓ | `아파트`, `다세대`, `오피스텔`, `상가` 등 |
+| `case.category` | ✓ | 분류 slug: `apartment` `villa` `commercial` `land` `car` (`data/categories.json`). 분류마다 페이지·계산 방식이 달라진다. 오피스텔 등 목록에 없는 물건은 분류를 먼저 추가한다 |
 | `case.region` | ✓ | **법정동까지만** (`서울특별시 강남구 역삼동`) |
 | `case.area_m2` | | 전용면적 ㎡ |
 | `sale.appraisal` | ✓ | 감정가 (원, 정수) |

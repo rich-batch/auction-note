@@ -1,0 +1,12 @@
+{{- define "main" }}
+{{- $cat := .Params.category }}
+<header class="page-header">
+  <h1>{{ partial "category-name.html" $cat }} 물건 분석</h1>
+  {{- with .Description }}<p class="cal-desc">{{ . }}</p>{{ end }}
+</header>
+{{ partial "analysis-tabs.html" $cat }}
+{{- $cur := (now.Add (time.ParseDuration "9h")).Format "2006-01" }}
+{{ partial "calendar.html" (dict "month" $cur "category" $cat) }}
+<h2 class="cal-list-title">{{ partial "category-name.html" $cat }} 분석 글</h2>
+{{ partial "analysis-list.html" $cat }}
+{{- end }}

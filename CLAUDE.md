@@ -20,6 +20,7 @@ content/<type>/<id>/index.md        발행되는 글 (page bundle — 커버·�
 content/<type>/_index.md            섹션 목록 페이지·메뉴
 data/cases/<id>.json                분석 글의 사실 원본 (사람 입력 + compute.mjs 계산 결과 + 매각 결과)
 data/glossary.json                  용어 → 가이드 slug (분석 글 내부 링크)
+data/categories.json                분석 분류(아파트·빌라·상가·토지·자동차) — 한 줄 추가로 새 분류
 pipeline/<type>/research/<id>.md    조사 노트 (발행 안 됨)
 pipeline/guide/research/<id>.eli5.json  가이드 커버 스펙 → node tools/render-eli5.mjs <스펙>
 pipeline/guide/keywords.csv         가이드 글감 목록
@@ -28,7 +29,7 @@ tools/analysis/                     권리분석 계산 엔진(rights.mjs)과 CL
 tools/check/                        글 검사 (common.mjs 공통 + 종류별)
 tools/auto/                         헤드리스 자동 글쓰기 (batch.sh → run-one.sh → PR)
 layouts/_shortcodes/case-*.html     분석 글 표 (사건 데이터에서 그림)
-content/analysis/_content.gotmpl    월별 일정 페이지(/analysis/2026-10/) 자동 생성 (사건 데이터의 매각기일 범위)
+content/analysis/_content.gotmpl    자동 생성: 월별 일정(/analysis/2026-10/), 분류 페이지(/analysis/apartment/)와 그 월별 일정
 layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, 발행된 글만) — /analysis/ 메인이 이번 달 달력
 ```
 
@@ -38,7 +39,7 @@ layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, �
 - `data/cases/*.json`의 `computed`는 손으로 고치지 않는다. 입력을 고쳤으면 `node tools/analysis/compute.mjs <id>`.
 - 계산 규칙을 바꾸면 `tools/analysis/rights.test.mjs`도 고치고 `node --test tools/analysis/rights.test.mjs`를 통과시킨다.
 - **저장소와 사이트는 공개 상태다.** 이름·주민번호·전화번호·번지·동호수를 데이터·글·조사 노트에 넣지 않는다. 서류 원본은 `private/`(gitignore)나 저장소 밖에.
-- 일정 달력은 사건 데이터의 `sale.sale_date`(평일만 허용)와 발행된 분석 글로 자동으로 그려진다. 글이 없거나 초안이면 달력에 나오지 않는다. 칩에는 지역·물건 종류만 보인다.
+- 일정 달력은 사건 데이터의 `sale.sale_date`(평일만 허용)와 발행된 분석 글로 자동으로 그려진다. 글이 없거나 초안이면 달력에 나오지 않는다. 칩에는 지역·분류만 보인다. 분류는 사건 데이터의 `case.category`가 원본이고, 글 주소는 분류와 무관하게 `/analysis/<사건ID>/`로 고정한다.
 - 이미지는 글 폴더에 두고 파일명만 쓴다(`![…](cost-flow.png)`). 외부 이미지·캡처 금지.
 - 다른 글 링크는 `[제목]({{< relref "/guide/<slug>" >}})`. `/guide/…`처럼 직접 쓰면 하위 경로(`/auction-note/`)가 빠져 깨진다. 발행 글에서 초안 글을 링크하면 발행 빌드가 실패한다.
 - 면책 문구는 템플릿이 자동으로 붙인다(`layouts/_partials/disclaimer.html`, `disclaimer-analysis.html`). 본문에 쓰지 않는다.

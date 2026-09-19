@@ -6,7 +6,7 @@ import { validateCase, computeCase, inputHash } from './rights.mjs';
 
 const base = over => ({
   id: 'test-2026ta100',
-  case: { number: '2026타경100', court: '가상지방법원', property_type: '아파트', region: '가상시 가상구 가상동' },
+  case: { number: '2026타경100', court: '가상지방법원', category: 'apartment', region: '가상시 가상구 가상동' },
   sale: { appraisal: 500000000, minimum: 400000000, sale_date: '2026-10-01', dividend_deadline: '2026-06-30' },
   rights: [
     { date: '2020-05-10', receipt_no: 100, kind: '근저당권', amount: 300000000, holder_type: '은행' },
@@ -168,4 +168,20 @@ test('검증: 주말 매각기일은 막음(달력이 평일만 그림)', () => 
   assert.match(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-03' } })).join('\n'), /주말/);
   assert.match(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-04' } })).join('\n'), /주말/);
   assert.deepEqual(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-05' } })), []);
+});
+
+test('분류: 목록에 없으면 오류, 자동차는 엔진 미구현, 토지는 임차인 입력 금지', () => {
+  const withCase = over => base({ case: { ...base().case, ...over } });
+  assert.match(validateCase(withCase({ category: '아파트' })).join('\n'), /case\.category/);
+  assert.match(validateCase(withCase({ category: 'car' })).join('\n'), /계산 엔진이 아직 없음/);
+  for (const category of ['apartment', 'villa', 'commercial', 'land']) assert.deepEqual(validateCase(withCase({ category })), []);
+  assert.match(validateCase(base({ case: { ...base().case, category: 'land' }, tenants: [tenant()] })).join('\n'), /토지 임차인/);
+});
+
+test('분류: 토지는 법정지상권·지목·농지취득자격증명을 확인 항목으로 남김', () => {
+  const land = computeCase(base({ case: { ...base().case, category: 'land' } })).review.join('\n');
+  assert.match(land, /법정지상권/);
+  assert.match(land, /맹지/);
+  assert.match(land, /농지취득자격증명/);
+  assert.doesNotMatch(computeCase(base()).review.join('\n'), /농지취득자격증명/);
 });

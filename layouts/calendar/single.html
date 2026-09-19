@@ -1,10 +1,10 @@
 {{- define "main" }}
-{{- with site.GetPage "/analysis" }}
+{{- $cat := .Params.category | default "" }}
 <header class="page-header">
-  <h1>{{ .Title }}</h1>
-  {{- with .Description }}<p class="cal-desc">{{ . }}</p>{{ end }}
+  <h1>{{ if $cat }}{{ partial "category-name.html" $cat }} {{ end }}물건 분석</h1>
+  {{- with (site.GetPage "/analysis").Description }}<p class="cal-desc">{{ . }}</p>{{ end }}
 </header>
-{{- end }}
-{{ partial "calendar.html" (dict "month" .Params.month) }}
-<p class="cal-back"><a href="{{ (site.GetPage "/analysis").RelPermalink }}">← 이번 달과 전체 분석 글</a></p>
+{{ partial "analysis-tabs.html" $cat }}
+{{ partial "calendar.html" (dict "month" .Params.month "category" $cat) }}
+<p class="cal-back"><a href="{{ (site.GetPage (cond (ne $cat "") (printf "/analysis/%s" $cat) "/analysis")).RelPermalink }}">← 이번 달과 전체 분석 글</a></p>
 {{- end }}

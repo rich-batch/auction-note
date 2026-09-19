@@ -252,3 +252,9 @@
 .upcoming-date { flex: none; width: 96px; color: var(--secondary); font-size: 14px; }
 .upcoming-what { font-weight: 600; }
 .upcoming-more { display: inline-block; margin-top: 6px; font-size: 14px; color: var(--secondary); }
+
+/* ── 물건 분석 분류 탭 (layouts/_partials/analysis-tabs.html) ── */
+.cat-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 4px; }
+.cat-tabs a { padding: 5px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 14px; text-decoration: none; }
+.cat-tabs a:hover { background: var(--tertiary); }
+.cat-tabs a.active { background: var(--primary); border-color: var(--primary); color: var(--theme); font-weight: 600; }
