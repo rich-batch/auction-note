@@ -7,6 +7,7 @@ import { parseArticlePath, readDraft, rel } from '../lib/paths.mjs';
 // 인용 가능한 출처. 공식·1차 출처로 확인된 도메인만 추가한다.
 export const ALLOWED_DOMAINS = [
   'go.kr',          // 정부·공공기관 전체 (law.go.kr, fsc.go.kr, easylaw.go.kr, scourt.go.kr, courtauction.go.kr, rt.molit.go.kr ...)
+  'gov.kr',         // 정부24 (gov.kr)
   'korea.kr',       // 대한민국 정책브리핑
   'bok.or.kr',      // 한국은행
   'kfb.or.kr',      // 은행연합회 (소비자포털 금리 공시)
@@ -158,8 +159,9 @@ export function checkHonesty(a, r) {
   const { body } = a;
   r.check(!/^#\s+\S/m.test(body), '본문에 "# 제목"(H1)이 있음 — Hugo가 front matter title로 H1을 이미 렌더링하므로 중복(PaperMod에서 H1 2개로 보임)');
   r.check(!/알아보(겠|도록 하겠)습니다|살펴보(겠|도록 하겠)습니다|많은 (사람|분)들?이 관심/.test(body), '예고형·일반론 문장("알아보겠습니다", "많은 분이 관심" 등)이 있음');
-  const emptyClosing = body.match(/[^.\n]*(도움이 되(셨|었)(길|으면)|알아보았습니다|살펴보았습니다|이상으로)[^.\n]*/g) ?? [];
-  r.check(!emptyClosing.length, `공허한 맺음말: ${emptyClosing.map(s => s.trim().slice(0, 40)).join(' / ')}`);
+  const emptyClosing = body.match(/[^.\n]*(도움이 되(셨|었)(길|으면)|알아보았습니다|살펴보았습니다)[^.\n]*/g) ?? [];
+  const aloneClosing = body.match(/^[^.\n]*이상으로\s*\.?$/gm) ?? [];
+  r.check(!emptyClosing.length && !aloneClosing.length, `공허한 맺음말: ${[...emptyClosing, ...aloneClosing].map(s => s.trim().slice(0, 40)).join(' / ')}`);
   const filler = body.match(/[^.\n]*(은행마다 다릅니다|상황에 따라 다를 수 있습니다|전문가와 상담하세요)[^.\n]*/g) ?? [];
   r.check(!filler.length, `알맹이 없는 문장: ${filler.map(s => s.trim().slice(0, 40)).join(' / ')}`);
   const fakePerson = body.match(/[^.\n]*(제 지인|지인 [가-힣]|[가-힣] ?씨는|한 수강생|제 친구|후배 [가-힣]|실제로 이런 (일|경우)가 많)[^.\n]*/g) ?? [];
