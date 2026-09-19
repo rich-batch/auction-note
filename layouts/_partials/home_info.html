@@ -1,0 +1,24 @@
+{{- /* 홈 상단: 다가오는 매각 일정(오늘 이후, 발행된 분석 글만, 최대 5건). 없으면 블록을 그리지 않는다. */ -}}
+{{- $today := (now.Add (time.ParseDuration "9h")).Format "2006-01-02" -}}
+{{- $wdNames := slice "일" "월" "화" "수" "목" "금" "토" -}}
+{{- $items := slice -}}
+{{- range $id, $c := site.Data.cases -}}
+  {{- if ge ($c.sale.sale_date | default "") $today -}}
+    {{- with site.GetPage (printf "/analysis/%s" $id) -}}
+      {{- $items = $items | append (dict "date" $c.sale.sale_date "area" (partial "case-area.html" $c.case.region) "type" $c.case.property_type "page" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $items }}
+{{- $items = sort $items "date" }}
+<section class="upcoming">
+  <h2 class="upcoming-title">다가오는 매각 일정</h2>
+  <ul class="upcoming-list">
+    {{- range first 5 $items }}
+    {{- $d := time.AsTime .date }}
+    <li><a href="{{ .page.RelPermalink }}"><span class="upcoming-date">{{ int $d.Month }}월 {{ $d.Day }}일 ({{ index $wdNames (int $d.Weekday) }})</span><span class="upcoming-what">{{ .area }} {{ .type }}</span></a></li>
+    {{- end }}
+  </ul>
+  <a class="upcoming-more" href="{{ (site.GetPage "/analysis").RelPermalink }}">월별 일정 전체 보기 →</a>
+</section>
+{{- end }}

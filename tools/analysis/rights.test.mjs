@@ -163,3 +163,9 @@ test('입력 해시: result나 market을 바꿔도 그대로, 권리를 바꾸�
   c.rights[0].amount = 1;
   assert.notEqual(inputHash(c), h);
 });
+
+test('검증: 주말 매각기일은 막음(달력이 평일만 그림)', () => {
+  assert.match(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-03' } })).join('\n'), /주말/);
+  assert.match(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-04' } })).join('\n'), /주말/);
+  assert.deepEqual(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-05' } })), []);
+});

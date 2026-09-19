@@ -1,0 +1,10 @@
+{{- /* "서울특별시 강남구 역삼동" → "강남구", "경기도 성남시 분당구 정자동" → "성남시 분당구" (시·도와 동·읍·면·리 제외) */ -}}
+{{- $out := slice -}}
+{{- range $i, $w := split . " " -}}
+  {{- if eq $i 0 }}{{ continue }}{{ end -}}
+  {{- if findRE `(동|읍|면|리|가)$` $w }}{{ break }}{{ end -}}
+  {{- $out = $out | append $w -}}
+{{- end -}}
+{{- $s := delimit $out " " -}}
+{{- if not $s }}{{ $s = index (split . " ") 0 }}{{ end -}}
+{{- return $s -}}

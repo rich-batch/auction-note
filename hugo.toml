@@ -12,6 +12,10 @@ description = '경매, 공매 투자 정보 블로그'
 author = 'rich-batch'
 # 홈 화면 글 목록에 두 섹션을 함께 노출 (없으면 Hugo가 글 수가 가장 많은 섹션 하나만 고른다)
 mainSections = ['guide', 'analysis']
+# 홈 상단에 '다가오는 매각 일정' 블록을 끼우는 자리(layouts/_partials/home_info.html이 그린다)
+[params.homeInfoParams]
+Title = ''
+Content = ''
 
 [related]
   threshold = 20

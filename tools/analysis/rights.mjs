@@ -48,6 +48,10 @@ export function validateCase(c) {
   err(isMoney(c.sale?.appraisal) && c.sale.appraisal > 0, 'sale.appraisal(감정가)은 0보다 큰 원 단위 정수');
   err(isMoney(c.sale?.minimum) && c.sale.minimum > 0, 'sale.minimum(최저매각가격)은 0보다 큰 원 단위 정수');
   err(isDate(c.sale?.sale_date), 'sale.sale_date(매각기일)는 YYYY-MM-DD');
+  if (isDate(c.sale?.sale_date)) {
+    const wd = new Date(`${c.sale.sale_date}T00:00:00Z`).getUTCDay();
+    err(wd !== 0 && wd !== 6, `sale.sale_date(${c.sale.sale_date})가 주말 — 매각기일은 평일이다(일정 달력이 평일만 그린다). 날짜 오타 확인`);
+  }
   if (c.sale?.dividend_deadline != null) err(isDate(c.sale.dividend_deadline), 'sale.dividend_deadline(배당요구종기)은 YYYY-MM-DD');
   if (c.sale?.deposit_rate != null) err(typeof c.sale.deposit_rate === 'number' && c.sale.deposit_rate > 0 && c.sale.deposit_rate < 1, 'sale.deposit_rate는 0~1 사이 비율 (예: 0.1)');
 

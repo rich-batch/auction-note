@@ -212,3 +212,43 @@
   font-size: 14px;
   margin-top: -12px;
 }
+
+/* ── 물건 분석 일정 달력 (layouts/_partials/calendar.html) ── */
+.cal-desc { color: var(--secondary); margin: 8px 0 0; }
+.cal-nav { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 12px; }
+.cal-title { margin: 0; font-size: 1.25rem; }
+.cal-count { font-size: 0.85rem; font-weight: 400; color: var(--secondary); margin-left: 4px; }
+.cal-nav a, .cal-nav-off { padding: 4px 14px; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; }
+.cal-nav a:hover { background: var(--tertiary); }
+.cal-nav-off { opacity: 0.3; }
+.cal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.cal-head { text-align: center; font-size: 13px; color: var(--secondary); padding: 4px 0; }
+.cal-day { min-height: 92px; padding: 6px; border: 1px solid var(--border); border-radius: 8px; background: var(--entry); display: flex; flex-direction: column; gap: 4px; }
+.cal-date { font-size: 13px; color: var(--secondary); }
+.cal-full { display: none; }
+.cal-today { border-color: var(--primary); }
+.cal-today .cal-num { font-weight: 700; color: var(--primary); }
+.cal-past:not(.cal-has) { opacity: 0.55; }
+.cal-chip { display: block; padding: 4px 6px; border-radius: 6px; background: var(--tertiary); font-size: 13px; line-height: 1.3; text-decoration: none; word-break: keep-all; }
+.cal-chip:hover { background: var(--primary); color: var(--theme); }
+.cal-empty { color: var(--secondary); text-align: center; margin: 16px 0; }
+.cal-list-title { margin: 40px 0 12px; font-size: 1.1rem; }
+.cal-back { margin-top: 24px; }
+@media (max-width: 720px) {
+  .cal-grid { display: block; }
+  .cal-head, .cal-blank, .cal-day:not(.cal-has) { display: none; }
+  .cal-day { min-height: 0; margin-bottom: 8px; }
+  .cal-num { display: none; }
+  .cal-full { display: inline; font-weight: 600; color: var(--primary); }
+}
+
+/* ── 홈: 다가오는 매각 일정 (layouts/_partials/home_info.html) ── */
+.upcoming { margin: 8px 0 28px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--entry); }
+.upcoming-title { margin: 0 0 8px; font-size: 1rem; }
+.upcoming-list { list-style: none; margin: 0; padding: 0; }
+.upcoming-list li + li { border-top: 1px solid var(--border); }
+.upcoming-list a { display: flex; gap: 12px; padding: 8px 2px; text-decoration: none; }
+.upcoming-list a:hover .upcoming-what { text-decoration: underline; }
+.upcoming-date { flex: none; width: 96px; color: var(--secondary); font-size: 14px; }
+.upcoming-what { font-weight: 600; }
+.upcoming-more { display: inline-block; margin-top: 6px; font-size: 14px; color: var(--secondary); }
