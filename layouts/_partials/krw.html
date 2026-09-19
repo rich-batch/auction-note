@@ -1,0 +1,15 @@
+{{- /* 원 단위 정수 → "8억 5,000만 원". 사용: partial "krw.html" 850000000 */ -}}
+{{- $s := "미상" -}}
+{{- if ne . nil -}}
+  {{- $n := int . -}}
+  {{- $eok := div $n 100000000 -}}
+  {{- $man := div (mod $n 100000000) 10000 -}}
+  {{- $won := mod $n 10000 -}}
+  {{- $parts := slice -}}
+  {{- if gt $eok 0 }}{{ $parts = $parts | append (printf "%s억" (lang.FormatNumber 0 $eok)) }}{{ end -}}
+  {{- if gt $man 0 }}{{ $parts = $parts | append (printf "%s만" (lang.FormatNumber 0 $man)) }}{{ end -}}
+  {{- if gt $won 0 }}{{ $parts = $parts | append (lang.FormatNumber 0 $won) }}{{ end -}}
+  {{- $s = "0원" -}}
+  {{- if $parts }}{{ $s = printf "%s 원" (delimit $parts " ") }}{{ end -}}
+{{- end -}}
+{{- return $s -}}

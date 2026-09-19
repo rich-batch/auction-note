@@ -4,16 +4,16 @@
 
 | 구간 | 할 일 |
 |---|---|
-| 1~7일차 | **콘텐츠 점검과 보강.** 너무 짧거나 알맹이 약한 글을 골라 본문을 채운다. `write-article`의 고쳐쓰기 모드로 다시 쓸 수 있다. 복제·짜깁기 의심 글은 직접 쓴 문장으로. 기준은 "둘러볼 거리가 충분한가" |
+| 1~7일차 | **콘텐츠 점검과 보강.** 너무 짧거나 알맹이 약한 글을 골라 본문을 채운다. `write-guide`의 고쳐쓰기 모드로 다시 쓸 수 있다. 복제·짜깁기 의심 글은 직접 쓴 문장으로. 기준은 "둘러볼 거리가 충분한가" |
 | 8~12일차 | **필수 3페이지**(소개·개인정보처리방침·연락처) 추가. `references/required-pages.md` 참고. 로컬에서 메뉴에 다 뜨는지 눈으로 확인 |
-| 13~15일차 | **면책 문구 확인.** 이미 `layouts/_partials/disclaimer.html`이 모든 글에 자동으로 붙는다 — 있는지만 점검. 본문에 "무조건", "보장" 같은 단정적 표현이 없는지 훑는다(`write-article`의 `check-article.mjs`가 일부 자동 감지) |
+| 13~15일차 | **면책 문구 확인.** 이미 `layouts/_partials/disclaimer.html`이 모든 글에 자동으로 붙는다 — 있는지만 점검. 본문에 "무조건", "보장" 같은 단정적 표현이 없는지 훑는다(`tools/check/*.mjs`가 일부 자동 감지) |
 | 16~22일차 | **탐색 점검.** 깨진 링크가 없는지, 메뉴에서 모든 핵심 페이지로 두세 번 클릭 안에 닿는지, 모바일 화면에서 메뉴가 안 깨지는지 확인. 새 글 두세 편을 더 올려 "운영 중인 블로그"라는 인상을 만든다 |
 | 23~28일차 | **최종 자가 점검.** `references/rejection-checklist.md`의 4대 거절 사유를 하나씩 ✓ 표시. 하나라도 ✗면 신청을 미루고 그 항목부터 메운다 |
 | 29~30일차 | **신청.** 애드센스에 사이트를 등록하고 안내에 따라 코드를 넣는다. 심사 중에도 글은 계속 발행한다 — 살아 움직이는 블로그가 유리하다 |
 
 ## 진행 상황을 물어볼 때
 
-- 글 개수와 발행 상태: `node .claude/skills/write-article/render-prompt.mjs --list`
+- 글 개수와 발행 상태: `node .claude/skills/write-guide/render-prompt.mjs --list`, 분석 글은 `node tools/analysis/status.mjs`
 - 필수 페이지 존재 여부: `ls content/about.md content/privacy.md content/contact.md`
 - 면책 자동 삽입 여부: SKILL.md의 '면책 문구' 섹션 참고
 

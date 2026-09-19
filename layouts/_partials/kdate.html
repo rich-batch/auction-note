@@ -1,0 +1,4 @@
+{{- /* "2026-10-15" → "2026년 10월 15일" */ -}}
+{{- $s := "미상" -}}
+{{- with . }}{{ $t := time.AsTime . }}{{ $s = printf "%d년 %d월 %d일" $t.Year (int $t.Month) $t.Day }}{{ end -}}
+{{- return $s -}}

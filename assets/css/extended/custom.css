@@ -184,3 +184,31 @@
 :root[data-theme="dark"] .related-posts a {
   color: #6fb2ff;
 }
+
+/* ── 물건 분석: 사건 데이터 표 (layouts/_shortcodes/case-*.html) ── */
+.post-content .case-table table {
+  min-width: 0;
+}
+.post-content .case-table th {
+  white-space: nowrap;
+}
+.post-content .case-table tr.case-base td {
+  font-weight: 700;
+}
+.post-content .case-table .effect-인수,
+.post-content .case-table .effect-일부-인수-가능,
+.post-content .case-table .effect-검토 {
+  color: #b42318;
+  font-weight: 700;
+}
+:root[data-theme="dark"] .post-content .case-table .effect-인수,
+:root[data-theme="dark"] .post-content .case-table .effect-일부-인수-가능,
+:root[data-theme="dark"] .post-content .case-table .effect-검토 {
+  color: #ff8a80;
+}
+.post-content .case-source,
+.post-content .case-pending {
+  color: var(--secondary);
+  font-size: 14px;
+  margin-top: -12px;
+}
