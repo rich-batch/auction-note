@@ -5,4 +5,5 @@
   {{- range site.Data.categories.categories }}
   <a href="{{ printf "analysis/%s/" .slug | relURL }}"{{ if eq .slug $current }} class="active" aria-current="page"{{ end }}>{{ .name }}</a>
   {{- end }}
+  <a class="cat-tabs-search" href="{{ "analysis/search/" | relURL }}">조건 검색 →</a>
 </nav>

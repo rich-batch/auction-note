@@ -31,6 +31,7 @@ tools/auto/                         헤드리스 자동 글쓰기 (batch.sh → 
 layouts/_shortcodes/case-*.html     분석 글 표 (사건 데이터에서 그림)
 content/analysis/_content.gotmpl    자동 생성: 월별 일정(/analysis/2026-10/), 분류 페이지(/analysis/apartment/)와 그 월별 일정
 layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, 발행된 글만) — /analysis/ 메인이 이번 달 달력
+layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정렬은 assets/js/analysis-search.js가 브라우저에서 처리, 필터 상태는 URL 쿼리)
 ```
 
 ## 규칙
@@ -40,6 +41,7 @@ layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, �
 - 계산 규칙을 바꾸면 `tools/analysis/rights.test.mjs`도 고치고 `node --test tools/analysis/rights.test.mjs`를 통과시킨다.
 - **저장소와 사이트는 공개 상태다.** 이름·주민번호·전화번호·번지·동호수를 데이터·글·조사 노트에 넣지 않는다. 서류 원본은 `private/`(gitignore)나 저장소 밖에.
 - 일정 달력은 사건 데이터의 `sale.sale_date`(평일만 허용)와 발행된 분석 글로 자동으로 그려진다. 글이 없거나 초안이면 달력에 나오지 않는다. 칩에는 지역·분류만 보인다. 분류는 사건 데이터의 `case.category`가 원본이고, 글 주소는 분류와 무관하게 `/analysis/<사건ID>/`로 고정한다.
+- 물건 검색은 발행된 분석 글 × 사건 데이터에서 자동으로 만들어진다. 인수 위험 배지는 계산 결과(`computed`)에서 나오므로 `compute.mjs`를 돌리지 않은 사건은 "확인 필요"로 보인다. 필터 항목을 늘리려면 `analysissearch/list.html`(JSON·컨트롤)과 `analysis-search.js`를 함께 고친다.
 - 이미지는 글 폴더에 두고 파일명만 쓴다(`![…](cost-flow.png)`). 외부 이미지·캡처 금지.
 - 다른 글 링크는 `[제목]({{< relref "/guide/<slug>" >}})`. `/guide/…`처럼 직접 쓰면 하위 경로(`/auction-note/`)가 빠져 깨진다. 발행 글에서 초안 글을 링크하면 발행 빌드가 실패한다.
 - 면책 문구는 템플릿이 자동으로 붙인다(`layouts/_partials/disclaimer.html`, `disclaimer-analysis.html`). 본문에 쓰지 않는다.
