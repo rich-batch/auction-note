@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif">
+<rect width="1200" height="630" fill="#FFF8EE"/>
+<rect x="60" y="44" width="120" height="36" rx="18" fill="#C2410C"/>
+<text x="120" y="68" font-size="20" font-weight="700" fill="#FFFFFF" text-anchor="middle">한 장 요약</text>
+<text x="60" y="146" font-size="52" font-weight="800" fill="#1F2A37">공매 물건은 세 곳에서</text>
+<text x="60" y="194" font-size="28" fill="#4B5563">공매는 기관에 따라 온비드, 국세청, 관세청 세 곳에서 찾는다.</text>
+<rect x="60" y="238" width="330.6666666666667" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="98" cy="276" r="20" fill="#C2410C"/>
+<text x="98" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="225.33333333333334" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">온비드</text>
+<text x="225.33333333333334" y="390" font-size="22" fill="#4B5563" text-anchor="middle">국유·공공·압류자산 통합,</text>
+<text x="225.33333333333334" y="420" font-size="22" fill="#4B5563" text-anchor="middle">언제든 전자입찰</text>
+<path d="M398.6666666666667 341 H426.6666666666667" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+<path d="M416.6666666666667 331 L426.6666666666667 341 L416.6666666666667 351" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="434.6666666666667" y="238" width="330.6666666666667" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="472.6666666666667" cy="276" r="20" fill="#C2410C"/>
+<text x="472.6666666666667" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="600" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">국세청</text>
+<text x="600" y="390" font-size="22" fill="#4B5563" text-anchor="middle">세금 체납 압류재산, 온비드와</text>
+<text x="600" y="420" font-size="22" fill="#4B5563" text-anchor="middle">별도 채널</text>
+<path d="M773.3333333333334 341 H801.3333333333334" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+<path d="M791.3333333333334 331 L801.3333333333334 341 L791.3333333333334 351" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="809.3333333333334" y="238" width="330.6666666666667" height="206" rx="22" fill="#FFFFFF" stroke="#E7D8C3" stroke-width="2"/>
+<circle cx="847.3333333333334" cy="276" r="20" fill="#C2410C"/>
+<text x="847.3333333333334" y="284" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="974.6666666666667" y="350" font-size="30" font-weight="700" fill="#1F2A37" text-anchor="middle">관세청</text>
+<text x="974.6666666666667" y="390" font-size="22" fill="#4B5563" text-anchor="middle">관세 체납·적발, 장비 중심</text>
+<rect x="60" y="474" width="1080" height="84" rx="18" fill="#FDE7C7"/>
+<rect x="80" y="498" width="174.6" height="36" rx="18" fill="#FFFFFF"/>
+<text x="167.3" y="523" font-size="22" font-weight="700" fill="#C2410C" text-anchor="middle">기억할 한 가지</text>
+<text x="276.6" y="527" font-size="30" font-weight="700" fill="#1F2A37">각 사이트의 물건 범위가 다르니, 기관별로 확인한다.</text>
+<text x="1140" y="596" font-size="18" fill="#6B7280" text-anchor="end">오늘의 경매 노트</text>
+</svg>
