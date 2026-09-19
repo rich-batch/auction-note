@@ -1,0 +1,5 @@
+{{- /* 분류 slug → 한글 이름 (data/categories.json). 예: apartment → 아파트 */ -}}
+{{- $slug := . -}}
+{{- $out := $slug -}}
+{{- range site.Data.categories.categories }}{{ if eq .slug $slug }}{{ $out = .name }}{{ end }}{{ end -}}
+{{- return $out -}}

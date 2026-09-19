@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { articlePath, listArticles, researchPath, rel, todayKST } from '../../../tools/lib/paths.mjs';
 import { listCaseIds, loadCase, caseStage } from '../../../tools/lib/cases.mjs';
 import { loadGlossary, relrefFor } from '../../../tools/lib/glossary.mjs';
+import { categoryName } from '../../../tools/lib/categories.mjs';
 
 const skillDir = path.dirname(fileURLToPath(import.meta.url));
 const args = {};
@@ -76,6 +77,10 @@ for (const c of targets) {
   const vars = {
     id: c.id,
     number: c.case.number,
+    category_name: categoryName(c.case.category),
+    category_note: c.case.category === 'land'
+      ? '## 토지 사건 추가 지침\n- 임차인이 없는 사건으로 다룬다. `## 임차인과 점유`는 "점유 현황" 관점(실제 점유자·지상 건물·농작물)으로 짧게 쓰고, 소제목 이름은 그대로 둔다.\n- 위 review의 법정지상권·지목/맹지·농지취득자격증명은 `## 입찰 전 확인할 것`에 빠짐없이 옮긴다.\n- 지목·면적·용도지역이 사건 데이터에 없으면 지어내지 말고 `[확인 필요: …]`.\n'
+      : '',
     date: today,
     checked_at: c.source?.checked_at ?? '(없음)',
     article_path: rel(articlePath('analysis', c.id)),

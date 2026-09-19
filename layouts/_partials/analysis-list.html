@@ -1,0 +1,18 @@
+{{- /* 분석 글 카드 목록. 사용: partial "analysis-list.html" "apartment" ("" = 전체). 분류는 사건 데이터(data/cases)의 case.category 기준. */ -}}
+{{- $cat := . -}}
+{{- $shown := 0 -}}
+{{- range where site.RegularPages "Type" "analysis" }}
+  {{- $c := index site.Data.cases .Params.case -}}
+  {{- if and $c (or (not $cat) (eq $c.case.category $cat)) }}
+  {{- $shown = add $shown 1 }}
+<article class="post-entry">
+  <header class="entry-header"><h2>{{ .Title }}{{ if .Draft }} <sup><small>[draft]</small></sup>{{ end }}</h2></header>
+  {{- with .Description }}<div class="entry-content"><p>{{ . | plainify | htmlUnescape }}</p></div>{{ end }}
+  <footer class="entry-footer">{{ partial "category-name.html" $c.case.category }} · {{ .Date | time.Format ":date_long" }}</footer>
+  <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+  {{- end }}
+{{- end }}
+{{- if not $shown }}
+<p class="cal-empty">발행된 분석 글이 없습니다.</p>
+{{- end }}

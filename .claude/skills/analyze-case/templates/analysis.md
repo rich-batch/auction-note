@@ -4,6 +4,7 @@
 
 사건 ID: {id}
 사건번호: {number}
+분류: {category_name}
 작성일: {date}
 사건 데이터 확인일(서론 기준일로 쓴다): {checked_at}
 글 경로: {article_path}
@@ -19,6 +20,7 @@
 6. **입찰 권유·단정 금지.** "추천", "안전한 물건", "깨끗한 물건", "무조건", "시세차익", "저평가", "기회" 같은 표현을 쓰지 마라. 면책 문구는 템플릿이 자동으로 붙이니 본문에 쓰지 마라.
 7. 커밋·푸시하지 말고, `draft: true`를 유지하라.
 
+{category_note}
 ## 사건 데이터 (data/cases/{id}.json — 계산 결과 제외)
 
 ```json
@@ -72,15 +74,15 @@
 ### front matter (YAML)
 ```yaml
 ---
-title: "{number} <시군구> <물건 종류> 권리분석"   # 뒤에 이 사건의 핵심을 짧게 붙여도 된다(예: "…, 선순위 임차인 있음"). 30자 안팎
+title: "{number} <시군구> {category_name} 권리분석"   # 뒤에 이 사건의 핵심을 짧게 붙여도 된다(예: "…, 선순위 임차인 있음"). 30자 안팎
 author: "rich-batch"
 date: {date}
 lastmod: {date}
 draft: true
 case: "{id}"
 categories: ["권리분석·명도"]
-tags: [<시군구>, <물건 종류>, <이 글에서 실제로 다룬 권리 용어 2~4개>]
-description: "<사건번호·지역·물건 종류와 권리분석 결론을 담은 80자 안팎 한 문장. '~정리합니다'로 끝내지 않는다>"
+tags: [<시군구>, {category_name}, <이 글에서 실제로 다룬 권리 용어 2~4개>]
+description: "<사건번호·지역·{category_name}와 권리분석 결론을 담은 80자 안팎 한 문장. '~정리합니다'로 끝내지 않는다>"
 showToc: true
 TocOpen: false
 ---

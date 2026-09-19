@@ -11,6 +11,7 @@
 // 최소~최대 범위로 낸다. 코드로 판정할 수 없는 것(유치권, 법정지상권, 순서가 불명확한 권리 등)은
 // review에 남겨 사람이 확인하게 한다.
 import crypto from 'node:crypto';
+import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 
 export const ENGINE_VERSION = 1;
 
@@ -41,7 +42,11 @@ export function validateCase(c) {
     const token = num.replace('타경', 'ta');
     err(new RegExp(`(^|-)${token}(-\\d+)?$`).test(c.id), `id에 사건번호 토큰 "${token}"이 들어가야 함 (물건번호가 있으면 끝에 -N)`);
   }
-  for (const k of ['court', 'property_type', 'region']) err(typeof c.case?.[k] === 'string' && c.case[k].trim(), `case.${k} 필요`);
+  for (const k of ['court', 'region']) err(typeof c.case?.[k] === 'string' && c.case[k].trim(), `case.${k} 필요`);
+  const cat = categoryBySlug(c.case?.category);
+  err(cat, `case.category는 ${CATEGORIES.map(x => x.slug).join(' / ')} 중 하나 (data/categories.json)`);
+  if (cat?.engine === 'car') err(false, `${cat.name}는 계산 엔진이 아직 없음 — 첫 ${cat.name} 사건을 등록할 때 입력 항목과 규칙을 함께 만든다`);
+  if (cat?.slug === 'land') err(!(c.tenants ?? []).length, 'land(토지)의 tenants는 비워 둔다 — 토지 임차인은 대항력 규칙(농지법 등)이 달라 코드가 판정하지 않는다. special에 기록');
   if (typeof c.case?.region === 'string') {
     err(!/\d+(-\d+)?\s*번지|\d+\s*호(?![가-힣])|\d+동\s*\d+호|\s\d+(-\d+)?$/.test(c.case.region), `case.region은 법정동까지만 (번지·동·호수 금지): "${c.case.region}"`);
   }
@@ -186,6 +191,11 @@ export function computeCase(c, now = new Date()) {
   });
 
   // 4) 등기로 판단할 수 없는 사항
+  if (c.case.category === 'land') {
+    review.push('토지: 지상 건물이 있으면 법정지상권 성립 여부 확인(건물 소유자·저당 설정 당시 상태) — 코드는 판정하지 않음');
+    review.push('토지: 지목·용도지역·도로 접함(맹지 여부)을 토지이용계획확인서·지적도로 확인');
+    review.push('토지: 농지(전·답·과수원)면 농지취득자격증명 발급 가능 여부 확인 — 미제출 시 매각불허가');
+  }
   for (const s of c.special ?? []) review.push(`특수 사항 "${s.kind ?? s}"${s.note ? ` (${s.note})` : ''} — 등기만으로 판정 불가, 현장·서류 확인`);
 
   // 5) 매각물건명세서 기재와 대조

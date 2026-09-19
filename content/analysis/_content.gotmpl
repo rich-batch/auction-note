@@ -1,4 +1,5 @@
-{{- /* 월별 일정 페이지(/analysis/2026-10/)를 사건 데이터의 매각기일 범위로 자동 생성한다. 이번 달은 항상 포함(KST). */ -}}
+{{- /* 자동 생성 페이지: 월별 일정(/analysis/2026-10/), 분류 페이지(/analysis/apartment/)와 그 월별 일정(/analysis/apartment/2026-10/).
+       월 범위 = 사건 데이터의 매각기일 범위 + 이번 달(KST). 분류 목록은 data/categories.json. */ -}}
 {{- $cur := (now.Add (time.ParseDuration "9h")).Format "2006-01" -}}
 {{- $min := $cur -}}
 {{- $max := $cur -}}
@@ -12,6 +13,7 @@
 {{- $a := time.AsTime (printf "%s-01" $min) -}}
 {{- $b := time.AsTime (printf "%s-01" $max) -}}
 {{- $n := add (mul (sub $b.Year $a.Year) 12) (sub (int $b.Month) (int $a.Month)) -}}
+
 {{- range seq 0 $n -}}
   {{- $m := $a.AddDate 0 . 0 -}}
   {{- $ym := $m.Format "2006-01" -}}
@@ -21,4 +23,28 @@
       "type" "calendar"
       "params" (dict "month" $ym)
   ) -}}
+{{- end -}}
+
+{{- range site.Data.categories.categories -}}
+  {{- $slug := .slug -}}
+  {{- $name := .name -}}
+  {{- $.AddPage (dict
+      "path" $slug
+      "kind" "section"
+      "title" (printf "%s 물건 분석" $name)
+      "description" (printf "%s 경매 물건을 매각물건명세서와 등기 기준으로 분석한 글과 매각 일정입니다." $name)
+      "type" "analysiscat"
+      "params" (dict "category" $slug)
+  ) -}}
+  {{- range seq 0 $n -}}
+    {{- $m := $a.AddDate 0 . 0 -}}
+    {{- $ym := $m.Format "2006-01" -}}
+    {{- $.AddPage (dict
+        "path" (printf "%s/%s" $slug $ym)
+        "title" (printf "%d년 %d월 %s 물건 분석 일정" $m.Year (int $m.Month) $name)
+        "type" "calendar"
+        "sitemap" (dict "disable" true)
+        "params" (dict "month" $ym "category" $slug "robotsNoIndex" true)
+    ) -}}
+  {{- end -}}
 {{- end -}}

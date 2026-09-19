@@ -1,0 +1,8 @@
+{{- /* 분류 탭: 전체 | 아파트 | 빌라 | 상가 | 토지 | 자동차. 사용: partial "analysis-tabs.html" "apartment" ("" = 전체) */ -}}
+{{- $current := . -}}
+<nav class="cat-tabs" aria-label="물건 분류">
+  <a href="{{ "analysis/" | relURL }}"{{ if not $current }} class="active" aria-current="page"{{ end }}>전체</a>
+  {{- range site.Data.categories.categories }}
+  <a href="{{ printf "analysis/%s/" .slug | relURL }}"{{ if eq .slug $current }} class="active" aria-current="page"{{ end }}>{{ .name }}</a>
+  {{- end }}
+</nav>
