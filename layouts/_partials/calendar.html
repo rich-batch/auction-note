@@ -1,0 +1,49 @@
+{{- /* 월 달력(평일 5칸). 사건 데이터(data/cases)의 매각기일 × 발행된 분석 글. 사용: partial "calendar.html" (dict "month" "2026-10") */ -}}
+{{- $month := .month -}}
+{{- $first := time.AsTime (printf "%s-01" $month) -}}
+{{- $today := (now.Add (time.ParseDuration "9h")).Format "2006-01-02" -}}
+{{- $prev := ($first.AddDate 0 -1 0).Format "2006-01" -}}
+{{- $next := ($first.AddDate 0 1 0).Format "2006-01" -}}
+{{- $wdNames := slice "일" "월" "화" "수" "목" "금" "토" -}}
+
+{{- $items := slice -}}
+{{- range $id, $c := site.Data.cases -}}
+  {{- if strings.HasPrefix ($c.sale.sale_date | default "") $month -}}
+    {{- with site.GetPage (printf "/analysis/%s" $id) -}}
+      {{- $items = $items | append (dict "date" $c.sale.sale_date "area" (partial "case-area.html" $c.case.region) "type" $c.case.property_type "page" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<nav class="cal-nav" aria-label="월 이동">
+  {{- with site.GetPage (printf "/analysis/%s" $prev) }}<a href="{{ .RelPermalink }}" aria-label="이전 달">◀</a>{{ else }}<span class="cal-nav-off" aria-hidden="true">◀</span>{{ end }}
+  <h2 class="cal-title">{{ $first.Year }}년 {{ int $first.Month }}월 <span class="cal-count">{{ len $items }}건</span></h2>
+  {{- with site.GetPage (printf "/analysis/%s" $next) }}<a href="{{ .RelPermalink }}" aria-label="다음 달">▶</a>{{ else }}<span class="cal-nav-off" aria-hidden="true">▶</span>{{ end }}
+</nav>
+
+<div class="cal-grid">
+  {{- range slice "월" "화" "수" "목" "금" }}<div class="cal-head">{{ . }}</div>{{ end }}
+  {{- $started := false -}}
+  {{- range seq (($first.AddDate 0 1 -1).Day) -}}
+    {{- $d := $first.AddDate 0 0 (sub . 1) -}}
+    {{- $wd := int $d.Weekday -}}
+    {{- if and (ne $wd 0) (ne $wd 6) -}}
+      {{- if not $started -}}
+        {{- $started = true -}}
+        {{- $pad := sub $wd 1 -}}
+        {{- if gt $pad 0 }}{{ range seq $pad }}<div class="cal-blank"></div>{{ end }}{{ end -}}
+      {{- end -}}
+      {{- $ds := $d.Format "2006-01-02" -}}
+      {{- $day := where $items "date" $ds -}}
+      <div class="cal-day{{ if eq $ds $today }} cal-today{{ end }}{{ if lt $ds $today }} cal-past{{ end }}{{ if $day }} cal-has{{ end }}">
+        <span class="cal-date"><span class="cal-num">{{ $d.Day }}</span><span class="cal-full">{{ int $d.Month }}월 {{ $d.Day }}일 ({{ index $wdNames $wd }}){{ if eq $ds $today }} · 오늘{{ end }}</span></span>
+        {{- range $day }}
+        <a class="cal-chip" href="{{ .page.RelPermalink }}" title="{{ .page.Title }}">{{ .area }} {{ .type }}</a>
+        {{- end }}
+      </div>
+    {{- end -}}
+  {{- end }}
+</div>
+{{- if not $items }}
+<p class="cal-empty">이 달에 발행된 분석 글이 없습니다.</p>
+{{- end }}
