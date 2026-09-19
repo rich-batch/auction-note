@@ -20,7 +20,7 @@ cd "$REPO_DIR"
 OLD_BRANCH=$(gh pr view "$PR" --json headRefName --jq .headRefName)
 FILES=$(gh pr view "$PR" --json files --jq '.files[].path')
 POST=$(grep -E '^content/posts/[a-z0-9-]+\.md$' <<< "$FILES" | head -1 || true)
-[ -z "$POST" ] && { echo "PR #$PR에 content/posts/<slug>.md가 없음 — 옛 구조 PR이 아님" >&2; exit 1; }
+[ -z "$POST" ] && { echo "PR #${PR}에 content/posts/<slug>.md가 없음 — 옛 구조 PR이 아님" >&2; exit 1; }
 SLUG=$(basename "$POST" .md)
 
 git fetch origin main "$OLD_BRANCH"
@@ -53,14 +53,14 @@ echo "== 검사"
 node tools/check/guide.mjs "content/guide/$SLUG/index.md" || true
 
 git add "content/guide/$SLUG" pipeline/guide/research
-git commit -q -m "[가이드] $SLUG 초안 (PR #$PR을 새 구조로 이전)"
-echo "로컬 브랜치 $NEW_BRANCH에 커밋함."
+git commit -q -m "[가이드] $SLUG 초안 (PR #${PR}을 새 구조로 이전)"
+echo "로컬 브랜치 ${NEW_BRANCH}에 커밋함."
 
 if [ "$PUSH" = "--push" ]; then
   git push -u origin "$NEW_BRANCH"
   BODY=$(gh pr view "$PR" --json body --jq .body)
   NEW_URL=$(gh pr create --title "[자동 초안][가이드] $SLUG" --base main --head "$NEW_BRANCH" \
-    --body "#$PR을 새 디렉터리 구조(content/guide/<slug>/)로 옮긴 PR입니다. 내용은 그대로입니다.
+    --body "#${PR}을 새 디렉터리 구조(content/guide/<slug>/)로 옮긴 PR입니다. 내용은 그대로입니다.
 
 $BODY")
   gh pr close "$PR" --comment "구조 개편으로 $NEW_URL 로 옮겼습니다."
