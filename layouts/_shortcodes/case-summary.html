@@ -1,0 +1,21 @@
+{{- /* 물건 개요 표. 값은 모두 data/cases/<id>.json에서 온다(본문에 직접 쓰지 않는다). */ -}}
+{{- $c := partial "case-data.html" .Page -}}
+{{- $k := $c.computed -}}
+<div class="table-wrap case-table">
+  <table>
+    <tbody>
+      <tr><th>사건번호</th><td>{{ $c.case.number }}{{ with $c.case.item_no }}{{ if gt (int .) 1 }} (물건번호 {{ . }}){{ end }}{{ end }}</td></tr>
+      <tr><th>법원</th><td>{{ $c.case.court }}</td></tr>
+      {{- with $c.case.kind }}<tr><th>경매 종류</th><td>{{ . }}</td></tr>{{ end }}
+      <tr><th>물건 종류</th><td>{{ $c.case.property_type }}</td></tr>
+      <tr><th>소재지</th><td>{{ $c.case.region }}</td></tr>
+      {{- with $c.case.area_m2 }}<tr><th>전용면적</th><td>{{ lang.FormatNumber 2 . }}㎡ (약 {{ lang.FormatNumber 1 (div . 3.3058) }}평)</td></tr>{{ end }}
+      <tr><th>감정가</th><td>{{ partial "krw.html" $c.sale.appraisal }}</td></tr>
+      <tr><th>최저매각가격</th><td>{{ partial "krw.html" $c.sale.minimum }} (감정가의 {{ $k.minimum_ratio }}%{{ with $c.sale.failed_rounds }}{{ if gt (int .) 0 }}, {{ . }}회 유찰{{ end }}{{ end }})</td></tr>
+      <tr><th>입찰보증금</th><td>{{ partial "krw.html" $k.bid_deposit }} (최저매각가격의 {{ math.Round (mul $k.deposit_rate 100) }}%{{ if $c.sale.resale }}, 재매각{{ end }})</td></tr>
+      <tr><th>매각기일</th><td>{{ partial "kdate.html" $c.sale.sale_date }}</td></tr>
+      {{- with $c.sale.dividend_deadline }}<tr><th>배당요구종기</th><td>{{ partial "kdate.html" . }}</td></tr>{{ end }}
+    </tbody>
+  </table>
+</div>
+<p class="case-source">출처: 대법원 법원경매정보 {{ $c.case.number }} 매각물건명세서·등기사항전부증명서 ({{ partial "kdate.html" $c.source.checked_at }} 확인)</p>

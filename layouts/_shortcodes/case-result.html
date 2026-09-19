@@ -1,0 +1,18 @@
+{{- /* 매각 결과. data/cases/<id>.json의 result를 채우면 다음 빌드부터 자동으로 바뀐다. */ -}}
+{{- $c := partial "case-data.html" .Page -}}
+{{- $done := false -}}
+{{- with $c.result }}{{ if .outcome }}{{ $done = true }}
+<div class="table-wrap case-table">
+  <table>
+    <tbody>
+      <tr><th>결과</th><td>{{ .outcome }}</td></tr>
+      {{- with .winning_bid }}<tr><th>매각가격</th><td>{{ partial "krw.html" . }} (감정가의 {{ div (math.Round (mul (div (float .) (float $c.sale.appraisal)) 1000)) 10 }}%)</td></tr>{{ end }}
+      {{- with .bidders }}<tr><th>응찰자 수</th><td>{{ . }}명</td></tr>{{ end }}
+    </tbody>
+  </table>
+</div>
+<p class="case-source">출처: 대법원 법원경매정보 매각결과 ({{ partial "kdate.html" .checked_at }} 확인)</p>
+{{- end }}{{ end }}
+{{- if not $done }}
+<p class="case-pending">매각기일({{ partial "kdate.html" $c.sale.sale_date }}) 결과가 나오면 이 자리에 매각가격과 응찰자 수를 덧붙입니다.</p>
+{{- end }}

@@ -7,32 +7,33 @@
 - 발행된 글이 최소 15~20편 이상인가(정확한 기준은 공개돼 있지 않으니 "둘러볼 거리가 충분한가"로 판단)
 - 각 글이 검색 의도에 답하는 실질적 분량인가(공백 제외 1,500자 이상 권장). 확인:
   ```bash
-  for f in content/posts/*.md; do wc -m "$f"; done
+  for f in content/*/*/index.md; do wc -m "$f"; done
   ```
-- `draft: true`로 남아 있는 글이 너무 많지 않은가: `grep -l '^draft: true' content/posts/*.md | wc -l`
+- `draft: true`로 남아 있는 글이 너무 많지 않은가: `grep -l '^draft: true' content/*/*/index.md | wc -l`
 
 ## ② 복제·짜깁기 의심
 
 - 다른 사이트 문장을 그대로 옮긴 문단이 없는가(법령 원문 인용은 출처를 밝히면 문제없음 — 문제는 "설명 자체"를 베낀 경우)
-- `write-article`의 조사 노트(`research/<slug>.md`)에 "확인한 사실"이 실제로 있는가 — 이게 있으면 직접 조사해서 쓴 근거가 있다는 뜻
-- 같은 카테고리 안에서 글끼리 80% 이상 겹치는 카니발리제이션이 없는가(`write-article`의 0-1단계가 이미 이걸 걸러낸다)
+- 조사 노트(`pipeline/<guide|analysis>/research/<id>.md`)에 "확인한 사실"이 실제로 있는가 — 이게 있으면 직접 조사해서 쓴 근거가 있다는 뜻
+- 같은 카테고리 안에서 글끼리 80% 이상 겹치는 카니발리제이션이 없는가(`write-guide`의 0-1단계가 이미 이걸 걸러낸다)
 
 ## ③ 정책 위반
 
 - **면책 문구**: 모든 글에 자동으로 붙어 있는가(SKILL.md '면책 문구' 섹션대로 빌드해서 확인)
 - **단정적 투자 권유 표현**: "무조건", "보장", "지금 사야", "추천합니다" 같은 표현이 본문에 없는가
   ```bash
-  grep -rln "무조건\|보장\|추천합니다\|사야 합니다" content/posts/*.md
+  grep -rln "무조건\|보장\|추천합니다\|사야 합니다" content/*/*/index.md
   ```
-- **저작권**: 본문 이미지가 전부 직접 만든 것인가(캡처·기관 로고·검색으로 찾은 이미지 없음) — `write-article`의 `check-article.mjs`가 외부 이미지 URL은 자동으로 잡는다
+- **저작권**: 본문 이미지가 전부 직접 만든 것인가(캡처·기관 로고·검색으로 찾은 이미지 없음) — `tools/check/*.mjs`가 외부 이미지 URL은 자동으로 잡는다
 - **개인정보처리방침**에 애드센스·쿠키 관련 문구가 있는가
 
 ## ④ 탐색 곤란
 
 - 메뉴에서 모든 핵심 페이지(소개·정책·연락처)로 2~3클릭 안에 닿는가
-- 깨진 링크가 없는가 — 글 안의 출처 링크는 `write-article`의 `--verify-links`로 점검:
+- 깨진 링크가 없는가 — 글 안의 출처 링크는 검사 스크립트의 `--verify-links`로 점검:
   ```bash
-  for f in content/posts/*.md; do node .claude/skills/write-article/check-article.mjs "$f" --verify-links; done
+  for f in content/guide/*/index.md; do node tools/check/guide.mjs "$f" --verify-links; done
+  for f in content/analysis/*/index.md; do node tools/check/analysis.mjs "$f" --verify-links; done
   ```
 - 모바일 폭(390px)에서 메뉴·본문이 가로로 잘리지 않는가(사람이 직접 브라우저로 확인)
 - 표·이미지가 모바일에서 넘치지 않는가

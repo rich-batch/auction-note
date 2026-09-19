@@ -1,0 +1,26 @@
+{
+  "_설명": "분석 글에 나오는 용어 → 그 개념을 설명하는 가이드 글 slug. guide가 null이거나 아직 안 쓴 slug면 가이드 후보(pipeline/guide/keywords.csv에 추가 검토). analyze-case가 내부 링크에, 검사 스크립트가 링크 누락 경고에 쓴다.",
+  "terms": [
+    { "term": "말소기준권리", "guide": "auction-priority-rights" },
+    { "term": "대항력", "guide": null },
+    { "term": "확정일자", "guide": null },
+    { "term": "배당요구", "guide": null },
+    { "term": "배당요구종기", "guide": null },
+    { "term": "선순위 전세권", "guide": null },
+    { "term": "가처분", "guide": null },
+    { "term": "가등기", "guide": null },
+    { "term": "유치권", "guide": null },
+    { "term": "법정지상권", "guide": null },
+    { "term": "명도", "guide": "auction-eviction-process" },
+    { "term": "인도명령", "guide": "auction-eviction-process" },
+    { "term": "입찰보증금", "guide": "court-auction-bidding-guide" },
+    { "term": "최저매각가격", "guide": "court-auction-bidding-guide" },
+    { "term": "유찰", "guide": "why-auction-prices-lower" },
+    { "term": "임의경매", "guide": "what-is-auction" },
+    { "term": "강제경매", "guide": "what-is-auction" },
+    { "term": "공매", "guide": "public-sale-vs-court-auction" },
+    { "term": "경락잔금대출", "guide": "no-home-auction-loan" },
+    { "term": "취득세", "guide": "auction-total-cost-calc" },
+    { "term": "낙찰 후 절차", "guide": "after-winning-auction-steps" }
+  ]
+}

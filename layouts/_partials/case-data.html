@@ -1,0 +1,8 @@
+{{- /* 글 front matter의 case(사건 ID)로 data/cases/<id>.json을 찾는다. 없으면 빌드를 멈춘다. */ -}}
+{{- $id := .Params.case -}}
+{{- if not $id }}{{ errorf "%s: front matter에 case(사건 ID)가 없음" .File.Path }}{{ end -}}
+{{- $c := dict -}}
+{{- with site.Data.cases }}{{ with index . $id }}{{ $c = . }}{{ end }}{{ end -}}
+{{- if not $c }}{{ errorf "%s: data/cases/%s.json이 없음" .File.Path $id }}{{ end -}}
+{{- if not $c.computed }}{{ errorf "data/cases/%s.json에 computed가 없음 — node tools/analysis/compute.mjs %s" $id $id }}{{ end -}}
+{{- return $c -}}
