@@ -3,7 +3,7 @@ title: "경매 명도 절차, 인도명령부터 집행까지"
 author: "rich-batch"
 date: 2026-09-27
 lastmod: 2026-09-27
-draft: true
+draft: false
 volatile: false
 categories: ["권리분석·명도"]
 tags: ["경매 명도 절차", "인도명령", "강제집행", "점유이전금지가처분", "집행관 수수료", "명도소송"]
