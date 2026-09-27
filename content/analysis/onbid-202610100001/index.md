@@ -3,7 +3,7 @@ title: "2026-10100-001 이편한세상고덕어반브릿지 권리분석"
 author: "rich-batch"
 date: 2026-09-19
 lastmod: 2026-09-19
-draft: true
+draft: false
 case: "onbid-202610100001"
 categories: ["권리분석·명도"]
 tags: [강동구, 아파트, 대항력, 배분요구]
