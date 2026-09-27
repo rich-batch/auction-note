@@ -57,6 +57,7 @@ const REQUIRED = [
   ['임차인과 점유', null],
   ['입찰 전 확인할 것', null],
   ['매각 결과', 'case-result'],
+  ['확인 지표 요약', 'case-score'],
   ['참고 자료', null],
 ];
 const h2 = [...body.matchAll(/^## (.+)$/gm)].map(m => m[1].trim());

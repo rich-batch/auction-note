@@ -91,15 +91,36 @@
   height: auto;
 }
 
-/* ── P0-2: 표 가로 스크롤 래퍼 (render-table.html hook과 짝) ── */
+/* ── P0-2: 표 가로 스크롤 래퍼 (render-table.html hook과 짝) ──
+   사이트의 모든 마크다운 표가 이 래퍼를 거친다(가이드 글 표도 포함) — 여기를 손보면 전체 표가 같이 좋아진다. */
 .post-content .table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 .post-content .table-wrap table {
   margin-bottom: 0;
   min-width: 560px;
+}
+.post-content .table-wrap table th,
+.post-content .table-wrap table td {
+  border: none;
+  border-bottom: 1px solid var(--border);
+}
+.post-content .table-wrap table th {
+  background: var(--code-bg);
+  font-weight: 700;
+}
+.post-content .table-wrap table tr:last-child td {
+  border-bottom: none;
+}
+.post-content .table-wrap table tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--code-bg) 45%, transparent);
+}
+.post-content .table-wrap table tbody tr:hover td {
+  background: var(--code-bg);
 }
 
 @media (max-width: 768px) {
@@ -186,31 +207,199 @@
 }
 
 /* ── 물건 분석: 사건 데이터 표 (layouts/_shortcodes/case-*.html) ── */
-.post-content .case-table table {
-  min-width: 0;
-}
-.post-content .case-table th {
-  white-space: nowrap;
-}
-.post-content .case-table tr.case-base td {
-  font-weight: 700;
-}
-.post-content .case-table .effect-인수,
-.post-content .case-table .effect-일부-인수-가능,
-.post-content .case-table .effect-검토 {
-  color: #b42318;
-  font-weight: 700;
-}
-:root[data-theme="dark"] .post-content .case-table .effect-인수,
-:root[data-theme="dark"] .post-content .case-table .effect-일부-인수-가능,
-:root[data-theme="dark"] .post-content .case-table .effect-검토 {
-  color: #ff8a80;
-}
 .post-content .case-source,
 .post-content .case-pending {
   color: var(--secondary);
   font-size: 14px;
   margin-top: -12px;
+}
+
+/* 카드형 레이아웃 (case-summary, case-score) */
+.post-content .case-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--entry);
+  padding: 20px;
+  margin: 16px 0;
+}
+.post-content .case-card .case-source {
+  margin-top: 14px;
+}
+
+.post-content .case-price-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.post-content .case-price-item {
+  flex: 1 1 140px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+.post-content .case-price-item-main {
+  border: 2px solid var(--primary);
+}
+.post-content .case-price-label {
+  display: block;
+  font-size: 12px;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+.post-content .case-price-value {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  word-break: keep-all;
+}
+.post-content .case-ratio-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--tertiary);
+  font-size: 12px;
+  font-weight: 600;
+}
+.post-content .case-ratio-badge.case-badge-danger {
+  background: #b42318;
+  color: #fff;
+}
+:root[data-theme="dark"] .post-content .case-ratio-badge.case-badge-danger {
+  background: #7a2118;
+}
+
+/* 권리분석/임차인 표의 판정 배지(소멸·인수·검토 등) */
+.post-content .case-effect {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--tertiary);
+  color: var(--secondary);
+}
+.post-content .case-effect-인수,
+.post-content .case-effect-일부-인수-가능,
+.post-content .case-effect-검토 {
+  background: #fbe4e1;
+  color: #b42318;
+}
+:root[data-theme="dark"] .post-content .case-effect-인수,
+:root[data-theme="dark"] .post-content .case-effect-일부-인수-가능,
+:root[data-theme="dark"] .post-content .case-effect-검토 {
+  background: #4a1f1a;
+  color: #ff8a80;
+}
+.post-content table tr.case-base td {
+  font-weight: 700;
+}
+
+.post-content .case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px 16px;
+  margin: 0;
+}
+.post-content .case-grid > div {
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+}
+.post-content .case-grid dt {
+  font-size: 12px;
+  color: var(--secondary);
+}
+.post-content .case-grid dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  word-break: keep-all;
+}
+
+.post-content .case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.post-content .case-tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tertiary);
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+/* 확인 지표 점수 카드 */
+.post-content .case-score-total {
+  text-align: center;
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  margin-bottom: 16px;
+}
+.post-content .case-score-stars {
+  display: block;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: #b8860b;
+}
+.post-content .case-score-total.tier-low .case-score-stars { color: #b42318; }
+.post-content .case-score-total.tier-high .case-score-stars { color: #1a7f37; }
+.post-content .case-score-num {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.post-content .case-score-note {
+  display: block;
+  font-size: 12px;
+  color: var(--secondary);
+  margin-top: 2px;
+}
+.post-content .case-score-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.post-content .case-score-item {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--code-bg);
+}
+.post-content .case-score-item.tier-low { border-left-color: #b42318; }
+.post-content .case-score-item.tier-mid { border-left-color: #b8860b; }
+.post-content .case-score-item.tier-high { border-left-color: #1a7f37; }
+.post-content .case-score-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.post-content .case-score-item-label { font-weight: 700; font-size: 0.9rem; }
+.post-content .case-score-item-stars { font-size: 0.85rem; white-space: nowrap; }
+.post-content .case-score-item-value { font-size: 0.85rem; margin-top: 4px; }
+.post-content .case-score-item-note { font-size: 12px; color: var(--secondary); margin-top: 4px; }
+
+:root[data-theme="dark"] .post-content .case-score-total.tier-low .case-score-stars,
+:root[data-theme="dark"] .post-content .case-score-item.tier-low {
+  color: #ff8a80;
+  border-left-color: #ff8a80;
+}
+:root[data-theme="dark"] .post-content .case-score-total.tier-mid .case-score-stars {
+  color: #ffd54f;
+}
+:root[data-theme="dark"] .post-content .case-score-item.tier-mid {
+  border-left-color: #ffd54f;
+}
+:root[data-theme="dark"] .post-content .case-score-total.tier-high .case-score-stars,
+:root[data-theme="dark"] .post-content .case-score-item.tier-high {
+  color: #6fcf97;
+  border-left-color: #6fcf97;
 }
 
 /* ── 물건 분석 일정 달력 (layouts/_partials/calendar.html) ── */

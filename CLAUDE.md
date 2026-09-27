@@ -39,7 +39,7 @@ layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정�
 - **사실 → 판정 → 해설을 섞지 않는다.** 분석 글의 사실은 `data/cases/<id>.json`에만 있고(사람이 서류를 보고 입력), 말소기준권리·인수/소멸·대항력은 `tools/analysis/compute.mjs`가 계산하고, AI는 그 결과를 해설만 한다. 본문에 사건 수치 표를 직접 쓰지 않는다(`{{< case-summary >}}` 등 shortcode).
 - `data/cases/*.json`의 `computed`는 손으로 고치지 않는다. 입력을 고쳤으면 `node tools/analysis/compute.mjs <id>`.
 - 계산 규칙을 바꾸면 `tools/analysis/rights.test.mjs`도 고치고 `node --test tools/analysis/rights.test.mjs`를 통과시킨다.
-- **저장소와 사이트는 공개 상태다.** 이름·주민번호·전화번호·번지·동호수를 데이터·글·조사 노트에 넣지 않는다. 서류 원본은 `private/`(gitignore)나 저장소 밖에.
+- **저장소와 사이트는 공개 상태다.** 이름·주민번호·전화번호를 데이터·글·조사 노트에 넣지 않는다(FORBIDDEN_KEYS·정규식 검사가 막는다). 서류 원본은 `private/`(gitignore)나 저장소 밖에. 소재지(`case.region`)는 지번·동/호수를 포함한 **전체 주소**를 넣는다 — 법원경매정보·온비드가 법률상 공개하는 정보이고 기존 경매정보 서비스(탱크옥션·마당 등)도 동일하게 전체 주소를 쓴다. 사람 이름만 계속 마스킹한다.
 - 일정 달력은 사건 데이터의 `sale.sale_date`(평일만 허용)와 발행된 분석 글로 자동으로 그려진다. 글이 없거나 초안이면 달력에 나오지 않는다. 칩에는 지역·분류만 보인다. 분류는 사건 데이터의 `case.category`가 원본이고, 글 주소는 분류와 무관하게 `/analysis/<사건ID>/`로 고정한다.
 - 물건 검색은 발행된 분석 글 × 사건 데이터에서 자동으로 만들어진다. 인수 위험 배지는 계산 결과(`computed`)에서 나오므로 `compute.mjs`를 돌리지 않은 사건은 "확인 필요"로 보인다. 필터 항목을 늘리려면 `analysissearch/list.html`(JSON·컨트롤)과 `analysis-search.js`를 함께 고친다.
 - 이미지는 글 폴더에 두고 파일명만 쓴다(`![…](cost-flow.png)`). 외부 이미지·캡처 금지.
@@ -55,7 +55,8 @@ hugo server -D                                   # 로컬 미리보기 (초안 �
 hugo -D -d /tmp/auction-note-build               # 빌드 확인 (shortcode 데이터 누락은 여기서 에러)
 node .claude/skills/write-guide/render-prompt.mjs --list    # 가이드 글감과 작성 여부
 node tools/analysis/status.mjs                   # 사건별 단계와 다음 할 일
-node tools/analysis/new-case.mjs <id> <사건번호>  # 사건 데이터 파일 만들기
+node tools/analysis/new-case.mjs <id> <사건번호>  # 사건 데이터 파일 만들기 (법원경매)
+node tools/analysis/fetch-onbid.mjs <물건관리번호> # 사건 데이터 자동 조회(온비드 압류재산만, 최초 1회 npx playwright install chromium)
 node tools/analysis/compute.mjs <id>             # 사건 검증·권리 계산
 node --test tools/analysis/rights.test.mjs       # 계산 엔진 테스트
 tools/auto/batch.sh guide 3                      # 가이드 3편 자동 초안 → PR 3개

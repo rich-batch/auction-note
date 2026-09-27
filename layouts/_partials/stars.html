@@ -1,0 +1,7 @@
+{{- /* 별점 렌더링(반올림). 사용: partial "stars.html" 3.5 → "★★★★☆" */ -}}
+{{- $n := int (math.Round .) -}}
+{{- $out := "" -}}
+{{- range seq 1 5 -}}
+  {{- if le . $n }}{{ $out = print $out "★" }}{{ else }}{{ $out = print $out "☆" }}{{ end -}}
+{{- end -}}
+{{- return $out -}}

@@ -14,7 +14,7 @@ if (fs.existsSync(casePath(id))) { console.error(`이미 있음: ${rel(casePath(
 
 const tpl = {
   id,
-  source: { checked_at: todayKST(), documents: ['매각물건명세서', '등기사항전부증명서', '현황조사서'], note: '' },
+  source: { checked_at: todayKST(), documents: ['매각물건명세서', '등기사항전부증명서', '현황조사서'], url: null, note: '' },
   case: { number, item_no: 1, court: '', kind: '임의경매', category, region: '', area_m2: null },
   sale: { appraisal: 0, minimum: 0, failed_rounds: 0, sale_date: '', dividend_deadline: null, resale: false },
   rights: [

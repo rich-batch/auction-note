@@ -13,7 +13,7 @@
 import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 
-export const ENGINE_VERSION = 1;
+export const ENGINE_VERSION = 2;
 
 export const BASE_KINDS = ['근저당권', '저당권', '압류', '가압류', '담보가등기', '경매개시결정'];
 // 말소기준권리보다 앞서면 매수인이 인수하는 권리 (뒤면 소멸)
@@ -36,20 +36,41 @@ export function validateCase(c) {
   const isMoney = v => Number.isInteger(v) && v >= 0;
 
   err(typeof c.id === 'string' && /^[a-z0-9]+(-[a-z0-9]+)*$/.test(c.id), 'id는 영문 소문자·숫자·하이픈 (예: seoul-central-2026ta12345)');
+  // source.type: 법원경매(court, 기본값)와 캠코 온비드 공매(onbid)는 사건번호 형식과 계산 가능 범위가 다르다.
+  const sourceType = c.source?.type ?? 'court';
+  err(['court', 'onbid'].includes(sourceType), 'source.type은 "court"(법원경매) 또는 "onbid"(온비드 공매)');
   const num = c.case?.number;
-  err(typeof num === 'string' && /^\d{4}타경\d+$/.test(num), 'case.number는 "2026타경12345" 형식');
-  if (typeof num === 'string' && typeof c.id === 'string') {
-    const token = num.replace('타경', 'ta');
-    err(new RegExp(`(^|-)${token}(-\\d+)?$`).test(c.id), `id에 사건번호 토큰 "${token}"이 들어가야 함 (물건번호가 있으면 끝에 -N)`);
+  if (sourceType === 'onbid') {
+    err(typeof num === 'string' && /^\d{4}-\d+-\d+$/.test(num), 'case.number(온비드 물건관리번호)는 "2022-0200-007090" 형식(자릿수는 물건 유형마다 다를 수 있음)');
+    if (typeof num === 'string' && typeof c.id === 'string') {
+      const token = num.replace(/-/g, '');
+      err(new RegExp(`(^|-)onbid-${token}(-\\d+)?$`).test(c.id), `id는 "onbid-${token}"을 포함해야 함 (물건번호가 있으면 끝에 -N)`);
+    }
+  } else {
+    err(typeof num === 'string' && /^\d{4}타경\d+$/.test(num), 'case.number는 "2026타경12345" 형식');
+    if (typeof num === 'string' && typeof c.id === 'string') {
+      const token = num.replace('타경', 'ta');
+      err(new RegExp(`(^|-)${token}(-\\d+)?$`).test(c.id), `id에 사건번호 토큰 "${token}"이 들어가야 함 (물건번호가 있으면 끝에 -N)`);
+    }
+  }
+  // 온비드 재산유형: "압류재산"(국세징수법 92조 — 말소기준권리와 같은 구조)과
+  // "신탁공매"(신탁법 4조·22조 — 신탁등기일이 기준, 등기 권리 소멸/인수는 판정 안 함)만 지원한다.
+  // 그 외(국유재산·기타일반재산 중 신탁 아닌 것 등)는 법적 근거를 아직 확인 못 해서 계산하지 않는다.
+  const ONBID_TYPES = ['압류재산', '신탁공매'];
+  if (sourceType === 'onbid') {
+    err(ONBID_TYPES.includes(c.case?.onbid_property_type), `온비드 사건은 지금 ${ONBID_TYPES.join(' 또는 ')}만 지원한다. 그 외 재산유형은 말소기준권리·인수 개념의 법적 근거를 아직 확인 못 해 계산하지 않는다`);
+    if (c.case?.onbid_property_type === '신탁공매') {
+      err(isDate(c.case?.trust_registered_on), '신탁공매는 case.trust_registered_on(신탁등기 접수일, 등기사항전부증명서에서 확인)이 YYYY-MM-DD로 있어야 한다 — 신탁법 제4조상 이 날짜가 제3자 대항력의 기준');
+    }
   }
   for (const k of ['court', 'region']) err(typeof c.case?.[k] === 'string' && c.case[k].trim(), `case.${k} 필요`);
   const cat = categoryBySlug(c.case?.category);
   err(cat, `case.category는 ${CATEGORIES.map(x => x.slug).join(' / ')} 중 하나 (data/categories.json)`);
   if (cat?.engine === 'car') err(false, `${cat.name}는 계산 엔진이 아직 없음 — 첫 ${cat.name} 사건을 등록할 때 입력 항목과 규칙을 함께 만든다`);
   if (cat?.slug === 'land') err(!(c.tenants ?? []).length, 'land(토지)의 tenants는 비워 둔다 — 토지 임차인은 대항력 규칙(농지법 등)이 달라 코드가 판정하지 않는다. special에 기록');
-  if (typeof c.case?.region === 'string') {
-    err(!/\d+(-\d+)?\s*번지|\d+\s*호(?![가-힣])|\d+동\s*\d+호|\s\d+(-\d+)?$/.test(c.case.region), `case.region은 법정동까지만 (번지·동·호수 금지): "${c.case.region}"`);
-  }
+  // case.region은 전체 주소(동·호수·지번 포함) 허용 — 이미 법원경매정보·온비드가 법률상 공개하는 정보이고
+  // 탱크옥션·마당 같은 기존 경매정보 서비스도 동일하게 전체 주소를 보여준다. 사람 이름·주민번호·전화번호는
+  // FORBIDDEN_KEYS와 아래 주민번호/전화번호 패턴 검사로 계속 막는다 — 개인 식별은 이름 쪽에서 막는다.
   err(isMoney(c.sale?.appraisal) && c.sale.appraisal > 0, 'sale.appraisal(감정가)은 0보다 큰 원 단위 정수');
   err(isMoney(c.sale?.minimum) && c.sale.minimum > 0, 'sale.minimum(최저매각가격)은 0보다 큰 원 단위 정수');
   err(isDate(c.sale?.sale_date), 'sale.sale_date(매각기일)는 YYYY-MM-DD');
@@ -102,8 +123,10 @@ const stable = v => Array.isArray(v) ? `[${v.map(stable).join(',')}]`
   : v && typeof v === 'object' ? `{${Object.keys(v).sort().map(k => `${JSON.stringify(k)}:${stable(v[k])}`).join(',')}}`
   : JSON.stringify(v);
 export function inputHash(c) {
-  const { case: cs, sale, rights, tenants, special, spec_sheet } = c;
-  return crypto.createHash('sha256').update(stable({ cs, sale, rights, tenants, special, spec_sheet, v: ENGINE_VERSION })).digest('hex').slice(0, 16);
+  // market은 시세갭·확인 지표 점수 계산에 쓰이므로 해시에 포함한다(바뀌면 재계산 필요).
+  // result(매각 결과)는 어떤 계산에도 쓰이지 않아 계속 뺀다.
+  const { case: cs, sale, rights, tenants, special, spec_sheet, market } = c;
+  return crypto.createHash('sha256').update(stable({ cs, sale, rights, tenants, special, spec_sheet, market, v: ENGINE_VERSION })).digest('hex').slice(0, 16);
 }
 
 // ── 계산 ─────────────────────────────────────────────────────────────
@@ -114,7 +137,141 @@ function order(a, b) {
   return null;
 }
 
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const krw = n => n.toLocaleString('ko-KR');
+
+// 시세갭: market.trades(사람이 입력한 실거래 사례)가 있을 때만 계산한다.
+// "시세차익"처럼 판단이 섞인 말을 쓰지 않고, 최저가(+인수 부담)와 시세 평균의 차이라는 사실만 낸다.
+function computePriceGap(c, minimum, assumedMin, assumedMax) {
+  const trades = c.market?.trades ?? [];
+  if (!trades.length) return null;
+  const marketAvg = Math.round(trades.reduce((s, t) => s + t.price, 0) / trades.length);
+  // gap_min: 인수 부담이 최대일 때(보수적으로) 남는 차이 / gap_max: 인수 부담이 최소일 때 남는 차이
+  const gapMin = assumedMax == null ? null : marketAvg - (minimum + assumedMax);
+  const gapMax = assumedMin == null ? null : marketAvg - (minimum + assumedMin);
+  return { market_avg: marketAvg, trade_count: trades.length, gap_min: gapMin, gap_max: gapMax };
+}
+
+// 확인 지표 점수: 지금 사건 데이터로 계산할 수 있는 객관 지표만, 각각 0~5점으로 정규화한다.
+// "입찰하세요/말아야 합니다" 같은 결론이 아니라 "이 지표는 이래서 몇 점"이라는 사실 나열이다 —
+// 최종 해설(왜 이 점수인지, 무엇을 더 볼지)은 글쓰는 AI가 값만 보고 쓴다.
+function computeScore(c, { minimum, minimumRatio, failedRounds, ownershipRisk, assumedTotalMax, tenantResults, specialCount, reviewCount, priceGap }) {
+  const items = [];
+
+  items.push((() => {
+    const stars = clamp(Math.round((100 - minimumRatio) / 20), 0, 5);
+    return { key: 'price', label: '가격 수준', value: `감정가의 ${minimumRatio}%${failedRounds ? ` (유찰 ${failedRounds}회)` : ''}`, stars, note: '최저매각가격이 감정가 대비 낮을수록 별점이 높다' };
+  })());
+
+  items.push((() => {
+    if (ownershipRisk) return { key: 'rights_risk', label: '권리 인수 위험', value: '소유권 상실 위험 권리 있음', stars: 0, note: '선순위 가처분·가등기 등으로 소유권을 잃을 수 있는 권리가 있다' };
+    if (assumedTotalMax == null) return { key: 'rights_risk', label: '권리 인수 위험', value: '확인 필요', stars: null, note: '인수 금액을 알 수 없는 등기 권리가 있어 계산할 수 없다' };
+    const ratio = minimum > 0 ? assumedTotalMax / minimum : 0;
+    const stars = clamp(Math.round(5 * (1 - Math.min(ratio, 1))), 0, 5);
+    return { key: 'rights_risk', label: '권리 인수 위험', value: `인수 예상 최대 ${krw(assumedTotalMax)}원(최저가의 ${Math.round(ratio * 100)}%)`, stars, note: '매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다' };
+  })());
+
+  items.push((() => {
+    if (tenantResults.some(t => t.opposable == null)) return { key: 'tenant_risk', label: '임차인 위험', value: '확인 필요', stars: null, note: '대항력을 판정할 수 없는 임차인이 있다' };
+    const risky = tenantResults.filter(t => t.opposable === true && (t.assumed_max == null || t.assumed_max > 0));
+    const stars = clamp(5 - risky.length * 2, 0, 5);
+    return { key: 'tenant_risk', label: '임차인 위험', value: `인수 부담 남는 대항력 임차인 ${risky.length}명`, stars, note: '대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다' };
+  })());
+
+  items.push((() => {
+    const n = specialCount + reviewCount;
+    const stars = clamp(5 - Math.ceil(n / 2), 0, 5);
+    return { key: 'review_load', label: '확인 필요 사항', value: `특수 사항 ${specialCount}건, 계산 도구 확인 요청 ${reviewCount}건`, stars, note: '코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다' };
+  })());
+
+  if (priceGap) {
+    items.push((() => {
+      const gap = priceGap.gap_min;
+      const gapRatio = gap == null || priceGap.market_avg === 0 ? null : gap / priceGap.market_avg;
+      const stars = gapRatio == null ? null : clamp(Math.round(5 * clamp(gapRatio / 0.3, 0, 1)), 0, 5);
+      return { key: 'price_gap', label: '시세 대비 가격갭', value: `시세 평균 ${krw(priceGap.market_avg)}원, 실거래 ${priceGap.trade_count}건 기준`, stars, note: '최저가에 인수 부담(최대 기준)을 더한 금액이 시세 평균보다 많이 낮을수록 별점이 높다' };
+    })());
+  }
+
+  const rated = items.filter(x => x.stars != null);
+  const totalStars = rated.length ? Math.round((rated.reduce((s, x) => s + x.stars, 0) / rated.length) * 2) / 2 : null;
+  return { items, total_stars: totalStars, rated_count: rated.length, has_price_gap: !!priceGap };
+}
+
+// 신탁공매 전용 계산. 신탁법 제4조(신탁의 공시와 대항)·제22조(강제집행 등의 금지)에 따라
+// court 경매의 "말소기준권리" 개념이 그대로 적용되지 않는다 — 등기 권리의 소멸/인수는
+// 신탁 전 설정된 권리인지, 수탁자가 승계·동의했는지에 달려 있고 이건 등기부·신탁원부·계약서를
+// 사람이 직접 봐야 확정되는 사실이라 코드가 판정하지 않고 전부 review로 남긴다.
+// 코드가 객관적으로 계산하는 건 하나뿐이다: 임차인의 전입(또는 임대차 시작)일이
+// case.trust_registered_on(신탁등기 접수일)보다 앞인지 뒤인지 — 그 앞뒤가 대항력 판단의
+// 출발점이라서다(뒤라도 수탁자 동의가 있으면 대항력이 있을 수 있어 review로 남긴다).
+function computeTrustCase(c, now) {
+  const review = [];
+  const trustDate = c.case.trust_registered_on;
+
+  const rightResults = c.rights.map((r, index) => {
+    const out = { index, date: r.date, kind: r.kind, amount: r.amount ?? null };
+    if (IGNORE_KINDS.includes(r.kind)) return { ...out, effect: '해당 없음', reason: '부담이 아닌 소유권 기록' };
+    return { ...out, effect: '검토', reason: '신탁공매는 등기 권리의 소멸/인수 판정 기준이 court 경매와 달라 코드가 정하지 않음' };
+  });
+  if (c.rights.some(r => !IGNORE_KINDS.includes(r.kind))) {
+    review.push('등기 권리 인수/소멸: 신탁 전 설정된 권리인지, 수탁자가 승계했는지를 등기사항전부증명서·신탁원부로 직접 확인해야 한다(신탁공매는 말소기준권리 개념이 적용되지 않음)');
+  }
+
+  const tenantResults = c.tenants.map((t, index) => {
+    const deposit = t.deposit ?? null;
+    const out = { index, use: t.use, registered_on: t.registered_on ?? null, deposit };
+    if (!t.registered_on) {
+      review.push(`tenants[${index}] 전입일(또는 임대차 시작일) 미상 — 신탁등기일(${trustDate})과 비교할 수 없음`);
+      return { ...out, opposable: null, effect: '검토', assumed_min: 0, assumed_max: deposit, reason: '전입일 미상' };
+    }
+    const priorToTrust = t.registered_on < trustDate;
+    if (priorToTrust) {
+      review.push(`tenants[${index}] 전입일(${t.registered_on})이 신탁등기일(${trustDate})보다 앞섬 — 신탁 전 임차인으로 대항력을 유지할 가능성이 높으나, 수탁자가 이를 승계했는지는 신탁원부·계약서로 확인 필요`);
+      return { ...out, opposable: null, effect: '검토', assumed_min: 0, assumed_max: deposit, reason: '신탁등기 전 전입 — 대항력 유지 가능성 높음(확정은 서류 확인 필요)' };
+    }
+    review.push(`tenants[${index}] 전입일(${t.registered_on})이 신탁등기일(${trustDate}) 이후 — 수탁자 동의 없이 설정된 임대차는 원칙적으로 매수인에게 대항하지 못하나(신탁법 제4조 취지), 수탁자 동의 여부를 신탁회사·계약서로 반드시 확인`);
+    return { ...out, opposable: null, effect: '검토', assumed_min: 0, assumed_max: deposit, reason: '신탁등기 후 전입 — 수탁자 동의 없으면 대항력 없음(원칙), 동의 여부는 서류 확인 필요' };
+  });
+
+  for (const s of c.special ?? []) review.push(`특수 사항 "${s.kind ?? s}"${s.note ? ` (${s.note})` : ''} — 신탁공매는 등기만으로 판정 불가, 서류 확인`);
+
+  const minimum = c.sale.minimum;
+  const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10;
+  const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
+  review.push('매수인 인수 예상액: 등기 권리·임차인의 인수 여부가 확정되지 않아 계산하지 않음 — 위 review 항목을 서류로 확인한 뒤 사람이 직접 판단');
+
+  const priceGap = computePriceGap(c, minimum, null, null);
+  const score = computeScore(c, {
+    minimum, minimumRatio, failedRounds: c.sale.failed_rounds ?? 0, ownershipRisk: false,
+    assumedTotalMax: null, tenantResults, specialCount: (c.special ?? []).length,
+    reviewCount: review.length, priceGap,
+  });
+
+  return {
+    engine_version: ENGINE_VERSION,
+    input_hash: inputHash(c),
+    computed_at: now.toISOString().slice(0, 10),
+    disposal_type: '신탁공매',
+    base_right: null,
+    rights: rightResults,
+    tenants: tenantResults,
+    ownership_risk: false,
+    assumed_total_min: null,
+    assumed_total_max: null,
+    minimum_ratio: minimumRatio,
+    deposit_rate: rate,
+    bid_deposit: Math.round(minimum * rate),
+    minimum_plus_assumed_min: null,
+    minimum_plus_assumed_max: null,
+    price_gap: priceGap,
+    score,
+    review,
+  };
+}
+
 export function computeCase(c, now = new Date()) {
+  if (c.source?.type === 'onbid' && c.case?.onbid_property_type === '신탁공매') return computeTrustCase(c, now);
   const review = [];
   const rights = c.rights.map((r, index) => ({ ...r, index }));
 
@@ -220,6 +377,18 @@ export function computeCase(c, now = new Date()) {
   const assumedMax = sum([...rightAssumed, ...tenantResults.map(t => t.assumed_max)]);
   const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
   const minimum = c.sale.minimum;
+  const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10; // 감정가 대비 %
+
+  // 7) 시세갭 — market.trades가 없으면 계산하지 않고 확인할 것으로만 남긴다
+  const priceGap = computePriceGap(c, minimum, assumedMin, assumedMax);
+  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨');
+
+  // 8) 확인 지표 점수 — 지금 데이터로 계산 가능한 객관 지표만
+  const score = computeScore(c, {
+    minimum, minimumRatio, failedRounds: c.sale.failed_rounds ?? 0, ownershipRisk,
+    assumedTotalMax: assumedMax, tenantResults, specialCount: (c.special ?? []).length,
+    reviewCount: review.length, priceGap,
+  });
 
   return {
     engine_version: ENGINE_VERSION,
@@ -231,11 +400,13 @@ export function computeCase(c, now = new Date()) {
     ownership_risk: ownershipRisk,
     assumed_total_min: assumedMin,
     assumed_total_max: assumedMax,
-    minimum_ratio: Math.round((minimum / c.sale.appraisal) * 1000) / 10, // 감정가 대비 %
+    minimum_ratio: minimumRatio,
     deposit_rate: rate,
     bid_deposit: Math.round(minimum * rate),
     minimum_plus_assumed_min: assumedMin == null ? null : minimum + assumedMin,
     minimum_plus_assumed_max: assumedMax == null ? null : minimum + assumedMax,
+    price_gap: priceGap,
+    score,
     review,
   };
 }
