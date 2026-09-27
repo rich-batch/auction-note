@@ -3,7 +3,7 @@ title: "경락잔금대출 한도는 80%가 아닙니다"
 author: "rich-batch"
 date: 2026-09-19
 lastmod: 2026-09-19
-draft: true
+draft: false
 volatile: true
 categories: ["경매 대출·세금"]
 tags: ["경락잔금대출", "LTV", "DSR", "한도계산", "낙찰가"]
