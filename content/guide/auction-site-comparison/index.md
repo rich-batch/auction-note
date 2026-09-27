@@ -3,7 +3,7 @@ title: 경매 사이트 무료 vs 유료, 뭘 써야 할까
 author: rich-batch
 date: 2026-09-19
 lastmod: 2026-09-19
-draft: true
+draft: false
 volatile: false
 categories: ["경매 절차"]
 tags: ["경매 사이트", "법원경매정보", "경매마당", "온비드", "사이트 비교"]
