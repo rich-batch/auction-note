@@ -56,6 +56,10 @@ function computedSummary(c) {
   lines.push(`- 매수인 인수 예상 합계: ${won(k.assumed_total_min)} ~ ${won(k.assumed_total_max)}${k.ownership_risk ? ' (+ 소유권 상실 위험 권리 있음)' : ''}`);
   lines.push(`- 최저가 + 인수 예상: ${won(k.minimum_plus_assumed_min)} ~ ${won(k.minimum_plus_assumed_max)}`);
   lines.push(`- 최저가는 감정가의 ${k.minimum_ratio}%, 입찰보증금 ${won(k.bid_deposit)}(최저가의 ${Math.round(k.deposit_rate * 100)}%)`);
+  if (k.price_gap) lines.push(`- 시세갭: 시세 평균 ${won(k.price_gap.market_avg)}(실거래 ${k.price_gap.trade_count}건) 대비 최저가+인수부담 차이 ${won(k.price_gap.gap_min)} ~ ${won(k.price_gap.gap_max)}`);
+  else lines.push('- 시세갭: market.trades 없음 — 계산 안 됨');
+  lines.push(`- 확인 지표 점수: 종합 ${k.score.total_stars ?? '확인 필요'} / 5 (계산 가능 ${k.score.rated_count}개)`);
+  k.score.items.forEach(x => lines.push(`  - ${x.label}: ${x.value} → ${x.stars ?? '확인 필요'}점 — ${x.note}`));
   return lines.join('\n');
 }
 

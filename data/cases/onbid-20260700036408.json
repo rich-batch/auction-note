@@ -1,0 +1,60 @@
+{
+  "id": "onbid-20260700036408",
+  "source": {
+    "checked_at": "2026-09-27",
+    "documents": [
+      "등기사항전부증명서(신탁원부 포함)",
+      "임대차 현황(첨부 자료가 있으면)"
+    ],
+    "type": "onbid",
+    "note": "온비드 물건관리번호 2026-0700-036408로 조회 (직접 URL 없음, 온비드 사이트에서 물건관리번호로 재검색)"
+  },
+  "case": {
+    "number": "2026-0700-036408",
+    "item_no": 1,
+    "court": "주식회사 무궁화신탁",
+    "kind": "신탁공매",
+    "category": "villa",
+    "onbid_property_type": "신탁공매",
+    "trust_registered_on": null,
+    "region": "서울특별시 강동구 암사동 458-43 제2층 제201호 다세대주택",
+    "area_m2": 55.83
+  },
+  "sale": {
+    "appraisal": 609000000,
+    "minimum": 609000000,
+    "failed_rounds": 4,
+    "sale_date": "2026-09-29",
+    "dividend_deadline": null,
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": ""
+    }
+  ],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}

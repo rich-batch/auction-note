@@ -1,0 +1,264 @@
+{
+  "id": "onbid-202610100001",
+  "source": {
+    "checked_at": "2026-09-19",
+    "documents": [
+      "온비드 물건 상세 페이지의 \"등기사항증명서 주요정보\"·\"임대차 정보\" 공개 요약(공매대행 의뢰 시점 기준)",
+      "공매재산명세(입찰 시작 7일 전인 2026-09-21부터 공개 예정 — 아직 미공개, 배분요구 여부는 여기서 확인)"
+    ],
+    "type": "onbid",
+    "note": "온비드 물건관리번호 2026-10100-001. 상세 페이지 공개 요약은 참고자료이며 등기부 순위번호와 무관하다고 명시돼 있음(온비드 안내 문구). 입찰 전 최종 등기사항증명서 재확인 권장."
+  },
+  "case": {
+    "number": "2026-10100-001",
+    "item_no": 1,
+    "court": "한국자산관리공사",
+    "kind": "압류재산 공매",
+    "category": "apartment",
+    "onbid_property_type": "압류재산",
+    "region": "서울특별시 강동구 상일동 554-38 이편한세상고덕어반브릿지 제1001동 제3층 제331호 (고덕로98길 75)",
+    "area_m2": 84.0835
+  },
+  "sale": {
+    "appraisal": 1400000000,
+    "minimum": 1400000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-01",
+    "dividend_deadline": "2026-09-14",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "2025-03-31",
+      "receipt_no": null,
+      "kind": "압류",
+      "amount": null,
+      "holder_type": "기관(추정)",
+      "note": "온비드 표에서 권리종류 칸에 \"위임기관\"으로 표시됨(등기부 원문 문구 아님) — 압류로 추정했으나 사람이 등기사항증명서로 확인 필요"
+    },
+    {
+      "date": "2024-12-19",
+      "receipt_no": null,
+      "kind": "가압류",
+      "amount": 800000000,
+      "holder_type": "개인(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(박**)"
+    },
+    {
+      "date": "2025-03-20",
+      "receipt_no": null,
+      "kind": "가압류",
+      "amount": 8121294,
+      "holder_type": "법인(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(케*****)"
+    },
+    {
+      "date": "2025-07-24",
+      "receipt_no": null,
+      "kind": "가압류",
+      "amount": 18722533,
+      "holder_type": "법인(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(신*****)"
+    },
+    {
+      "date": "2025-09-12",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": 50000000,
+      "holder_type": "개인(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(배**)"
+    },
+    {
+      "date": "2026-05-18",
+      "receipt_no": null,
+      "kind": "가압류",
+      "amount": 45000000,
+      "holder_type": "개인(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(김**)"
+    },
+    {
+      "date": "2026-08-11",
+      "receipt_no": null,
+      "kind": "압류",
+      "amount": null,
+      "holder_type": "국가기관(추정)",
+      "note": "온비드 공개 요약 기준, 권리자명 마스킹(국************)"
+    }
+  ],
+  "tenants": [
+    {
+      "use": "주거",
+      "registered_on": "2024-10-11",
+      "fixed_date": "2024-09-10",
+      "deposit": 540000000,
+      "monthly_rent": 0,
+      "dividend_claim": false,
+      "dividend_claim_date": null,
+      "occupies": true,
+      "lease_registered": false,
+      "note": "[잠정 가정] 배분요구 여부는 2026-09-21부터 공개되는 공매재산명세서에서만 확인 가능(온비드 안내, 국세징수법 제77조제2항) — 아직 확정 안 됨. 보증금 전액 인수(최악 가정, 매수인에게 더 불리한 쪽)로 잠정 설정. 9/21 이후 반드시 재확인"
+    }
+  ],
+  "special": [
+    {
+      "kind": "대지권미등기",
+      "note": "온비드 공고 정정내역(2026-09-10): 대지권 포함 감정평가했으나 대지권 미등기 상태 — 대지권등기·추가분담금 부담은 매수인 책임"
+    },
+    {
+      "kind": "등기 종류 불명",
+      "note": "rights[0](2025-03-31)이 온비드 표에서 \"권리종류: 위임기관\"으로 표시됨 — 압류로 추정 기재. 등기사항증명서 원문 확인 시 정정"
+    },
+    {
+      "kind": "배당요구 미확정",
+      "note": "tenants[0].dividend_claim을 \"안 함\"(보증금 전액 인수, 매수인에게 불리한 쪽)으로 잠정 설정했다. 실제 값은 2026-09-21 공매재산명세서 공개 후 확정된다. 그 전까지 이 글의 인수 금액은 확정이 아니라 잠정치다"
+    }
+  ],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": "공매재산명세서 공개(2026-09-21) 이후 이 필드를 원문 그대로 채우고 계산 결과와 대조할 것"
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  },
+  "computed": {
+    "engine_version": 2,
+    "input_hash": "52bc54d8f3bc5429",
+    "computed_at": "2026-09-26",
+    "base_right": {
+      "index": 1,
+      "date": "2024-12-19",
+      "kind": "가압류"
+    },
+    "rights": [
+      {
+        "index": 0,
+        "date": "2025-03-31",
+        "kind": "압류",
+        "amount": null,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      },
+      {
+        "index": 1,
+        "date": "2024-12-19",
+        "kind": "가압류",
+        "amount": 800000000,
+        "effect": "소멸",
+        "reason": "말소기준권리"
+      },
+      {
+        "index": 2,
+        "date": "2025-03-20",
+        "kind": "가압류",
+        "amount": 8121294,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      },
+      {
+        "index": 3,
+        "date": "2025-07-24",
+        "kind": "가압류",
+        "amount": 18722533,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      },
+      {
+        "index": 4,
+        "date": "2025-09-12",
+        "kind": "근저당권",
+        "amount": 50000000,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      },
+      {
+        "index": 5,
+        "date": "2026-05-18",
+        "kind": "가압류",
+        "amount": 45000000,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      },
+      {
+        "index": 6,
+        "date": "2026-08-11",
+        "kind": "압류",
+        "amount": null,
+        "effect": "소멸",
+        "reason": "말소기준권리보다 뒤"
+      }
+    ],
+    "tenants": [
+      {
+        "index": 0,
+        "use": "주거",
+        "registered_on": "2024-10-11",
+        "deposit": 540000000,
+        "opposable": true,
+        "effect": "인수",
+        "assumed_min": 540000000,
+        "assumed_max": 540000000,
+        "reason": "대항력 있고 배당요구 없음 — 보증금 전액 매수인 인수"
+      }
+    ],
+    "ownership_risk": false,
+    "assumed_total_min": 540000000,
+    "assumed_total_max": 540000000,
+    "minimum_ratio": 100,
+    "deposit_rate": 0.1,
+    "bid_deposit": 140000000,
+    "minimum_plus_assumed_min": 1940000000,
+    "minimum_plus_assumed_max": 1940000000,
+    "price_gap": null,
+    "score": {
+      "items": [
+        {
+          "key": "price",
+          "label": "가격 수준",
+          "value": "감정가의 100%",
+          "stars": 0,
+          "note": "최저매각가격이 감정가 대비 낮을수록 별점이 높다"
+        },
+        {
+          "key": "rights_risk",
+          "label": "권리 인수 위험",
+          "value": "인수 예상 최대 540,000,000원(최저가의 39%)",
+          "stars": 3,
+          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+        },
+        {
+          "key": "tenant_risk",
+          "label": "임차인 위험",
+          "value": "인수 부담 남는 대항력 임차인 1명",
+          "stars": 3,
+          "note": "대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다"
+        },
+        {
+          "key": "review_load",
+          "label": "확인 필요 사항",
+          "value": "특수 사항 3건, 계산 도구 확인 요청 4건",
+          "stars": 1,
+          "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
+        }
+      ],
+      "total_stars": 2,
+      "rated_count": 4,
+      "has_price_gap": false
+    },
+    "review": [
+      "특수 사항 \"대지권미등기\" (온비드 공고 정정내역(2026-09-10): 대지권 포함 감정평가했으나 대지권 미등기 상태 — 대지권등기·추가분담금 부담은 매수인 책임) — 등기만으로 판정 불가, 현장·서류 확인",
+      "특수 사항 \"등기 종류 불명\" (rights[0](2025-03-31)이 온비드 표에서 \"권리종류: 위임기관\"으로 표시됨 — 압류로 추정 기재. 등기사항증명서 원문 확인 시 정정) — 등기만으로 판정 불가, 현장·서류 확인",
+      "특수 사항 \"배당요구 미확정\" (tenants[0].dividend_claim을 \"안 함\"(보증금 전액 인수, 매수인에게 불리한 쪽)으로 잠정 설정했다. 실제 값은 2026-09-21 공매재산명세서 공개 후 확정된다. 그 전까지 이 글의 인수 금액은 확정이 아니라 잠정치다) — 등기만으로 판정 불가, 현장·서류 확인",
+      "시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨"
+    ]
+  }
+}

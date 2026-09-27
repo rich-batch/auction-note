@@ -33,3 +33,6 @@ Thumbs.db
 # 자동 글쓰기 스케줄러 로그, launchd 설정(이 컴퓨터의 절대 경로가 들어 있음)
 tools/auto/*.log
 tools/auto/*.plist
+
+# npm 의존성(playwright 등) — 온비드 링크 자동 조회에만 쓴다
+/node_modules/

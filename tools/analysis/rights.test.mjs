@@ -140,28 +140,30 @@ test('입찰보증금: 기본 10%, 재매각 20%', () => {
   assert.equal(computeCase(base()).minimum_ratio, 80);
 });
 
-test('검증: 개인정보 필드·번지·형식 오류를 막음', () => {
+test('검증: 개인정보 필드·형식 오류를 막음 (전체 주소는 허용)', () => {
   assert.deepEqual(validateCase(base()), []);
   const c = base();
   c.rights[0].holder_name = '홍길동';
-  c.case.region = '가상시 가상구 가상동 123-4';
+  c.case.region = '가상시 가상구 가상동 123-4 가상아파트 101동 202호'; // 전체 주소 — 허용돼야 함
   c.tenants = [tenant({ note: '연락처 010-1234-5678' })];
   c.id = 'test-2026ta999';
   const errors = validateCase(c).join('\n');
   assert.match(errors, /holder_name: 개인정보/);
-  assert.match(errors, /법정동까지만/);
+  assert.doesNotMatch(errors, /region/);
   assert.match(errors, /전화번호/);
   assert.match(errors, /사건번호 토큰/);
 });
 
-test('입력 해시: result나 market을 바꿔도 그대로, 권리를 바꾸면 달라짐', () => {
+test('입력 해시: result를 바꿔도 그대로, market이나 권리를 바꾸면 달라짐', () => {
   const c = base();
   const h = inputHash(c);
   c.result = { outcome: '매각', winning_bid: 410000000 };
-  c.market = { trades: [] };
   assert.equal(inputHash(c), h);
-  c.rights[0].amount = 1;
+  c.market = { trades: [{ date: '2026-01-01', price: 450000000, area_m2: 84, floor: 5 }] };
   assert.notEqual(inputHash(c), h);
+  const h2 = inputHash(c);
+  c.rights[0].amount = 1;
+  assert.notEqual(inputHash(c), h2);
 });
 
 test('검증: 주말 매각기일은 막음(달력이 평일만 그림)', () => {
@@ -178,10 +180,115 @@ test('분류: 목록에 없으면 오류, 자동차는 엔진 미구현, 토지�
   assert.match(validateCase(base({ case: { ...base().case, category: 'land' }, tenants: [tenant()] })).join('\n'), /토지 임차인/);
 });
 
+test('source.type: 온비드 공매는 물건관리번호 형식과 id, 압류재산 여부를 검증', () => {
+  const onbid = base({
+    id: 'onbid-20260800044459',
+    source: { checked_at: '2026-09-19', type: 'onbid' },
+    case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '압류재산' },
+  });
+  assert.deepEqual(validateCase(onbid), []);
+
+  const badNumber = base({ id: 'onbid-2026080044459x', source: { type: 'onbid' }, case: { ...base().case, number: '2026타경100', onbid_property_type: '압류재산' } });
+  assert.match(validateCase(badNumber).join('\n'), /온비드 물건관리번호/);
+
+  const badId = base({ id: 'onbid-wrong', source: { type: 'onbid' }, case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '압류재산' } });
+  assert.match(validateCase(badId).join('\n'), /"onbid-20260800044459"을 포함해야 함/);
+
+  const notSeized = base({ id: 'onbid-20260800044459', source: { type: 'onbid' }, case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '기타일반재산' } });
+  assert.match(validateCase(notSeized).join('\n'), /압류재산.*만 지원/);
+});
+
 test('분류: 토지는 법정지상권·지목·농지취득자격증명을 확인 항목으로 남김', () => {
   const land = computeCase(base({ case: { ...base().case, category: 'land' } })).review.join('\n');
   assert.match(land, /법정지상권/);
   assert.match(land, /맹지/);
   assert.match(land, /농지취득자격증명/);
   assert.doesNotMatch(computeCase(base()).review.join('\n'), /농지취득자격증명/);
+});
+
+test('시세갭: market.trades 없으면 null이고 review에 남김, 있으면 시세 평균과 차이를 계산', () => {
+  const withoutMarket = computeCase(base());
+  assert.equal(withoutMarket.price_gap, null);
+  assert.ok(withoutMarket.review.some(r => r.includes('시세 데이터')));
+
+  const withMarket = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000, area_m2: 84, floor: 5 }] } }));
+  assert.equal(withMarket.price_gap.market_avg, 500000000);
+  assert.equal(withMarket.price_gap.trade_count, 1);
+  // 인수 부담 없는 사건: 최저가(400000000) 대비 시세 갭 = 100000000
+  assert.equal(withMarket.price_gap.gap_min, 100000000);
+  assert.equal(withMarket.price_gap.gap_max, 100000000);
+});
+
+test('확인 지표 점수: 항목마다 0~5점, 시세 없으면 시세 지표는 빠지고 나머지로 종합', () => {
+  const k = computeCase(base());
+  const keys = k.score.items.map(x => x.key);
+  assert.deepEqual(keys, ['price', 'rights_risk', 'tenant_risk', 'review_load']);
+  for (const item of k.score.items) if (item.stars != null) assert.ok(item.stars >= 0 && item.stars <= 5);
+  assert.ok(k.score.total_stars >= 0 && k.score.total_stars <= 5);
+  assert.equal(k.score.has_price_gap, false);
+
+  const withMarket = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000, area_m2: 84, floor: 5 }] } }));
+  assert.ok(withMarket.score.items.some(x => x.key === 'price_gap'));
+  assert.equal(withMarket.score.has_price_gap, true);
+});
+
+test('확인 지표 점수: 선순위 가처분처럼 소유권 상실 위험이 있으면 권리 인수 위험 0점', () => {
+  const c = base();
+  c.rights.unshift({ date: '2019-01-01', receipt_no: 1, kind: '가처분' });
+  const k = computeCase(c);
+  const risk = k.score.items.find(x => x.key === 'rights_risk');
+  assert.equal(risk.stars, 0);
+});
+
+test('확인 지표 점수: 인수하는 임차인 보증금이 미상이면 권리 인수 위험은 확인 필요(null)', () => {
+  const c = base({ tenants: [tenant({ registered_on: '2020-05-09', deposit: null })] }); // 대항력 있고 배당요구 안 함 → 인수, 보증금 미상
+  const k = computeCase(c);
+  const risk = k.score.items.find(x => x.key === 'rights_risk');
+  assert.equal(risk.stars, null);
+  assert.equal(k.score.rated_count, k.score.items.length - 1);
+});
+
+// ── 신탁공매(신탁법 제4조·제22조) ──────────────────────────────────────
+const trustBase = over => ({
+  id: 'onbid-20260700099999',
+  source: { checked_at: '2026-09-27', type: 'onbid' },
+  case: {
+    number: '2026-0700-099999', court: '무궁화신탁', category: 'apartment',
+    onbid_property_type: '신탁공매', trust_registered_on: '2021-06-01',
+    region: '가상시 가상구 가상동 123 가상빌딩 201호',
+  },
+  sale: { appraisal: 500000000, minimum: 400000000, sale_date: '2026-10-01' },
+  rights: [{ date: '2020-05-10', receipt_no: 100, kind: '근저당권', amount: 300000000, holder_type: '은행' }],
+  tenants: [],
+  ...over,
+});
+
+test('신탁공매: source.type=onbid인데 onbid_property_type이 압류재산·신탁공매가 아니면 막음, 신탁공매는 trust_registered_on 필수', () => {
+  const bad = trustBase({ case: { ...trustBase().case, onbid_property_type: '기타일반재산' } });
+  assert.match(validateCase(bad).join('\n'), /압류재산 또는 신탁공매만 지원/);
+
+  const noDate = trustBase();
+  delete noDate.case.trust_registered_on;
+  assert.match(validateCase(noDate).join('\n'), /trust_registered_on/);
+
+  assert.deepEqual(validateCase(trustBase()), []);
+});
+
+test('신탁공매: 등기 권리는 소멸/인수를 판정하지 않고 전부 "검토"로 남긴다', () => {
+  const k = computeCase(trustBase());
+  assert.equal(k.disposal_type, '신탁공매');
+  assert.equal(k.base_right, null);
+  assert.equal(k.rights[0].effect, '검토');
+  assert.ok(k.review.some(r => r.includes('말소기준권리 개념이 적용되지 않음')));
+  assert.equal(k.assumed_total_min, null);
+  assert.equal(k.assumed_total_max, null);
+});
+
+test('신탁공매: 임차인 전입일이 신탁등기일보다 앞이면 대항력 유지 가능성, 뒤면 수탁자 동의 필요로 구분해 review에 남긴다', () => {
+  const before = computeCase(trustBase({ tenants: [tenant({ registered_on: '2021-01-01' })] })); // 신탁등기(06-01)보다 앞
+  assert.equal(before.tenants[0].effect, '검토');
+  assert.ok(before.review.some(r => r.includes('신탁 전 전입') || r.includes('대항력을 유지할 가능성이 높')));
+
+  const after = computeCase(trustBase({ tenants: [tenant({ registered_on: '2022-01-01' })] })); // 신탁등기 뒤
+  assert.ok(after.review.some(r => r.includes('수탁자 동의 없이 설정된 임대차는 원칙적으로 매수인에게 대항하지 못')));
 });

@@ -173,15 +173,17 @@ export function checkHonesty(a, r) {
 }
 
 // 개인을 특정할 수 있는 정보 (저장소·사이트 모두 공개)
+// 번지·동/호수는 analysis 글에서는 허용한다 — 법원경매정보·온비드가 법률상 공개하는 정보이고
+// 기존 경매정보 서비스도 전체 주소를 쓴다. 사람 이름·주민번호·전화번호는 어디서나 계속 금지.
 export function checkPersonalInfo(a, r) {
-  const hits = [
+  const patterns = [
     [/\d{6}-[1-4]\d{6}/, '주민등록번호'],
     [/01[016789]-\d{3,4}-\d{4}/, '전화번호'],
-    [/\d+동\s*\d+호/, '동·호수'],
-    [/\d+(-\d+)?\s*번지/, '번지'],
     [/[가-힣]{2,4} ?씨(?=[\s,.)는가를의에와도]|$)/, '실명으로 보이는 호칭(○○ 씨)'],
-  ].flatMap(([re, label]) => (a.body.match(new RegExp(re.source, 'g')) ?? []).map(m => `${label}: "${m}"`));
-  r.check(!hits.length, `개인을 특정할 수 있는 정보: ${hits.join(' / ')} — 이름·번지·동호수는 가린다`);
+  ];
+  if (a.type !== 'analysis') patterns.push([/\d+동\s*\d+호/, '동·호수'], [/\d+(-\d+)?\s*번지/, '번지']);
+  const hits = patterns.flatMap(([re, label]) => (a.body.match(new RegExp(re.source, 'g')) ?? []).map(m => `${label}: "${m}"`));
+  r.check(!hits.length, `개인을 특정할 수 있는 정보: ${hits.join(' / ')} — 이름·주민번호·전화번호는 가린다`);
 }
 
 // 서론: 핵심 요약 박스, 문단 수, 기준일 = lastmod
