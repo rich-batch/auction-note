@@ -4,6 +4,8 @@
   "description": "글쓰기 파이프라인 도구용 의존성. 사이트 자체는 Hugo(의존성 없음) — 이 package.json은 tools/analysis/fetch-onbid.mjs(온비드 물건 조회)에만 쓰인다.",
   "type": "module",
   "devDependencies": {
-    "playwright": "1.63.0"
+    "court-auction-notice-search": "^0.3.3",
+    "playwright": "1.63.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   }
 }

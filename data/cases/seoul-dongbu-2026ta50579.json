@@ -1,0 +1,78 @@
+{
+  "id": "seoul-dongbu-2026ta50579",
+  "source": {
+    "checked_at": "2026-09-28",
+    "documents": [
+      "매각물건명세서",
+      "등기사항전부증명서",
+      "현황조사서",
+      "사진"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-10-12 매각공고 상세). 청구금액 277,123,060원. / 법원경매정보 현황조사서(pgj15B/selectCurstExmndc.on)로 tenants[] 구조화 필드 자동 확인, 이름은 저장하지 않음"
+  },
+  "case": {
+    "number": "2026타경50579",
+    "item_no": 1,
+    "court": "서울동부지방법원",
+    "kind": "강제경매",
+    "category": "apartment",
+    "region": "서울특별시 송파구 잠실동 336-5 잠실포스코더샵 7층705호",
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 1430000000,
+    "minimum": 1144000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-12",
+    "dividend_deadline": "2026-07-28",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": ""
+    }
+  ],
+  "tenants": [
+    {
+      "use": "주거",
+      "registered_on": "2022-09-07",
+      "fixed_date": null,
+      "deposit": 0,
+      "monthly_rent": 0,
+      "dividend_claim": false,
+      "dividend_claim_date": null,
+      "occupies": true,
+      "lease_registered": false,
+      "note": "법원경매정보 현황조사서에서 점유 사실만 자동 확인(이름·보증금·확정일자는 원본 서류로 직접 확인 필요) — 매각물건명세서·등기사항전부증명서 대조 전까지 잠정"
+    }
+  ],
+  "special": [
+    {
+      "kind": "임차인 확인 필요",
+      "note": "현황조사서 기준 임차인 있음(이름은 자동 저장하지 않음) — 보증금·확정일자·대항력은 매각물건명세서·등기사항전부증명서로 최종 확인"
+    }
+  ],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}
