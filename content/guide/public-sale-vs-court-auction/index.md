@@ -4,7 +4,7 @@ author: rich-batch
 date: 2026-09-14
 lastmod: 2026-10-11
 aliases: ["/posts/public-sale-vs-court-auction/"]
-draft: true
+draft: false
 volatile: false
 categories: ["공매"]
 tags: [공매 경매 차이, 하자담보책임, 인도명령, 명도소송, 대금납부기한, 유찰 저감률]

@@ -3,7 +3,7 @@ title: "법원경매 물건, 무료로 어디서 찾나"
 author: "rich-batch"
 date: 2026-09-19
 lastmod: 2026-10-11
-draft: true
+draft: false
 volatile: false
 categories: ["경매 절차"]
 tags: ["법원경매", "물건검색", "법원경매정보", "매각공고", "감정가", "최저매각가격"]

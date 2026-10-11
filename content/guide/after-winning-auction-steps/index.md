@@ -3,7 +3,7 @@ title: "경매 낙찰 후, 뭐부터 해야 할까"
 author: rich-batch
 date: 2026-09-16
 lastmod: 2026-10-11
-draft: true
+draft: false
 volatile: false
 categories: ["경매 절차"]
 tags: [경매 낙찰 후 절차, 매각허가결정, 대금지급기한, 소유권이전등기 촉탁, 인도명령, 명도소송]

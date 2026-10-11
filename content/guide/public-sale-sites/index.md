@@ -3,7 +3,7 @@ title: "공매 물건은 어디서 찾나, 사이트별 비교"
 author: "rich-batch"
 date: 2026-09-19
 lastmod: 2026-10-11
-draft: true
+draft: false
 volatile: false
 categories: ["공매"]
 tags: ["공매", "온비드", "압류재산", "국유재산", "관세청 공매", "유니패스"]

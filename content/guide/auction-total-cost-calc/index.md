@@ -4,7 +4,7 @@ author: rich-batch
 date: 2026-09-16
 lastmod: 2026-10-11
 aliases: ["/posts/auction-total-cost-calc/"]
-draft: true
+draft: false
 volatile: true
 categories: ["경매 대출·세금"]
 tags: [경매 낙찰금 계산, 취득세, 인지세, 관리비 승계, 국민주택채권, 명도비용]

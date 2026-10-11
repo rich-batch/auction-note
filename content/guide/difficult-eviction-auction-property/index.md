@@ -3,7 +3,7 @@ title: "경매 명도 어려운 물건, 낙찰 전 신호들"
 author: "rich-batch"
 date: 2026-09-19
 lastmod: 2026-10-11
-draft: true
+draft: false
 volatile: false
 categories: ["권리분석·명도"]
 tags: ["명도", "대항력", "임차인", "말소기준권리", "현황조사보고서", "인도명령"]
