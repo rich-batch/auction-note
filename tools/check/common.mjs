@@ -81,17 +81,20 @@ export const sectionTextOf = body => name => {
 };
 
 // 참고 자료 링크가 실제로 열리는지 (발행 직전)
+const BROWSER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
+
 export function verifyLinks(a) {
   const refsStart = a.body.search(/^## 참고 자료/m);
   const refsSection = refsStart !== -1 ? a.body.slice(refsStart) : '';
   const refUrls = [...new Set([...refsSection.matchAll(linkRe)].map(m => m[1]))];
   const failed = [];
   for (const url of refUrls) {
+    // 금융위·법제처 등은 HEAD 요청이나 브라우저가 아닌 요청을 403/404로 막는다 — 브라우저처럼 GET하고,
+    // 리다이렉트를 끝까지 따라간 최종 응답 코드를 본다
     try {
-      const out = execSync(`curl -I -s -m 5 -L "${url}" 2>&1 | head -1`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
-      if (!out.includes('HTTP/')) { failed.push([url, '응답 없음']); continue; }
-      const code = out.match(/HTTP\/\S+ (\d+)/)?.[1];
-      if (code && (code.startsWith('4') || code.startsWith('5'))) { failed.push([url, `HTTP ${code}`]); }
+      const code = execSync(`curl -s -o /dev/null -w '%{http_code}' -m 20 -L -A "${BROWSER_UA}" -H "Accept-Language: ko-KR" "${url}"`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
+      if (!/^\d{3}$/.test(code) || code === '000') { failed.push([url, '응답 없음']); continue; }
+      if (code.startsWith('4') || code.startsWith('5')) failed.push([url, `HTTP ${code}`]);
     } catch (e) { failed.push([url, '접속 실패']); }
   }
   if (failed.length) {
