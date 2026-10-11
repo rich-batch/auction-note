@@ -8,7 +8,8 @@
 <article class="post-entry">
   <header class="entry-header"><h2>{{ .Title }}{{ if .Draft }} <sup><small>[draft]</small></sup>{{ end }}</h2></header>
   {{- with .Description }}<div class="entry-content"><p>{{ . | plainify | htmlUnescape }}</p></div>{{ end }}
-  <footer class="entry-footer">{{ partial "category-name.html" $c.case.category }} · {{ .Date | time.Format ":date_long" }}</footer>
+  {{- $risk := partial "case-risk.html" $c.computed }}
+  <footer class="entry-footer"><span class="sr-risk risk-{{ $risk }} entry-risk">{{ index (dict "none" "인수 예상 없음" "assume" "임차인 인수 가능" "ownership" "소유권 위험" "review" "확인 필요") $risk }}</span> {{ partial "category-name.html" $c.case.category }} · {{ .Date | time.Format ":date_long" }}</footer>
   <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
 </article>
   {{- end }}

@@ -24,12 +24,13 @@ data/categories.json                분석 분류(아파트·빌라·상가·토
 pipeline/<type>/research/<id>.md    조사 노트 (발행 안 됨)
 pipeline/guide/research/<id>.eli5.json  가이드 커버 스펙 → node tools/render-eli5.mjs <스펙>
 pipeline/guide/keywords.csv         가이드 글감 목록
-tools/lib/                          경로·CSV·사건 데이터 공통 코드
+tools/lib/                          경로·CSV·사건 데이터·분석 글 제목 규칙(title.mjs) 공통 코드
 tools/analysis/                     권리분석 계산 엔진(rights.mjs)과 CLI — 필드 설명 README.md
 tools/check/                        글 검사 (common.mjs 공통 + 종류별)
 tools/auto/                         헤드리스 자동 글쓰기 (batch.sh → run-one.sh → PR)
 layouts/_shortcodes/case-*.html     분석 글 표 (사건 데이터에서 그림)
 content/analysis/_content.gotmpl    자동 생성: 월별 일정(/analysis/2026-10/), 분류 페이지(/analysis/apartment/)와 그 월별 일정
+layouts/home.html                   홈: 검색 → 분류·조건 바로가기 → 경매 일정(D-day 카드, _partials/home-case-card.html) → 가이드(처음 순서는 data/home.json) → 분석 방식
 layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, 발행된 글만) — /analysis/ 메인이 이번 달 달력
 layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정렬은 assets/js/analysis-search.js가 브라우저에서 처리, 필터 상태는 URL 쿼리)
 ```
@@ -45,7 +46,8 @@ layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정�
 - 이미지는 글 폴더에 두고 파일명만 쓴다(`![…](cost-flow.png)`). 외부 이미지·캡처 금지.
 - 다른 글 링크는 `[제목]({{< relref "/guide/<slug>" >}})`. `/guide/…`처럼 직접 쓰면 하위 경로(`/auction-note/`)가 빠져 깨진다. 발행 글에서 초안 글을 링크하면 발행 빌드가 실패한다.
 - 면책 문구는 템플릿이 자동으로 붙인다(`layouts/_partials/disclaimer.html`, `disclaimer-analysis.html`). 본문에 쓰지 않는다.
-- 스킬은 초안까지만: `draft: true` 유지, `[경험 추가 필요]`·`[확인 필요]`·`[이미지 필요]`는 사람이 채운다. 커밋·푸시·`draft: false`는 사람이 한다.
+- 스킬은 초안까지만: `draft: true` 유지, `[경험 추가 필요]`·`[확인 필요]`·`[이미지 필요]`는 사람이 채운다.
+- **글은 PR로, 스킬·도구·레이아웃 개선은 main에 바로.** PR 본문의 "머지 전 확인할 것" 체크박스는 PR 검사(`.github/workflows/pr-check.yml`, `tools/pr-checklist.mjs`)가 자동으로 채우고, 글을 공개 기준으로 검사·빌드한다. **PR을 머지하면 그 PR의 글이 자동으로 `draft: false`가 되어 배포된다**(`tools/publish-merged.mjs`, PR에 `초안 유지` 라벨이 있으면 제외). main에 바로 push한 커밋에 초안 글이 들어 있어도 공개되므로 `content/`는 main에 바로 넣지 않는다.
 - 발행 후 slug·사건 ID는 바꾸지 않는다(주소). 옛 `/posts/<slug>/` 주소는 가이드 글 `aliases`로 넘긴다.
 
 ## 자주 쓰는 명령
@@ -55,8 +57,13 @@ hugo server -D                                   # 로컬 미리보기 (초안 �
 hugo -D -d /tmp/auction-note-build               # 빌드 확인 (shortcode 데이터 누락은 여기서 에러)
 node .claude/skills/write-guide/render-prompt.mjs --list    # 가이드 글감과 작성 여부
 node tools/analysis/status.mjs                   # 사건별 단계와 다음 할 일
-node tools/analysis/new-case.mjs <id> <사건번호>  # 사건 데이터 파일 만들기 (법원경매)
-node tools/analysis/fetch-onbid.mjs <물건관리번호> # 사건 데이터 자동 조회(온비드 압류재산만, 최초 1회 npx playwright install chromium)
+node tools/analysis/new-case.mjs <id> <사건번호>  # 사건 데이터 파일 만들기 (직접 입력)
+node tools/analysis/scan-onbid.mjs --date <날짜>  # 그 날 개찰하는 온비드 물건 후보 나열(등록은 안 함)
+node tools/analysis/fetch-onbid.mjs <물건관리번호> # 사건 데이터 자동 조회(온비드, 최초 1회 npx playwright install chromium)
+node tools/analysis/scan-court.mjs --court <코드> --date <날짜>   # 그 법원 매각공고 후보 나열(등록은 안 함, 코드 목록: --courts). --court 생략 시 data/courts-of-interest.json에 등록한 법원을 순서대로 조회(법원 전환마다 1분 지연)
+node tools/analysis/scan-daily.mjs --date <날짜>  # 공매(온비드)+경매(관심 법원)를 같은 날짜로 한 번에 나열(위 두 스캔을 그대로 실행). 둘 다 분석 가치 낮은 물건(최저가 300만원 미만·공유지분)은 기본 생략 — tools/lib/candidate-filter.mjs, --min-price=0 --include-share로 전부 보기
+node tools/analysis/fetch-court.mjs <법원코드> <사건번호> --sale-date <날짜>  # 사건 데이터 자동 조회(법원경매정보)
+node tools/analysis/fetch-car-market.mjs <id>    # 자동차: 비슷한 차량 온비드 낙찰 사례 조회(--write로 market.trades에 반영), 자동차365·당근 입력 형식 안내
 node tools/analysis/compute.mjs <id>             # 사건 검증·권리 계산
 node --test tools/analysis/rights.test.mjs       # 계산 엔진 테스트
 tools/auto/batch.sh guide 3                      # 가이드 3편 자동 초안 → PR 3개

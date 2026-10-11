@@ -1,0 +1,59 @@
+{
+  "id": "uijeongbu-2025ta72909",
+  "source": {
+    "checked_at": "2026-09-28",
+    "documents": [
+      "매각물건명세서",
+      "등기사항전부증명서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-10-01 매각공고 상세). 청구금액 171,897,217원."
+  },
+  "case": {
+    "number": "2025타경72909",
+    "item_no": 1,
+    "court": "의정부지방법원",
+    "kind": "임의경매",
+    "category": "apartment",
+    "region": "경기도 양주시 덕계동 856 양주덕계현진에버빌2단지 207동 10층 1001호",
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 273000000,
+    "minimum": 191100000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-01",
+    "dividend_deadline": "2026-07-07",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": ""
+    }
+  ],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}

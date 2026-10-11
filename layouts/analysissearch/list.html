@@ -4,10 +4,7 @@
 {{- range $id, $c := site.Data.cases -}}
   {{- with site.GetPage (printf "/analysis/%s" $id) -}}
     {{- $k := $c.computed | default dict -}}
-    {{- $risk := "review" -}}
-    {{- if $k.ownership_risk }}{{ $risk = "ownership" }}
-    {{- else if and (ne $k.assumed_total_max nil) (gt (int $k.assumed_total_max) 0) }}{{ $risk = "assume" }}
-    {{- else if and (ne $k.assumed_total_max nil) (eq (int $k.assumed_total_max) 0) }}{{ $risk = "none" }}{{ end -}}
+    {{- $risk := partial "case-risk.html" $k -}}
     {{- $items = $items | append (dict
         "id" $id
         "url" .RelPermalink

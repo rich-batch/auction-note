@@ -1,0 +1,31 @@
+{{- /* 홈 물건 카드. 사용: partial "home-case-card.html" (dict "page" $page "c" $case "today" "2026-10-11")
+     D-day는 빌드 시점 기준(매일 KST 07:00 재빌드). 인수 위험 배지는 물건 검색과 같은 계산(case-risk.html). */ -}}
+{{- $c := .c -}}
+{{- $k := $c.computed | default dict -}}
+{{- $risk := partial "case-risk.html" $k -}}
+{{- $riskName := index (dict "none" "인수 예상 없음" "assume" "임차인 인수 가능" "ownership" "소유권 위험" "review" "확인 필요") $risk -}}
+{{- $days := int (math.Round (div ((time.AsTime $c.sale.sale_date).Sub (time.AsTime .today)).Hours 24)) -}}
+{{- $outcome := "" }}{{ with $c.result }}{{ $outcome = .outcome | default "" }}{{ end -}}
+{{- $dday := "" }}{{ $ddayCls := "" -}}
+{{- if $outcome }}{{ $dday = $outcome }}{{ $ddayCls = "past" }}
+{{- else if gt $days 0 }}{{ $dday = printf "D-%d" $days }}{{ if le $days 7 }}{{ $ddayCls = "soon" }}{{ end }}
+{{- else if eq $days 0 }}{{ $dday = "D-DAY" }}{{ $ddayCls = "soon" }}
+{{- else }}{{ $dday = "매각기일 지남" }}{{ $ddayCls = "past" }}{{ end }}
+<article class="hc-card">
+  <div class="hc-head">
+    <span class="hc-dday {{ $ddayCls }}">{{ $dday }}</span>
+    <span class="hc-cat">{{ partial "category-name.html" $c.case.category }}</span>
+    <span class="sr-risk risk-{{ $risk }}">{{ $riskName }}</span>
+  </div>
+  <h3 class="hc-title"><a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a></h3>
+  <p class="hc-where">{{ partial "case-area.html" $c.case.region }} · {{ $c.case.court }}</p>
+  <dl class="hc-nums">
+    <div><dt>감정가</dt><dd>{{ partial "krw.html" $c.sale.appraisal }}</dd></div>
+    <div><dt>최저가</dt><dd>{{ partial "krw.html" $c.sale.minimum }}{{ with $k.minimum_ratio }} <small>({{ . }}%)</small>{{ end }}</dd></div>
+    {{- $d := time.AsTime $c.sale.sale_date }}
+    <div><dt>매각기일</dt><dd>{{ $d.Format "06.1.2" }} <small>({{ index (slice "일" "월" "화" "수" "목" "금" "토") (int $d.Weekday) }})</small></dd></div>
+  </dl>
+  {{- with $c.result }}{{ if and .outcome .winning_bid }}
+  <p class="hc-result">{{ .outcome }} {{ partial "krw.html" .winning_bid }}{{ with .bidders }} · 응찰 {{ . }}명{{ end }}</p>
+  {{- end }}{{ end }}
+</article>

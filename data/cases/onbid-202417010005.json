@@ -1,0 +1,142 @@
+{
+  "id": "onbid-202417010005",
+  "source": {
+    "checked_at": "2026-09-28",
+    "documents": [
+      "공매재산명세 — 온비드 물건 상세 페이지 \"공매재산명세\" 버튼(PDF 뷰어 팝업)으로 확인"
+    ],
+    "type": "onbid",
+    "note": "온비드 물건관리번호 2024-17010-005로 조회. 공매재산명세서 확인 결과: 점유현황(임차인) 없음, 채권신고·배분요구현황에 압류 다수(한국도로공사·화성동탄경찰서 등 17건)·교부청구 1건(동탄구청)·위임기관 채권 1건(동화성세무서) 총 19건 기재됐으나 \"등기된 권리 또는 가처분으로서 매각으로 그 효력을 잃지 아니하는 것\" 칸은 공란(=인수 대상 없음, 국세징수법 제77조제1항제4호) — 위 압류 등은 전부 매각대금에서 배분될 뿐 매수인이 인수하지 않음"
+  },
+  "case": {
+    "number": "2024-17010-005",
+    "item_no": 1,
+    "court": "한국자산관리공사",
+    "kind": "압류재산 매각",
+    "category": "car",
+    "onbid_property_type": "압류재산",
+    "region": "충청북도 청주시 흥덕구 강내면 월곡리 150-90 110호 오토마트 충북보관소",
+    "vehicle": {
+      "model": "G80",
+      "year": 2021,
+      "color": "파랑(남색,곤색)",
+      "plate": "129도3117",
+      "first_registered": null,
+      "vin": null,
+      "mileage_km": 90636,
+      "fuel": "휘발유 2,497cc"
+    },
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 26000000,
+    "minimum": 26000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-01",
+    "dividend_deadline": "2026-09-14",
+    "resale": false
+  },
+  "rights": [],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "없음(공매재산명세서 확인)",
+    "superficies_text": "",
+    "remarks": "공매재산명세서 — 공매재산 이용 및 점유현황: 점유자 없음. 채권신고·배분요구현황 19건(압류 17건·교부청구 1건·위임기관 채권 1건, 매각대금에서 배분될 뿐 인수 대상 아님). 등기된 권리로서 매각 후 효력을 잃지 않는 것: 없음. 지상권: 없음"
+  },
+  "market": {
+    "trades": [
+      {
+        "source": "onbid",
+        "date": "2025-09-26",
+        "price": 39100000,
+        "year": 2021,
+        "mileage_km": 50000,
+        "bidders": 21,
+        "ref": "2025-0900-066202"
+      }
+    ],
+    "source_url": "https://www.onbid.co.kr/op/cltrpbancinf/bidrsltmng/cltrbidrslt/CltrBidRsltController/mvmnCltrBidRsltClg.do",
+    "checked_at": "2026-10-11"
+  },
+  "result": {
+    "outcome": "유찰",
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": "2026-10-11"
+  },
+  "computed": {
+    "engine_version": 3,
+    "input_hash": "7f5d930c410c9049",
+    "computed_at": "2026-10-11",
+    "base_right": null,
+    "rights": [],
+    "tenants": [],
+    "ownership_risk": false,
+    "assumed_total_min": 0,
+    "assumed_total_max": 0,
+    "minimum_ratio": 100,
+    "deposit_rate": 0.1,
+    "bid_deposit": 2600000,
+    "minimum_plus_assumed_min": 26000000,
+    "minimum_plus_assumed_max": 26000000,
+    "price_gap": {
+      "market_avg": 39100000,
+      "trade_count": 1,
+      "gap_min": 13100000,
+      "gap_max": 13100000,
+      "basis_source": "onbid",
+      "basis_label": "온비드 공매 낙찰가",
+      "by_source": [
+        {
+          "source": "onbid",
+          "kind": null,
+          "label": "온비드 공매 낙찰가",
+          "count": 1,
+          "avg": 39100000,
+          "gap_min": 13100000,
+          "gap_max": 13100000
+        }
+      ]
+    },
+    "score": {
+      "items": [
+        {
+          "key": "price",
+          "label": "가격 수준",
+          "value": "온비드 공매 낙찰가 39,100,000원(1건)의 66% · 감정가의 100%",
+          "stars": 5,
+          "note": "최저가(+인수 부담)가 비슷한 차량 시세보다 많이 낮을수록 별점이 높다(30% 이상 낮으면 5점)"
+        },
+        {
+          "key": "rights_risk",
+          "label": "권리 인수 위험",
+          "value": "인수 예상 최대 0원(최저가의 0%)",
+          "stars": 5,
+          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+        },
+        {
+          "key": "tenant_risk",
+          "label": "임차인 위험",
+          "value": "인수 부담 남는 대항력 임차인 0명",
+          "stars": 5,
+          "note": "대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다"
+        },
+        {
+          "key": "review_load",
+          "label": "확인 필요 사항",
+          "value": "특수 사항 0건, 계산 도구 확인 요청 1건",
+          "stars": 4,
+          "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
+        }
+      ],
+      "total_stars": 5,
+      "rated_count": 4,
+      "has_price_gap": true
+    },
+    "review": [
+      "유치권: 자동차등록원부에 나타나지 않는 점유·채권 관계라 코드가 판정하지 않음 — 점유자·수리(정비) 내역으로 확인. 유치권이 있으면 매수인이 그 채권을 변제할 책임(국세징수법 제92조제4항, 민사집행법 제91조제5항)"
+    ]
+  }
+}

@@ -172,12 +172,12 @@ test('검증: 주말 매각기일은 막음(달력이 평일만 그림)', () => 
   assert.deepEqual(validateCase(base({ sale: { ...base().sale, sale_date: '2026-10-05' } })), []);
 });
 
-test('분류: 목록에 없으면 오류, 자동차는 엔진 미구현, 토지는 임차인 입력 금지', () => {
+test('분류: 목록에 없으면 오류, 토지·자동차는 임차인 입력 금지', () => {
   const withCase = over => base({ case: { ...base().case, ...over } });
   assert.match(validateCase(withCase({ category: '아파트' })).join('\n'), /case\.category/);
-  assert.match(validateCase(withCase({ category: 'car' })).join('\n'), /계산 엔진이 아직 없음/);
-  for (const category of ['apartment', 'villa', 'commercial', 'land']) assert.deepEqual(validateCase(withCase({ category })), []);
+  for (const category of ['apartment', 'villa', 'commercial', 'land', 'car']) assert.deepEqual(validateCase(withCase({ category })), []);
   assert.match(validateCase(base({ case: { ...base().case, category: 'land' }, tenants: [tenant()] })).join('\n'), /토지 임차인/);
+  assert.match(validateCase(base({ case: { ...base().case, category: 'car' }, tenants: [tenant()] })).join('\n'), /자동차\(car\)의 tenants/);
 });
 
 test('source.type: 온비드 공매는 물건관리번호 형식과 id, 압류재산 여부를 검증', () => {
@@ -194,8 +194,8 @@ test('source.type: 온비드 공매는 물건관리번호 형식과 id, 압류�
   const badId = base({ id: 'onbid-wrong', source: { type: 'onbid' }, case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '압류재산' } });
   assert.match(validateCase(badId).join('\n'), /"onbid-20260800044459"을 포함해야 함/);
 
-  const notSeized = base({ id: 'onbid-20260800044459', source: { type: 'onbid' }, case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '기타일반재산' } });
-  assert.match(validateCase(notSeized).join('\n'), /압류재산.*만 지원/);
+  const unsupported = base({ id: 'onbid-20260800044459', source: { type: 'onbid' }, case: { ...base().case, number: '2026-0800-044459', onbid_property_type: '동산' } });
+  assert.match(validateCase(unsupported).join('\n'), /온비드 사건은 지금.*만 지원/);
 });
 
 test('분류: 토지는 법정지상권·지목·농지취득자격증명을 확인 항목으로 남김', () => {
@@ -263,9 +263,9 @@ const trustBase = over => ({
   ...over,
 });
 
-test('신탁공매: source.type=onbid인데 onbid_property_type이 압류재산·신탁공매가 아니면 막음, 신탁공매는 trust_registered_on 필수', () => {
-  const bad = trustBase({ case: { ...trustBase().case, onbid_property_type: '기타일반재산' } });
-  assert.match(validateCase(bad).join('\n'), /압류재산 또는 신탁공매만 지원/);
+test('신탁공매: source.type=onbid인데 지원하는 온비드 재산유형이 아니면 막음, 신탁공매는 trust_registered_on 필수', () => {
+  const bad = trustBase({ case: { ...trustBase().case, onbid_property_type: '동산' } });
+  assert.match(validateCase(bad).join('\n'), /온비드 사건은 지금.*만 지원/);
 
   const noDate = trustBase();
   delete noDate.case.trust_registered_on;
@@ -291,4 +291,142 @@ test('신탁공매: 임차인 전입일이 신탁등기일보다 앞이면 대�
 
   const after = computeCase(trustBase({ tenants: [tenant({ registered_on: '2022-01-01' })] })); // 신탁등기 뒤
   assert.ok(after.review.some(r => r.includes('수탁자 동의 없이 설정된 임대차는 원칙적으로 매수인에게 대항하지 못')));
+});
+
+// ── 자동차(국세징수법 제92조제1항, 민사집행규칙 제108조) ──────────────────────
+const carBase = over => base({
+  case: { ...base().case, category: 'car' },
+  tenants: [],
+  ...over,
+});
+
+test('자동차: 등록된 저당권·압류 등은 순서와 무관하게 항상 소멸, 말소기준권리·임차인 개념 없음', () => {
+  const k = computeCase(carBase());
+  assert.equal(k.base_right, null);
+  assert.deepEqual(k.tenants, []);
+  assert.deepEqual(k.rights.map(r => r.effect), ['소멸', '소멸', '소멸']);
+  assert.equal(k.assumed_total_min, 0);
+  assert.equal(k.assumed_total_max, 0);
+  assert.equal(k.minimum_plus_assumed_max, k.minimum_plus_assumed_min);
+});
+
+test('자동차: 이례적인 권리 종류(지상권 등)는 소멸로 단정하지 않고 검토로 남김', () => {
+  const c = carBase();
+  c.rights.push({ date: '2019-01-01', receipt_no: 1, kind: '지상권' });
+  const k = computeCase(c);
+  assert.equal(k.rights.at(-1).effect, '검토');
+  assert.ok(k.review.some(r => r.includes('자동차에 이런 권리가 등록될 수 있는지')));
+});
+
+test('자동차: 유치권은 등록원부로 판정할 수 없어 항상 확인 항목으로 남김', () => {
+  const k = computeCase(carBase());
+  assert.ok(k.review.some(r => r.includes('유치권')));
+});
+
+test('자동차: rights가 비어 있어도 된다 — 저당권이 있어도 순서 무관 소멸이라 날짜가 계산에 영향 없고, 공매재산명세서의 인수 대상 칸으로 확인됨', () => {
+  const c = carBase({ rights: [] });
+  assert.deepEqual(validateCase(c), []);
+  const k = computeCase(c);
+  assert.deepEqual(k.rights, []);
+  assert.equal(k.assumed_total_min, 0);
+  assert.equal(k.assumed_total_max, 0);
+});
+
+test('자동차: 압류재산이 아닌 온비드 재산유형과 결합된 사례는 법적 근거 미확인으로 막음', () => {
+  const c = carBase({ source: { type: 'onbid' }, case: { ...carBase().case, number: '2026-0700-099999', onbid_property_type: '신탁공매', trust_registered_on: '2021-06-01' } });
+  assert.match(validateCase(c).join('\n'), /자동차 계산.*법적 근거는 아직 확인하지 못했다/);
+
+  const seized = carBase({ source: { type: 'onbid' }, case: { ...carBase().case, number: '2026-0700-099999', onbid_property_type: '압류재산' } });
+  assert.deepEqual(validateCase(seized).filter(e => e.includes('자동차 계산')), []);
+});
+
+// ── 국유재산·공유재산(국유재산법 제11조·공유재산법 제8조) / 기타일반재산 ──────────
+const publicBase = over => base({
+  id: 'onbid-20260900011111',
+  source: { checked_at: '2026-09-27', type: 'onbid' },
+  case: { ...base().case, number: '2026-0900-011111', onbid_property_type: '국유재산' },
+  tenants: [],
+  ...over,
+});
+
+test('국유재산·공유재산: rights가 비어 있는 게 정상(사권 없는 게 원칙)이고, tenants는 항상 비워야 함', () => {
+  assert.deepEqual(validateCase(publicBase({ rights: [] })), []);
+  assert.deepEqual(computeCase(publicBase({ rights: [] })).rights, []);
+});
+
+test('국유재산·공유재산: tenants는 항상 비워야 하고, 등기 권리가 있으면 이례적이라 전부 검토로 남김', () => {
+  assert.deepEqual(validateCase(publicBase()), []);
+  assert.match(validateCase(publicBase({ tenants: [tenant()] })).join('\n'), /국유재산.*tenants는 항상 비워/);
+
+  const k = computeCase(publicBase());
+  assert.equal(k.disposal_type, '국유재산');
+  assert.equal(k.base_right, null);
+  assert.deepEqual(k.tenants, []);
+  assert.deepEqual(k.rights.map(r => r.effect), ['검토', '검토', '검토']);
+  assert.ok(k.review.some(r => r.includes('국유재산법 제11조')));
+  assert.ok(k.review.some(r => r.includes('사용허가·대부')));
+
+  const gongyu = computeCase(publicBase({ case: { ...publicBase().case, onbid_property_type: '공유재산' } }));
+  assert.equal(gongyu.disposal_type, '공유재산');
+  assert.ok(gongyu.review.some(r => r.includes('공유재산법 제8조')));
+});
+
+test('기타일반재산: 위임기관마다 근거가 달라 등기 권리를 전부 검토로 남김', () => {
+  const c = publicBase({ case: { ...publicBase().case, onbid_property_type: '기타일반재산' } });
+  const k = computeCase(c);
+  assert.equal(k.disposal_type, '기타일반재산');
+  assert.deepEqual(k.tenants, []);
+  assert.deepEqual(k.rights.map(r => r.effect), ['검토', '검토', '검토']);
+  assert.ok(k.review.some(r => r.includes('위임기관마다')));
+});
+
+test('자동차 시세: 출처별로 따로 평균내고, 점수는 가장 믿을 만한 출처(자동차365 > 온비드 낙찰가 > 당근 호가)로', () => {
+  const trades = [
+    { source: 'onbid', date: '2026-09-16', price: 13550000 },
+    { source: 'onbid', date: '2026-07-24', price: 18121343 },
+    { source: 'daangn', date: '2026-10-11', price: 25000000 },
+  ];
+  const k = computeCase(carBase({ sale: { ...carBase().sale, appraisal: 8000000, minimum: 8000000 }, market: { trades } }));
+  assert.deepEqual(k.price_gap.by_source.map(x => [x.source, x.count, x.avg]), [['onbid', 2, 15835672], ['daangn', 1, 25000000]]);
+  assert.equal(k.price_gap.basis_source, 'onbid');
+  assert.equal(k.price_gap.gap_min, 15835672 - 8000000);
+  const withCar365 = computeCase(carBase({ market: { trades: [...trades, { source: 'car365', date: '2026-10-11', price: 20000000 }] } }));
+  assert.equal(withCar365.price_gap.basis_source, 'car365');
+});
+
+test('자동차: 감정가 대비 가격 수준은 별점을 매기지 않음(감정가가 중고차 시세를 반영하지 못함), 부동산은 그대로', () => {
+  const car = computeCase(carBase()).score.items.find(x => x.key === 'price');
+  assert.equal(car.stars, null);
+  const apt = computeCase(base()).score.items.find(x => x.key === 'price');
+  assert.equal(typeof apt.stars, 'number');
+});
+
+test('시세 출처가 없는 기존 market.trades는 국토부 실거래로 본다', () => {
+  const k = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000, area_m2: 84 }] } }));
+  assert.equal(k.price_gap.basis_source, 'molit');
+});
+
+test('같은 출처라도 kind가 다르면 따로 계산하고, 먼저 적힌 kind가 점수 기준', () => {
+  const k = computeCase(carBase({ market: { trades: [
+    { source: 'car365', kind: '업자 판매가', date: '2026-10-11', price: 14615909 },
+    { source: 'car365', kind: '업자 매입가', date: '2026-10-11', price: 12042046 },
+    { source: 'onbid', date: '2026-09-16', price: 13550000 },
+  ] } }));
+  assert.deepEqual(k.price_gap.by_source.map(x => x.label), ['자동차365 평균 매매가 (업자 판매가)', '자동차365 평균 매매가 (업자 매입가)', '온비드 공매 낙찰가']);
+  assert.equal(k.price_gap.market_avg, 14615909);
+  assert.match(k.score.items.find(x => x.key === 'price').value, /업자 판매가/);
+  const weighted = computeCase(carBase({ market: { trades: [{ source: 'car365', price: 10000000, count: 3 }, { source: 'car365', price: 20000000, count: 1 }] } }));
+  assert.equal(weighted.price_gap.market_avg, 12500000);
+  assert.equal(weighted.price_gap.trade_count, 4);
+});
+
+test('자동차: 시세가 있으면 가격 수준 별점을 시세 대비로 매기고 별도 시세갭 항목은 없음, 부동산은 둘 다 유지', () => {
+  const car = computeCase(carBase({ sale: { ...carBase().sale, appraisal: 8000000, minimum: 8000000 }, market: { trades: [{ source: 'car365', kind: '업자 판매가', price: 14615909, count: 2 }] } }));
+  const price = car.score.items.find(x => x.key === 'price');
+  assert.equal(price.stars, 5); // 800만은 1,462만보다 45% 낮음 → 30% 이상이라 5점
+  assert.match(price.value, /55%/);
+  assert.equal(car.score.items.some(x => x.key === 'price_gap'), false);
+  const apt = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000 }] } }));
+  assert.ok(apt.score.items.some(x => x.key === 'price_gap'));
+  assert.equal(typeof apt.score.items.find(x => x.key === 'price').stars, 'number');
 });

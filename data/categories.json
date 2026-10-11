@@ -1,5 +1,5 @@
 {
-  "_설명": "물건 분석 분류. 새 분류는 한 줄 추가하면 분류 페이지·탭·검증에 반영된다. slug는 주소(/analysis/<slug>/), engine은 계산 방식(realestate = 등기·임차인 권리분석, car = 미구현).",
+  "_설명": "물건 분석 분류. 새 분류는 한 줄 추가하면 분류 페이지·탭·검증에 반영된다. slug는 주소(/analysis/<slug>/), engine은 계산 방식(realestate = 등기·임차인 권리분석, car = 자동차 등록원부 권리분석 — tenants 없음, 유치권만 review).",
   "categories": [
     { "slug": "apartment", "name": "아파트", "engine": "realestate" },
     { "slug": "villa", "name": "빌라", "engine": "realestate" },

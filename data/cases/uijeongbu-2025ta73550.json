@@ -1,0 +1,59 @@
+{
+  "id": "uijeongbu-2025ta73550",
+  "source": {
+    "checked_at": "2026-09-28",
+    "documents": [
+      "매각물건명세서",
+      "등기사항전부증명서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-10-01 매각공고 상세). 청구금액 106,300,104원."
+  },
+  "case": {
+    "number": "2025타경73550",
+    "item_no": 1,
+    "court": "의정부지방법원",
+    "kind": "임의경매",
+    "category": "apartment",
+    "region": "경기도 의정부시 신곡동 167-20 극동스타클래스아파트 106동 22층 2201호",
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 284000000,
+    "minimum": 284000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-01",
+    "dividend_deadline": "2026-08-14",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": ""
+    }
+  ],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}

@@ -19,15 +19,31 @@
     </div>
   </div>
 
+  {{- $wd := slice "일" "월" "화" "수" "목" "금" "토" -}}
+  {{- with $c.case.vehicle }}
+  <p class="case-group-title">차량 정보</p>
+  <dl class="case-grid">
+    {{- with .model }}<div><dt>차종</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with .year }}<div><dt>연식</dt><dd>{{ . }}년식</dd></div>{{ end }}
+    {{- with .mileage_km }}<div><dt>주행거리</dt><dd>{{ lang.FormatNumber 0 . }}km</dd></div>{{ end }}
+    {{- with .fuel }}<div><dt>연료·배기량</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with .first_registered }}<div><dt>최초등록일</dt><dd>{{ partial "kdate.html" . }}</dd></div>{{ end }}
+    {{- with .color }}<div><dt>색상</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with .plate }}<div><dt>차량번호</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with .vin }}<div><dt>차대번호</dt><dd class="case-mono">{{ . }}</dd></div>{{ end }}
+  </dl>
+  <p class="case-group-title">{{ if $isOnbid }}공매{{ else }}경매{{ end }} 정보</p>
+  {{- end }}
   <dl class="case-grid">
     <div><dt>{{ if $isOnbid }}물건관리번호{{ else }}사건번호{{ end }}</dt><dd>{{ $c.case.number }}{{ with $c.case.item_no }}{{ if gt (int .) 1 }} (물건번호 {{ . }}){{ end }}{{ end }}</dd></div>
     <div><dt>{{ if $isOnbid }}공고기관{{ else }}법원{{ end }}</dt><dd>{{ $c.case.court }}</dd></div>
     {{- with $c.case.kind }}<div><dt>{{ if $isOnbid }}공매 종류{{ else }}경매 종류{{ end }}</dt><dd>{{ . }}</dd></div>{{ end }}
-    <div><dt>물건 종류</dt><dd>{{ partial "category-name.html" $c.case.category }}</dd></div>
-    <div><dt>소재지</dt><dd>{{ $c.case.region }}</dd></div>
+    {{- if not $c.case.vehicle }}<div><dt>물건 종류</dt><dd>{{ partial "category-name.html" $c.case.category }}</dd></div>{{ end }}
     {{- with $c.case.area_m2 }}<div><dt>전용면적</dt><dd>{{ lang.FormatNumber 2 . }}㎡ (약 {{ lang.FormatNumber 1 (div . 3.3058) }}평)</dd></div>{{ end }}
-    <div><dt>{{ if $isOnbid }}개찰일시{{ else }}매각기일{{ end }}</dt><dd>{{ partial "kdate.html" $c.sale.sale_date }}</dd></div>
+    {{- $sd := time.AsTime $c.sale.sale_date }}
+    <div><dt>{{ if $isOnbid }}개찰일{{ else }}매각기일{{ end }}</dt><dd>{{ partial "kdate.html" $c.sale.sale_date }} ({{ index $wd (int $sd.Weekday) }})</dd></div>
     {{- with $c.sale.dividend_deadline }}<div><dt>{{ if $isOnbid }}배분요구종기{{ else }}배당요구종기{{ end }}</dt><dd>{{ partial "kdate.html" . }}</dd></div>{{ end }}
+    <div class="case-wide"><dt>{{ if $c.case.vehicle }}보관 장소{{ else }}소재지{{ end }}</dt><dd>{{ $c.case.region }}</dd></div>
   </dl>
 
   {{- $tags := slice -}}

@@ -1,0 +1,8 @@
+{{- /* 사건 계산 결과(computed) → 인수 위험 키: none(인수 예상 없음) · assume(임차인 인수 가능) · ownership(소유권 위험) · review(확인 필요, 계산 전 포함).
+     사용: partial "case-risk.html" $c.computed — 물건 검색(analysissearch)과 홈 카드가 같이 쓴다. */ -}}
+{{- $k := . | default dict -}}
+{{- $risk := "review" -}}
+{{- if $k.ownership_risk }}{{ $risk = "ownership" }}
+{{- else if and (ne $k.assumed_total_max nil) (gt (int $k.assumed_total_max) 0) }}{{ $risk = "assume" }}
+{{- else if and (ne $k.assumed_total_max nil) (eq (int $k.assumed_total_max) 0) }}{{ $risk = "none" }}{{ end -}}
+{{- return $risk -}}

@@ -1,0 +1,178 @@
+{
+  "id": "onbid-202514101001",
+  "source": {
+    "checked_at": "2026-09-28",
+    "documents": [
+      "공매재산명세 — 온비드 물건 상세 페이지 \"공매재산명세\" 버튼(PDF 뷰어 팝업)으로 확인"
+    ],
+    "type": "onbid",
+    "note": "온비드 물건관리번호 2025-14101-001로 조회. 공매재산명세서 확인 결과: 점유현황(임차인) 없음, 배분요구 및 채권신고현황 4건(임금채권 70,700,000원·교부청구 2건 1,430,010원/1,358,100원·위임기관 채권 149,086,190원) 있었으나 \"등기된 권리 또는 가처분으로서 매각으로 그 효력을 잃지 아니하는 것\" 칸은 공란(=인수 대상 없음, 국세징수법 제77조제1항제4호) — 위 채권은 전부 매각대금에서 배분될 뿐 매수인이 인수하지 않음"
+  },
+  "case": {
+    "number": "2025-14101-001",
+    "item_no": 1,
+    "court": "한국자산관리공사",
+    "kind": "압류재산 매각",
+    "category": "car",
+    "onbid_property_type": "압류재산",
+    "region": "경기도 화성시 남양읍 남양리 1077 오토마트 경기남부보관소",
+    "vehicle": {
+      "model": "제네시스",
+      "year": 2013,
+      "color": null,
+      "plate": "35서3028",
+      "first_registered": "2012-09-17",
+      "vin": "KMHGA41BBDU215063",
+      "mileage_km": 51410,
+      "fuel": "휘발유 3,342cc"
+    },
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 3000000,
+    "minimum": 3000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-10-01",
+    "dividend_deadline": "2026-09-14",
+    "resale": false
+  },
+  "rights": [],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "없음(공매재산명세서 확인)",
+    "superficies_text": "",
+    "remarks": "공매재산명세서 — 공매재산 이용 및 점유현황: 점유자 없음. 배분요구 및 채권신고현황 4건(임금채권·교부청구 2건·위임기관 채권, 매각대금에서 배분될 뿐 인수 대상 아님). 등기된 권리로서 매각 후 효력을 잃지 않는 것: 없음. 지상권: 없음"
+  },
+  "market": {
+    "trades": [
+      {
+        "source": "onbid",
+        "date": "2026-07-24",
+        "price": 1609000,
+        "year": 2013,
+        "mileage_km": 276403,
+        "bidders": 2,
+        "ref": "2026-0600-035104"
+      },
+      {
+        "source": "onbid",
+        "date": "2026-06-25",
+        "price": 3366000,
+        "year": 2012,
+        "mileage_km": 291549,
+        "bidders": 6,
+        "ref": "2025-15148-001"
+      },
+      {
+        "source": "onbid",
+        "date": "2025-11-20",
+        "price": 8200000,
+        "year": 2013,
+        "mileage_km": 264950,
+        "bidders": 8,
+        "ref": "2025-1100-080913"
+      },
+      {
+        "source": "onbid",
+        "date": "2025-11-20",
+        "price": 8820000,
+        "year": 2013,
+        "mileage_km": 255576,
+        "bidders": 14,
+        "ref": "2025-1100-080857"
+      },
+      {
+        "source": "onbid",
+        "date": "2025-10-16",
+        "price": 3236000,
+        "year": 2013,
+        "mileage_km": 224484,
+        "bidders": 4,
+        "ref": "2024-10222-001"
+      }
+    ],
+    "source_url": "https://www.onbid.co.kr/op/cltrpbancinf/bidrsltmng/cltrbidrslt/CltrBidRsltController/mvmnCltrBidRsltClg.do",
+    "checked_at": "2026-10-11"
+  },
+  "result": {
+    "outcome": "매각",
+    "winning_bid": 6222000,
+    "bidders": 28,
+    "checked_at": "2026-10-11"
+  },
+  "computed": {
+    "engine_version": 3,
+    "input_hash": "27a2dac308cc1e24",
+    "computed_at": "2026-10-11",
+    "base_right": null,
+    "rights": [],
+    "tenants": [],
+    "ownership_risk": false,
+    "assumed_total_min": 0,
+    "assumed_total_max": 0,
+    "minimum_ratio": 100,
+    "deposit_rate": 0.1,
+    "bid_deposit": 300000,
+    "minimum_plus_assumed_min": 3000000,
+    "minimum_plus_assumed_max": 3000000,
+    "price_gap": {
+      "market_avg": 5046200,
+      "trade_count": 5,
+      "gap_min": 2046200,
+      "gap_max": 2046200,
+      "basis_source": "onbid",
+      "basis_label": "온비드 공매 낙찰가",
+      "by_source": [
+        {
+          "source": "onbid",
+          "kind": null,
+          "label": "온비드 공매 낙찰가",
+          "count": 5,
+          "avg": 5046200,
+          "gap_min": 2046200,
+          "gap_max": 2046200
+        }
+      ]
+    },
+    "score": {
+      "items": [
+        {
+          "key": "price",
+          "label": "가격 수준",
+          "value": "온비드 공매 낙찰가 5,046,200원(5건)의 59% · 감정가의 100%",
+          "stars": 5,
+          "note": "최저가(+인수 부담)가 비슷한 차량 시세보다 많이 낮을수록 별점이 높다(30% 이상 낮으면 5점)"
+        },
+        {
+          "key": "rights_risk",
+          "label": "권리 인수 위험",
+          "value": "인수 예상 최대 0원(최저가의 0%)",
+          "stars": 5,
+          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+        },
+        {
+          "key": "tenant_risk",
+          "label": "임차인 위험",
+          "value": "인수 부담 남는 대항력 임차인 0명",
+          "stars": 5,
+          "note": "대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다"
+        },
+        {
+          "key": "review_load",
+          "label": "확인 필요 사항",
+          "value": "특수 사항 0건, 계산 도구 확인 요청 1건",
+          "stars": 4,
+          "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
+        }
+      ],
+      "total_stars": 5,
+      "rated_count": 4,
+      "has_price_gap": true
+    },
+    "review": [
+      "유치권: 자동차등록원부에 나타나지 않는 점유·채권 관계라 코드가 판정하지 않음 — 점유자·수리(정비) 내역으로 확인. 유치권이 있으면 매수인이 그 채권을 변제할 책임(국세징수법 제92조제4항, 민사집행법 제91조제5항)"
+    ]
+  }
+}

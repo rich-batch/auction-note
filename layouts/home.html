@@ -1,0 +1,111 @@
+{{- /* 홈. 국내외 경매 사이트(탱크옥션·지지옥션·Pugh·Allsop 등)의 공통 구조를 이 블로그에 맞춘 것:
+     ① 바로 검색 → ② 분류·조건 바로가기 → ③ 경매 일정(D-day 카드) → ④ 처음 시작하는 사람용 가이드 순서
+     → ⑤ 최신 가이드 → ⑥ 분석 방식(신뢰). 한 화면에 섹션을 이어서 보여 주고 섹션마다 "더보기"로 전체 목록에 간다. */ -}}
+{{- define "main" }}
+{{- $today := (now.Add (time.ParseDuration "9h")).Format "2006-01-02" -}}
+{{- $analysis := site.GetPage "/analysis" -}}
+{{- $guide := site.GetPage "/guide" -}}
+{{- $search := site.GetPage "/analysis/search" -}}
+
+{{- /* 발행된 분석 글 × 사건 데이터 */ -}}
+{{- $cases := slice -}}
+{{- $catCount := dict -}}
+{{- range $p := where site.RegularPages "Type" "analysis" -}}
+  {{- with index site.Data.cases $p.Params.case -}}
+    {{- $cases = $cases | append (dict "page" $p "c" . "date" .sale.sale_date) -}}
+    {{- $catCount = merge $catCount (dict .case.category (add (index $catCount .case.category | default 0) 1)) -}}
+  {{- end -}}
+{{- end -}}
+{{- $upcoming := sort (where $cases "date" "ge" $today) "date" -}}
+{{- $past := sort (where $cases "date" "lt" $today) "date" "desc" -}}
+
+<section class="home-hero">
+  <h1>법원경매·공매 물건, 권리관계부터 확인하세요</h1>
+  <p>실제 매각 물건을 등기·매각물건명세서 기준으로 분석하고, 처음 하는 분을 위해 절차·대출·세금을 공식 자료로 설명합니다.</p>
+  <form class="home-search" action="{{ $search.RelPermalink }}" method="get" role="search">
+    <label class="hs-q"><span>검색어</span><input type="search" id="hs-q" name="q" placeholder="지역, 사건번호, 법원"></label>
+    <label><span>분류</span><select id="hs-cat" name="cat"><option value="">전체</option>
+      {{- range site.Data.categories.categories }}<option value="{{ .slug }}">{{ .name }}</option>{{ end -}}
+    </select></label>
+    <label><span>최저가</span><select id="hs-price" name="price"><option value="">전체</option><option value="0-1">1억 미만</option><option value="1-3">1억~3억</option><option value="3-5">3억~5억</option><option value="5-10">5억~10억</option><option value="10-">10억 이상</option></select></label>
+    <label><span>매각기일</span><select id="hs-when" name="when"><option value="">전체</option><option value="upcoming">예정</option><option value="week">7일 이내</option><option value="month">30일 이내</option><option value="past">지난 물건</option></select></label>
+    <button type="submit">물건 찾기</button>
+  </form>
+</section>
+
+<nav class="home-quick" aria-label="바로가기">
+  <div class="hq-row">
+    <span class="hq-label">분류</span>
+    {{- range site.Data.categories.categories }}
+    <a href="{{ printf "analysis/%s/" .slug | relURL }}">{{ .name }}<b>{{ index $catCount .slug | default 0 }}</b></a>
+    {{- end }}
+  </div>
+  <div class="hq-row">
+    <span class="hq-label">조건</span>
+    <a href="{{ $search.RelPermalink }}?when=week">7일 이내 매각</a>
+    <a href="{{ $search.RelPermalink }}?risk=none">인수 예상 없음</a>
+    <a href="{{ $search.RelPermalink }}?failed=2">유찰 2회 이상</a>
+    <a href="{{ $search.RelPermalink }}?price=0-1">최저가 1억 미만</a>
+  </div>
+</nav>
+
+<section class="home-sec" aria-labelledby="sec-schedule">
+  <div class="home-sec-head">
+    <h2 id="sec-schedule">경매 일정</h2>
+    <a href="{{ $analysis.RelPermalink }}">달력으로 보기 →</a>
+  </div>
+  <h3 class="home-sub">다가오는 매각</h3>
+  {{- with $upcoming }}
+  <div class="hc-grid">
+    {{- range first 4 . }}{{ partial "home-case-card.html" (dict "page" .page "c" .c "today" $today) }}{{ end }}
+  </div>
+  {{- else }}
+  <p class="home-empty">지금 분석해 둔 물건 중 매각기일이 남은 물건이 없습니다. 새 분석이 올라오면 여기에 매각기일이 가까운 순으로 보입니다.</p>
+  {{- end }}
+  {{- with $past }}
+  <h3 class="home-sub">최근 매각기일이 지난 물건</h3>
+  <div class="hc-grid">
+    {{- range first 4 . }}{{ partial "home-case-card.html" (dict "page" .page "c" .c "today" $today) }}{{ end }}
+  </div>
+  {{- end }}
+  <a class="home-more" href="{{ $analysis.RelPermalink }}">경매 일정 더보기{{ with len $cases }} ({{ . }}건){{ end }} →</a>
+</section>
+
+<section class="home-sec" aria-labelledby="sec-guide">
+  <div class="home-sec-head">
+    <h2 id="sec-guide">경매 가이드</h2>
+    <a href="{{ $guide.RelPermalink }}">전체 목록 →</a>
+  </div>
+  {{- $path := slice }}
+  {{- range site.Data.home.start_path }}{{ with site.GetPage (printf "/guide/%s" .) }}{{ $path = $path | append . }}{{ end }}{{ end }}
+  {{- with $path }}
+  <h3 class="home-sub">처음이라면 이 순서로</h3>
+  <ol class="home-path">
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}"><span class="hp-title">{{ .Title }}</span>{{ with .Description }}<span class="hp-desc">{{ . | plainify | htmlUnescape | truncate 70 }}</span>{{ end }}</a></li>
+    {{- end }}
+  </ol>
+  {{- end }}
+  {{- $pathLinks := slice }}{{ range $path }}{{ $pathLinks = $pathLinks | append .RelPermalink }}{{ end }}
+  {{- $latest := slice }}
+  {{- range (where site.RegularPages "Type" "guide").ByDate.Reverse }}{{ if not (in $pathLinks .RelPermalink) }}{{ $latest = $latest | append . }}{{ end }}{{ end }}
+  {{- with $latest }}
+  <h3 class="home-sub">새로 올라온 가이드</h3>
+  <ul class="home-latest">
+    {{- range first 5 . }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "1월 2일" }}</time></li>
+    {{- end }}
+  </ul>
+  {{- end }}
+  <a class="home-more" href="{{ $guide.RelPermalink }}">경매 가이드 더보기{{ with len (where site.RegularPages "Type" "guide") }} ({{ . }}편){{ end }} →</a>
+</section>
+
+<section class="home-sec home-method" aria-labelledby="sec-method">
+  <h2 id="sec-method">이 블로그의 분석 방식</h2>
+  <ol class="hm-steps">
+    <li><b>사실은 서류에서</b><span>등기사항전부증명서·매각물건명세서·온비드 공개 자료에 적힌 값만 사건 데이터로 옮깁니다.</span></li>
+    <li><b>판정은 정해진 규칙으로</b><span>말소기준권리·인수/소멸·대항력은 사람이 아니라 공개된 계산 규칙이 판정합니다.</span></li>
+    <li><b>글은 해설만</b><span>계산 결과가 왜 그렇게 나왔는지 법령 근거와 함께 풀어 씁니다. 입찰 권유는 하지 않습니다.</span></li>
+  </ol>
+</section>
+{{- end }}

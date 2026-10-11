@@ -1,0 +1,10 @@
+{
+  "_설명": "홈 화면 설정. start_path는 '처음이라면 이 순서로' 가이드 순서(가이드 slug). 발행 안 된 slug는 자동으로 빠진다.",
+  "start_path": [
+    "what-is-auction",
+    "real-estate-auction-process",
+    "court-auction-bidding-guide",
+    "auction-total-cost-calc",
+    "after-winning-auction-steps"
+  ]
+}

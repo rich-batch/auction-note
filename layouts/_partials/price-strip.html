@@ -1,0 +1,75 @@
+{{- /* 가격 비교 그래프: 가격 축 위에 출처별 한 줄씩, 비교 사례를 점으로 찍고 출처별 평균을 짧은 막대로,
+     이 물건의 최저가(실선, 위 라벨)와 낙찰가(점선, 아래 라벨)를 세로선으로 그린다.
+     사용: partial "price-strip.html" $c — computed.price_gap(by_source)이 있을 때만 그린다.
+     출처 구분은 줄 이름이 맡아서 점 색은 하나로 둔다. 같은 숫자는 바로 아래 표에도 있다(표 보기). */ -}}
+{{- $c := . -}}
+{{- $groups := $c.computed.price_gap.by_source -}}
+{{- $trades := $c.market.trades | default slice -}}
+{{- $min := float $c.sale.minimum -}}
+{{- $bid := 0.0 -}}
+{{- with $c.result }}{{ with .winning_bid }}{{ $bid = float . }}{{ end }}{{ end -}}
+
+{{- /* 축 범위: 모든 값(사례·최저가·낙찰가)을 담는 깔끔한 눈금 간격을 고른다 */ -}}
+{{- $vals := slice $min -}}
+{{- if gt $bid 0.0 }}{{ $vals = $vals | append $bid }}{{ end -}}
+{{- range $trades }}{{ $vals = $vals | append (float .price) }}{{ end -}}
+{{- $rawLo := math.Min $vals -}}
+{{- $rawHi := math.Max $vals -}}
+{{- $step := 1e9 -}}
+{{- range slice 1e6 2e6 5e6 1e7 2e7 5e7 1e8 2e8 5e8 1e9 -}}
+  {{- if and (eq $step 1e9) (le (div (sub $rawHi $rawLo) .) 5.0) }}{{ $step = . }}{{ end -}}
+{{- end -}}
+{{- $lo := mul (math.Floor (div $rawLo $step)) $step -}}
+{{- $hi := mul (math.Ceil (div $rawHi $step)) $step -}}
+{{- if le $hi $lo }}{{ $hi = add $lo $step }}{{ end -}}
+{{- $span := sub $hi $lo -}}
+{{- $nTicks := int (math.Round (div $span $step)) -}}
+
+
+
+<figure class="price-strip" aria-label="가격 비교 그래프">
+  <figcaption class="ps-cap">가격 비교 <span>점 하나 = 비교 사례 하나 · 짧은 막대 = 출처별 평균 · 자세한 값은 점에 마우스를 올리거나 아래 "비교 사례 보기"에서</span></figcaption>
+  <div class="ps-plot">
+    {{- $p := mul 100 (div (sub $min $lo) $span) }}
+    <div class="ps-ref ps-ref-min{{ if lt $p 12.0 }} ps-start{{ else if gt $p 88.0 }} ps-end{{ end }}" style="left: {{ printf "%.2f" $p }}%">
+      <span class="ps-line"></span><span class="ps-tag">최저가 {{ partial "krw.html" $c.sale.minimum }}</span>
+    </div>
+    {{- if gt $bid 0.0 }}
+    {{- $p = mul 100 (div (sub $bid $lo) $span) }}
+    <div class="ps-ref ps-ref-bid{{ if lt $p 12.0 }} ps-start{{ else if gt $p 88.0 }} ps-end{{ end }}" style="left: {{ printf "%.2f" $p }}%">
+      <span class="ps-line"></span><span class="ps-tag">낙찰가 {{ partial "krw.html" $c.result.winning_bid }}</span>
+    </div>
+    {{- end }}
+    <div class="ps-rows">
+      {{- range $g := $groups }}
+      <div class="ps-row">
+        <div class="ps-label">{{ $g.label }} <span>{{ $g.count }}건</span></div>
+        <div class="ps-track">
+          {{- $n := 0 }}{{ range $trades }}{{ if and (eq (.source | default "molit") $g.source) (eq (.kind | default "") ($g.kind | default "")) }}{{ $n = add $n 1 }}{{ end }}{{ end }}
+          {{- if gt $n 1 }}
+          <span class="ps-avg" style="left: {{ printf "%.2f" (mul 100 (div (sub (float $g.avg) $lo) $span)) }}%" title="{{ $g.label }} 평균 {{ partial "krw.html" $g.avg }} ({{ $g.count }}건)"></span>
+          {{- end }}
+          {{- range $trades }}
+          {{- if and (eq (.source | default "molit") $g.source) (eq (.kind | default "") ($g.kind | default "")) }}
+          {{- $tip := slice (partial "krw.html" .price) -}}
+          {{- with .count }}{{ $tip = $tip | append (printf "%d건 평균" (int .)) }}{{ end -}}
+          {{- with .period }}{{ $tip = $tip | append . }}{{ else }}{{ $tip = $tip | append .date }}{{ end -}}
+          {{- with .year }}{{ $tip = $tip | append (printf "%d년식" (int .)) }}{{ end -}}
+          {{- with .mileage_km }}{{ $tip = $tip | append (printf "%skm" (lang.FormatNumber 0 .)) }}{{ end -}}
+          {{- with .area_m2 }}{{ $tip = $tip | append (printf "%v㎡" .) }}{{ end -}}
+          {{- with .bidders }}{{ $tip = $tip | append (printf "응찰 %d명" (int .)) }}{{ end }}
+          <span class="ps-dot" style="left: {{ printf "%.2f" (mul 100 (div (sub (float .price) $lo) $span)) }}%" title="{{ delimit $tip " · " }}" tabindex="0"></span>
+          {{- end }}
+          {{- end }}
+        </div>
+      </div>
+      {{- end }}
+    </div>
+    <div class="ps-axis" aria-hidden="true">
+      {{- range $i := seq 0 $nTicks }}
+      {{- $v := add $lo (mul (float $i) $step) }}
+      <span class="{{ if eq $i 0 }}ps-start{{ else if eq $i $nTicks }}ps-end{{ end }}" style="left: {{ printf "%.2f" (mul 100 (div (sub $v $lo) $span)) }}%">{{ if eq $v 0.0 }}0{{ else if ge $v 1e8 }}{{ strings.TrimSuffix ".0" (printf "%.1f" (div $v 1e8)) }}억{{ else }}{{ lang.FormatNumber 0 (div $v 1e4) }}만{{ end }}</span>
+      {{- end }}
+    </div>
+  </div>
+</figure>

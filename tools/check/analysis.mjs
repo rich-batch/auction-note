@@ -10,10 +10,11 @@
 //   - 계산 결과와 반대되는 결론 금지, 입찰 권유·수익 기대 표현 금지
 //   - computed.review 항목은 [확인 필요: …]로 남기고, 발행 전 사람이 지운다
 import fs from 'node:fs';
-import { researchPath, rel, todayKST } from '../lib/paths.mjs';
+import { researchPath, rel, todayKST, listArticles, articlePath } from '../lib/paths.mjs';
 import { loadCase, isComputedFresh, knownAmounts } from '../lib/cases.mjs';
 import { loadGlossary, relrefFor } from '../lib/glossary.mjs';
 import { validateCase } from '../analysis/rights.mjs';
+import { checkTitle } from '../lib/title.mjs';
 import {
   linkRe, loadArticle, createReport, printReport, sectionTextOf, verifyLinks,
   coverFields, checkCover, checkBodyImages, checkHonesty, checkPersonalInfo, checkIntro, checkDates, checkReferences, checkInternalLinks,
@@ -46,9 +47,10 @@ if (c) {
   const errors = validateCase(c);
   check(!errors.length, `사건 데이터 검증 실패 — node tools/analysis/compute.mjs ${id}:\n    ${errors.join('\n    ')}`);
   check(isComputedFresh(c), `computed가 없거나 입력보다 오래됨 — node tools/analysis/compute.mjs ${id} 실행 후 글이 새 결과와 맞는지 확인`);
-  check(a.title.includes(c.case.number), `제목에 사건번호(${c.case.number})가 없음 — 사건번호로 검색하는 독자가 찾을 수 있게`);
+  const t = checkTitle(a.title, c);
+  t.fails.forEach(m => check(false, m));
+  t.warns.forEach(m => warn(false, m));
 }
-warn(a.title.length <= 36, `제목이 ${a.title.length}자 — 사건번호 포함 30자 안팎 권장: "${a.title}"`);
 
 // 구조: 필수 소제목과 shortcode
 const REQUIRED = [
@@ -98,6 +100,26 @@ if (c?.computed) {
     const claim = body.match(/[^.\n]*(매수인|낙찰자)(이|가)\s?(보증금|권리)[을를]?\s?(인수|떠안)[^.\n]*/g) ?? [];
     warn(!claim.length, `계산 결과는 인수 없음인데 인수한다는 문장이 있음(조건문인지 확인): ${claim.map(s => s.trim().slice(0, 50)).join(' / ')}`);
   }
+}
+
+// 찍어낸 글 방지: 애드센스는 사건만 바꿔 끼운 듯한 글 여러 편을 저품질·대량 생성 콘텐츠로 본다.
+// (1) 서론 첫 문장 틀 (2) 다른 분석 글과 겹치는 문장 비율 (3) 카드 값을 되읽거나 내용 없는 상투 표현
+const firstSentence = body.replace(/^\s+/, '').split('\n')[0];
+check(!/^이 (글|사건)은/.test(firstSentence), `서론 첫 문장이 "${firstSentence.slice(0, 12)}…"로 시작함 — 이 사건에만 있는 사실로 연다(차종·건수·금액 등)`);
+const stock = body.match(/[^.\n]*(단순합니다|하는 게 정확합니다|별도 확인이 필요합니다|지표는 (둘 다|모두) 만점)[^.\n]*/g) ?? [];
+check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${stock.map(x => x.trim().slice(0, 40)).join(' / ')}`);
+{
+  const plain = t => t.split(/^---$/m).slice(2).join('').replace(/\{\{<[^>]*>\}\}/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+  const sentences = t => t.split(/(?<=[.다요])\s+|\n+/).map(x => x.replace(/[\s>*#\-\d]/g, '')).filter(x => x.length >= 25);
+  const grams = x => { const g = new Set(); for (let i = 0; i < x.length - 5; i++) g.add(x.slice(i, i + 6)); return g; };
+  const overlap = (x, y) => { let n = 0; for (const g of x) if (y.has(g)) n++; return n / Math.min(x.size, y.size); };
+  const mine = sentences(plain(fs.readFileSync(file, 'utf8'))).map(grams);
+  const others = listArticles('analysis').filter(o => o !== id)
+    .flatMap(o => sentences(plain(fs.readFileSync(articlePath('analysis', o), 'utf8'))).map(grams));
+  const dup = mine.filter(g => others.some(o => overlap(g, o) > 0.6)).length;
+  const pct = mine.length ? Math.round((dup / mine.length) * 100) : 0;
+  check(pct <= 30, `다른 분석 글과 거의 같은 문장이 ${dup}/${mine.length}개(${pct}%) — 30% 이하로. 일반론은 한두 문장+링크로 줄이고 이 사건 사실로 채운다`);
+  warn(pct <= 15, `다른 분석 글과 거의 같은 문장 ${pct}% — 15% 이하 권장`);
 }
 
 // [확인 필요] 자리: computed.review를 사람이 확인하게 남긴다
