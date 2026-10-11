@@ -1,0 +1,9 @@
+{{- /* 하단 사이트 정보 링크(소개·개인정보처리방침·연락처). 각 페이지 front matter의 menu.footer로 정한다.
+     테마 하단 문구(footer.html) 바로 아래, 스크립트 앞에 끼워지는 확장 지점이다. */ -}}
+{{- with site.Menus.footer }}
+<nav class="site-footer-links" aria-label="사이트 정보">
+  {{- range . }}
+  <a href="{{ .URL }}">{{ .Name }}</a>
+  {{- end }}
+</nav>
+{{- end }}

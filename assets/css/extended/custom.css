@@ -638,3 +638,14 @@
 .result-back { margin: 0 0 8px; font-size: 14px; }
 .result-lede { margin: 10px 0 0; color: var(--content); line-height: 1.7; word-break: keep-all; }
 .result-note { margin-bottom: 28px; font-size: 13px; color: var(--secondary); }
+
+/* ── 하단 사이트 정보 링크 (layouts/_partials/extend_footer.html) ── */
+.site-footer-links {
+  max-width: calc(var(--main-width) + var(--gap) * 2);
+  margin: -16px auto 0;
+  padding: 0 var(--gap) 28px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px;
+  font-size: 13px;
+}
+.site-footer-links a { color: var(--secondary); text-decoration: none; }
+.site-footer-links a:hover { color: var(--primary); text-decoration: underline; }

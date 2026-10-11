@@ -2,7 +2,7 @@
 title: "소개"
 date: 2026-09-14
 menu:
-  main:
+  footer:
     weight: 10
 ShowToc: false
 ShowReadingTime: false

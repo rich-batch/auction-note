@@ -2,7 +2,7 @@
 title: "개인정보처리방침"
 date: 2026-09-14
 menu:
-  main:
+  footer:
     weight: 20
 ShowToc: false
 ShowReadingTime: false

@@ -2,7 +2,7 @@
 title: "연락처"
 date: 2026-09-14
 menu:
-  main:
+  footer:
     weight: 30
 ShowToc: false
 ShowReadingTime: false
