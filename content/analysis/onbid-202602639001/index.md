@@ -3,7 +3,7 @@ title: "경기 광주 재규어 2022년식 공매 (2026-02639-001)"
 author: "rich-batch"
 date: 2026-09-28
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "onbid-202602639001"
 categories: ["권리분석·명도"]
 tags: [광주시, 자동차, 공매재산명세서, 유치권]

@@ -3,7 +3,7 @@ title: "경기 고양 EQ900 2017년식 공매 (2025-15405-003)"
 author: "rich-batch"
 date: 2026-09-28
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "onbid-202515405003"
 categories: ["권리분석·명도"]
 tags: [고양시, 자동차, 압류, 공매재산명세서, 중고차 시세]

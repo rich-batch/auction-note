@@ -3,7 +3,7 @@ title: "경기 화성 에쿠스 2014년식 공매 (2025-14101-002)"
 author: "rich-batch"
 date: 2026-09-28
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "onbid-202514101002"
 categories: ["권리분석·명도"]
 tags: [화성시, 자동차, 압류재산, 유치권]

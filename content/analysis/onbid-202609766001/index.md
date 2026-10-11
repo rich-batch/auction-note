@@ -3,7 +3,7 @@ title: "경기 고양 벤츠 S400 d 2018년식 공매 (2026-09766-001)"
 author: "rich-batch"
 date: 2026-09-28
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "onbid-202609766001"
 categories: ["권리분석·명도"]
 tags: [고양시, 자동차, 유치권, 배분요구]

@@ -3,7 +3,7 @@ title: "인천 영종구 페라리 F8 스파이더 2022년식 공매 (2026-14614
 author: "rich-batch"
 date: 2026-09-28
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "onbid-202614614002"
 categories: ["권리분석·명도"]
 tags: [영종구, 자동차, 유치권, 배분요구]
