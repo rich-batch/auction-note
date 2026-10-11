@@ -649,3 +649,4 @@
 }
 .site-footer-links a { color: var(--secondary); text-decoration: none; }
 .site-footer-links a:hover { color: var(--primary); text-decoration: underline; }
+.post-content .case-later { margin: 12px 0 0; padding-left: 18px; font-size: 14px; line-height: 1.6; }

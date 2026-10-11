@@ -269,3 +269,23 @@ export async function searchOnbidBidResults(paramOverrides = {}) {
     await browser.close();
   }
 }
+
+// 입찰결과 목록에서 이 사건의 결과를 사건 데이터의 result 모양으로 만든다.
+//   - outcome·winning_bid·bidders: 분석한 회차(sale.sale_date) 결과
+//   - later: 그 뒤 회차들 [{ date, minimum, outcome, winning_bid, bidders }] — 첫 회차가 유찰되고 다음 회차에 팔린 경우를 보여 주려고
+// 분석한 회차 결과가 아직 공개되지 않았으면 null.
+export function onbidResultFor(c, rows, today) {
+  const num = s => Number(String(s ?? '').replace(/[^\d]/g, '')) || null;
+  const own = rows
+    .filter(r => r.scrnIndctCltrMngNo === c.case.number && ['0010', '0011'].includes(r.pbctStatCd))
+    .sort((a, b) => a.pbctExctDt.localeCompare(b.pbctExctDt));
+  const pick = r => {
+    const sold = r.pbctStatCd === '0010';
+    return { date: r.pbctExctDt.slice(0, 10), minimum: num(r.lowstBidPrc), outcome: sold ? '매각' : '유찰', winning_bid: sold ? num(r.onbidBidAmt) : null, bidders: num(r.totalBid) };
+  };
+  const main = own.find(r => r.pbctExctDt.slice(0, 10) === c.sale.sale_date);
+  if (!main) return null;
+  const m = pick(main);
+  const later = own.filter(r => r.pbctExctDt.slice(0, 10) > c.sale.sale_date).map(pick);
+  return { outcome: m.outcome, winning_bid: m.winning_bid, bidders: m.bidders, ...(later.length ? { later } : {}), checked_at: today };
+}

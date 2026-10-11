@@ -22,6 +22,11 @@
         <strong>{{ $r.outcome }}</strong>
       {{- end -}}
     </p>
+    {{- range $r.later }}
+    {{- $d1 := time.AsTime .date }}
+    <p class="result-lede">{{ int $d1.Month }}월 {{ $d1.Day }}일 회차(최저가 {{ partial "krw.html" .minimum }})에서는
+      {{- if .winning_bid }} <strong>{{ .outcome }} — {{ partial "krw.html" .winning_bid }}</strong>{{ with .bidders }}, 응찰자 {{ . }}명{{ end }}.{{ else }} 다시 <strong>{{ .outcome }}</strong>됐습니다.{{ end }}</p>
+    {{- end }}
   </header>
 
   <div class="post-content">
@@ -30,7 +35,7 @@
     {{- with $c.computed.price_gap }}
     <h2>비슷한 물건과 견줘 보면</h2>
     {{ partial "price-strip.html" $c }}
-    <p class="result-note">점선이 이 물건의 낙찰가, 실선이 최저가입니다. 점 하나가 비교 사례 하나예요.</p>
+    <p class="result-note">점선이 이 물건의 낙찰가, 실선이 분석한 회차의 최저가입니다. 점 하나가 비교 사례 하나예요.</p>
     {{- end }}
 
     <h2>숫자로 보는 이 물건</h2>

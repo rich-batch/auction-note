@@ -67,6 +67,7 @@ node tools/analysis/scan-court.mjs --court <코드> --date <날짜>   # 그 법�
 node tools/analysis/scan-daily.mjs --date <날짜>  # 공매(온비드)+경매(관심 법원)를 같은 날짜로 한 번에 나열(위 두 스캔을 그대로 실행). 둘 다 분석 가치 낮은 물건(최저가 300만원 미만·공유지분)은 기본 생략 — tools/lib/candidate-filter.mjs, --min-price=0 --include-share로 전부 보기
 node tools/analysis/fetch-court.mjs <법원코드> <사건번호> --sale-date <날짜>  # 사건 데이터 자동 조회(법원경매정보)
 node tools/analysis/fetch-car-market.mjs <id>    # 자동차: 비슷한 차량 온비드 낙찰 사례 조회(--write로 market.trades에 반영), 자동차365·당근 입력 형식 안내
+node tools/analysis/fetch-onbid-result.mjs <id> --write  # 온비드 매각 결과(분석 회차 + 이후 회차) → result. 결과 페이지·배너가 자동 갱신
 node tools/analysis/compute.mjs <id>             # 사건 검증·권리 계산
 node --test tools/analysis/rights.test.mjs       # 계산 엔진 테스트
 tools/auto/batch.sh guide 3                      # 가이드 3편 자동 초안 → PR 3개

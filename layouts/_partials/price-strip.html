@@ -7,7 +7,7 @@
 {{- $trades := $c.market.trades | default slice -}}
 {{- $min := float $c.sale.minimum -}}
 {{- $bid := 0.0 -}}
-{{- with $c.result }}{{ with .winning_bid }}{{ $bid = float . }}{{ end }}{{ end -}}
+{{- $f := dict }}{{ with $c.result }}{{ $f = partial "result-final.html" $c }}{{ with $f.winning_bid }}{{ $bid = float . }}{{ end }}{{ end -}}
 
 {{- /* 축 범위: 모든 값(사례·최저가·낙찰가)을 담는 깔끔한 눈금 간격을 고른다 */ -}}
 {{- $vals := slice $min -}}
@@ -37,7 +37,7 @@
     {{- if gt $bid 0.0 }}
     {{- $p = mul 100 (div (sub $bid $lo) $span) }}
     <div class="ps-ref ps-ref-bid{{ if lt $p 12.0 }} ps-start{{ else if gt $p 88.0 }} ps-end{{ end }}" style="left: {{ printf "%.2f" $p }}%">
-      <span class="ps-line"></span><span class="ps-tag">낙찰가 {{ partial "krw.html" $c.result.winning_bid }}</span>
+      <span class="ps-line"></span><span class="ps-tag">낙찰가 {{ partial "krw.html" $f.winning_bid }}{{ if $f.later }} ({{ $d := time.AsTime $f.date }}{{ int $d.Month }}/{{ $d.Day }}){{ end }}</span>
     </div>
     {{- end }}
     <div class="ps-rows">

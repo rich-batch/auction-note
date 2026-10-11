@@ -32,9 +32,12 @@
   </header>
   {{- with .Params.case }}{{ with index site.Data.cases . }}{{ with .result }}{{ if .outcome }}
   {{- $rp := site.GetPage (printf "/results/%s" $.Params.case) }}
-  <a class="result-banner{{ if eq .outcome "유찰" }} is-failed{{ end }}" href="{{ with $rp }}{{ .RelPermalink }}{{ else }}#매각-결과{{ end }}">
+  <a class="result-banner{{ if eq (partial "result-final.html" (index site.Data.cases $.Params.case)).outcome "유찰" }} is-failed{{ end }}" href="{{ with $rp }}{{ .RelPermalink }}{{ else }}#매각-결과{{ end }}">
     <span class="rb-tag">매각 결과</span>
-    <span class="rb-main">{{ if .winning_bid }}{{ .outcome }} {{ partial "krw.html" .winning_bid }}{{ with .bidders }} · 응찰 {{ . }}명{{ end }}{{ else }}{{ .outcome }}{{ end }}</span>
+    {{- $c := index site.Data.cases $.Params.case }}{{ $f := partial "result-final.html" $c }}
+    <span class="rb-main">
+      {{- if $f.later }}{{ $d0 := time.AsTime $c.sale.sale_date }}{{ int $d0.Month }}월 {{ $d0.Day }}일 {{ .outcome }} → {{ $d1 := time.AsTime $f.date }}{{ int $d1.Month }}월 {{ $d1.Day }}일 {{ end -}}
+      {{ $f.outcome }}{{ with $f.winning_bid }} {{ partial "krw.html" . }}{{ end }}{{ with $f.bidders }} · 응찰 {{ . }}명{{ end }}</span>
     <span class="rb-go">결과 보기 →</span>
   </a>
   {{- end }}{{ end }}{{ end }}{{ end }}

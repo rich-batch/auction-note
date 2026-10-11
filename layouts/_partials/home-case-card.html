@@ -5,7 +5,7 @@
 {{- $risk := partial "case-risk.html" $k -}}
 {{- $riskName := index (dict "none" "인수 예상 없음" "assume" "임차인 인수 가능" "ownership" "소유권 위험" "review" "확인 필요") $risk -}}
 {{- $days := int (math.Round (div ((time.AsTime $c.sale.sale_date).Sub (time.AsTime .today)).Hours 24)) -}}
-{{- $outcome := "" }}{{ with $c.result }}{{ $outcome = .outcome | default "" }}{{ end -}}
+{{- $outcome := "" }}{{ with $c.result }}{{ if .outcome }}{{ $outcome = (partial "result-final.html" $c).outcome }}{{ end }}{{ end -}}
 {{- $dday := "" }}{{ $ddayCls := "" -}}
 {{- if $outcome }}{{ $dday = $outcome }}{{ $ddayCls = "past" }}
 {{- else if gt $days 0 }}{{ $dday = printf "D-%d" $days }}{{ if le $days 7 }}{{ $ddayCls = "soon" }}{{ end }}
@@ -25,7 +25,7 @@
     {{- $d := time.AsTime $c.sale.sale_date }}
     <div><dt>매각기일</dt><dd>{{ $d.Format "06.1.2" }} <small>({{ index (slice "일" "월" "화" "수" "목" "금" "토") (int $d.Weekday) }})</small></dd></div>
   </dl>
-  {{- with $c.result }}{{ if and .outcome .winning_bid }}
-  <p class="hc-result">{{ .outcome }} {{ partial "krw.html" .winning_bid }}{{ with .bidders }} · 응찰 {{ . }}명{{ end }}</p>
-  {{- end }}{{ end }}
+  {{- with $c.result }}{{ if .outcome }}{{ $f := partial "result-final.html" $c }}{{ if $f.winning_bid }}
+  <p class="hc-result">{{ if $f.later }}다음 회차 {{ end }}{{ $f.outcome }} {{ partial "krw.html" $f.winning_bid }}{{ with $f.bidders }} · 응찰 {{ . }}명{{ end }}</p>
+  {{- end }}{{ end }}{{ end }}
 </article>

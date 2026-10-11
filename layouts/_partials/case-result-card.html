@@ -23,6 +23,14 @@
     </div>
     {{- end }}
   </div>
+  {{- with .later }}
+  <ul class="case-later">
+    {{- range . }}
+    {{- $d := time.AsTime .date }}
+    <li><b>이후 회차 {{ int $d.Month }}월 {{ $d.Day }}일</b> — 최저가 {{ partial "krw.html" .minimum }}에서 <b>{{ .outcome }}</b>{{ with .winning_bid }} {{ partial "krw.html" . }}{{ end }}{{ with .bidders }}, 응찰 {{ . }}명{{ end }}</li>
+    {{- end }}
+  </ul>
+  {{- end }}
   <p class="case-source">출처: {{ if $isOnbid }}온비드 매각결과{{ else }}대법원 법원경매정보 매각결과{{ end }} ({{ partial "kdate.html" .checked_at }} 확인)</p>
 </div>
 {{- end }}{{ end }}

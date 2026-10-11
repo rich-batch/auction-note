@@ -121,10 +121,19 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
+    "outcome": "유찰",
     "winning_bid": null,
     "bidders": null,
-    "checked_at": null
+    "later": [
+      {
+        "date": "2026-10-08",
+        "minimum": 1260000000,
+        "outcome": "매각",
+        "winning_bid": 1301777777,
+        "bidders": 2
+      }
+    ],
+    "checked_at": "2026-10-11"
   },
   "computed": {
     "engine_version": 3,

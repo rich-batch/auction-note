@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import { loadCase } from '../lib/cases.mjs';
 import { casePath, todayKST } from '../lib/paths.mjs';
-import { searchOnbidBidResults, BID_RESULT_URL } from '../lib/onbid.mjs';
+import { searchOnbidBidResults, onbidResultFor, BID_RESULT_URL } from '../lib/onbid.mjs';
 
 const argv = process.argv.slice(2);
 const id = argv.find(a => !a.startsWith('--'));
@@ -97,12 +97,11 @@ if (argv.includes('--write')) {
     data.case.vehicle = { ...veh, mileage_km: veh.mileage_km ?? ownVehicle.mileage_km, fuel: veh.fuel ?? ownVehicle.fuel };
     done.push('case.vehicle 주행거리·연료(비어 있던 칸만)');
   }
-  // 분석한 회차(sale.sale_date)의 결과가 공개돼 있고 result가 비어 있으면 채운다(다른 회차 결과는 쓰지 않는다)
-  const ownRound = own.find(r => r.pbctExctDt.slice(0, 10) === data.sale.sale_date);
-  if (ownRound && !data.result?.outcome) {
-    const sold = ownRound.pbctStatCd === '0010';
-    data.result = { outcome: sold ? '매각' : '유찰', winning_bid: sold ? num(ownRound.onbidBidAmt) : null, bidders: num(ownRound.totalBid), checked_at: today };
-    done.push(`result(${data.result.outcome})`);
+  // 분석한 회차(sale.sale_date)의 결과가 공개돼 있고 result가 비어 있으면 채운다(이후 회차는 result.later로)
+  const res = onbidResultFor(data, rows, today);
+  if (res && !data.result?.outcome) {
+    data.result = res;
+    done.push(`result(${res.outcome}${res.later ? ` + 이후 회차 ${res.later.length}건` : ''})`);
   }
   fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
   console.log(`\n${file}: ${done.length ? done.join(', ') + ' 반영' : '바꾼 것 없음'}. 다음: node tools/analysis/compute.mjs ${id}`);

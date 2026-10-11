@@ -1,0 +1,7 @@
+{{- /* 사건의 최종 결과(마지막 회차). result.later(분석 회차 뒤 회차들)가 있으면 그 마지막 것.
+     사용: $f := partial "result-final.html" $c → { date, outcome, winning_bid, bidders, minimum, later(bool) } */ -}}
+{{- $c := . -}}
+{{- $r := $c.result -}}
+{{- $f := dict "date" $c.sale.sale_date "outcome" $r.outcome "winning_bid" $r.winning_bid "bidders" $r.bidders "minimum" $c.sale.minimum "later" false -}}
+{{- range $r.later }}{{ $f = dict "date" .date "outcome" .outcome "winning_bid" .winning_bid "bidders" .bidders "minimum" .minimum "later" true }}{{ end -}}
+{{- return $f -}}
