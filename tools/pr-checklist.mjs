@@ -54,6 +54,7 @@ for (const [file, type, id] of articles) {
     const src = c?.source?.type === 'onbid' ? '온비드' : '법원경매정보';
     lines.push(`- [ ] ${src}의 최신 공고와 사건 데이터(감정가·최저가·매각기일·권리)가 같다 — 기일 변경·취하 여부 포함`);
     lines.push('- [ ] 본문 결론(인수할 권리가 있다/없다)이 글 속 "권리분석" 표와 같은 방향이다');
+    lines.push('- [ ] "입찰 전 확인할 것"에 이 글이 확인하지 못한 것과 독자가 확인할 곳이 분명히 적혀 있다');
     if (c?.result?.outcome) lines.push(`- [ ] 매각 결과(${c.result.outcome}${c.result.winning_bid ? ` ${c.result.winning_bid.toLocaleString('ko-KR')}원` : ''}${c.result.bidders ? `, 응찰 ${c.result.bidders}명` : ''})가 ${src} 공개 결과와 같다`);
     const n = c?.market?.trades?.length ?? 0;
     if (n) lines.push(`- [ ] 비교 시세 ${n}건이 이 물건과 비슷하다 (${c.case.category === 'car' ? '연식·주행거리·트림' : '면적·층·단지'}) — 너무 다른 사례는 빼 달라고 요청`);

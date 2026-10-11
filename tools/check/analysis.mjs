@@ -124,8 +124,14 @@ check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${s
 
 // [확인 필요] 자리: computed.review를 사람이 확인하게 남긴다
 const reviewMarks = body.match(/\[확인 필요[^\]]*\]/g) ?? [];
-if (a.isDraft) warn(!(c?.computed?.review?.length) || reviewMarks.length > 0, `computed.review ${c?.computed?.review?.length}건이 있는데 본문에 [확인 필요: …] 자리가 없음`);
-else check(!reviewMarks.length, `draft: false인데 [확인 필요] ${reviewMarks.length}곳이 남아 있음`);
+// 운영자는 [확인 필요]를 대신 확인할 수 없다 — 표시를 남기지 않고 "입찰 전 확인할 것"에 독자용 문장으로 쓴다
+if (a.isDraft) warn(!reviewMarks.length, `[확인 필요] ${reviewMarks.length}곳 — 표시 대신 "이 글에서 확인하지 못했다 + 어디서 확인하는지"를 독자용 문장으로 쓴다`);
+else check(!reviewMarks.length, `[확인 필요] ${reviewMarks.length}곳이 남아 있음 — 독자용 문장("이 글에서 확인하지 못했다 + 어디서 확인하는지")으로 바꾼다`);
+if (h2.includes('입찰 전 확인할 것')) {
+  const items = (sectionText('입찰 전 확인할 것').match(/^\s*(\d+\.|[-*])\s/gm) ?? []).length;
+  const need = c?.computed?.review?.length ?? 0;
+  check(items >= need, `"## 입찰 전 확인할 것" 항목 ${items}개 — 계산 도구가 사람 확인으로 넘긴 항목(review) ${need}개를 모두 옮겨야 함`);
+}
 const expMarks = body.match(/\[경험 추가 필요[^\]]*\]/g) ?? [];
 // 운영자는 경험을 덧붙이지 않는다 — 경험 자리 표시는 만들지 않는다(초안이면 경고, 공개 기준이면 실패)
 if (a.isDraft) warn(!expMarks.length, `[경험 추가 필요] ${expMarks.length}곳 — 경험 자리 표시는 쓰지 않는다. 지우고 사건 데이터로 채운다`);
