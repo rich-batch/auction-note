@@ -44,7 +44,8 @@ export function loadArticle(file, expectedType) {
     file,
     dir: path.dirname(path.resolve(file)),
     text, fm, front, body,
-    isDraft: /^draft:\s*true\s*$/m.test(front),
+    // --as-published: PR 검사에서 "머지하면 공개될 글"로 보고 검사한다(초안 표시가 남아 있으면 실패)
+    isDraft: /^draft:\s*true\s*$/m.test(front) && !process.argv.includes('--as-published'),
     date: front.match(/^date:\s*"?(\d{4}-\d{2}-\d{2})/m)?.[1],
     lastmod: front.match(/^lastmod:\s*"?(\d{4}-\d{2}-\d{2})/m)?.[1],
     title: front.match(/^title:\s*"?(.+?)"?\s*$/m)?.[1] ?? '',
@@ -241,6 +242,8 @@ export function checkInternalLinks(a, r) {
     const [, type, id] = m;
     const draft = readDraft(type, id);
     r.check(draft !== null, `relref 대상 글이 없음: /${type}/${id}`);
-    if (draft !== null && !a.isDraft) r.check(!draft, `발행 글이 초안(/${type}/${id})을 링크함 — 발행 빌드에서 relref가 실패한다`);
+    // PR 검사에서는 같은 PR로 함께 공개될 글(PUBLISHING_FILES 목록)은 초안이어도 괜찮다
+    const publishingTogether = (process.env.PUBLISHING_FILES ?? '').split(/\s+/).includes(`content/${type}/${id}/index.md`);
+    if (draft !== null && !a.isDraft && !publishingTogether) r.check(!draft, `공개될 글이 공개되지 않은 초안(/${type}/${id})을 링크함 — 그 글을 같은 PR로 함께 공개하거나 링크를 뺀다`);
   }
 }
