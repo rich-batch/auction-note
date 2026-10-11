@@ -48,7 +48,6 @@ TocOpen: false
 
 같은 보관소, 같은 날 공매에서 [EQ900]({{< relref "/analysis/onbid-202515405003" >}})은 최저가 언저리에서 1명이 가져갔고, 이 차는 7명이 경쟁했습니다([온비드 물건입찰결과](https://www.onbid.co.kr/op/cltrpbancinf/bidrsltmng/cltrbidrslt/CltrBidRsltController/mvmnCltrBidRsltClg.do)). 두 차의 차이는 주행거리(17만 km 대 10만 km)와 수입 브랜드 수요로 보입니다. 감정가가 시장의 관심을 그대로 반영하지 못했다는 점은 두 차가 똑같았고요.
 
-[경험 추가 필요: 이 차를 보관소에서 봤다면 외관·실내 상태가 10만 km 주행과 어울렸는지]
 
 ## 확인 지표 요약
 
