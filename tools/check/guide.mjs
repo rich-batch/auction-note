@@ -86,8 +86,9 @@ checkInternalLinks(a, r);
 check(/^\|.+\|\s*\n\|\s*:?-{3,}/m.test(body), '마크다운 표가 없음');
 
 const placeholders = body.match(/\[경험 추가 필요[^\]]*\]/g) ?? [];
-if (a.isDraft) warn(placeholders.length > 0, '[경험 추가 필요] 자리가 0곳 — 사람의 경험이 들어갈 자리를 표시했는지 확인');
-else check(!placeholders.length, `draft: false인데 [경험 추가 필요] ${placeholders.length}곳이 남아 있음`);
+// 운영자는 경험을 덧붙이지 않는다 — 경험 자리 표시는 만들지 않는다(초안이면 경고, 공개 기준이면 실패)
+if (a.isDraft) warn(!placeholders.length, `[경험 추가 필요] ${placeholders.length}곳 — 경험 자리 표시는 쓰지 않는다. 지우고 실제 분석 사례·공식 원문·계산 예시로 채운다`);
+else check(!placeholders.length, `[경험 추가 필요] ${placeholders.length}곳이 남아 있음 — 표시째 지운다(운영자는 경험을 덧붙이지 않는다)`);
 
 // 한국어 리듬 (AI 티 감지) — 정확한 문장 분리는 아니지만 극단적인 반복만 잡는 대략적 신호
 const proseOnly = body

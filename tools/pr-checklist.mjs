@@ -45,7 +45,7 @@ for (const [file, type, id] of articles) {
   for (const m of marks) {
     const what = (m[2] ?? '').replace(/\s+/g, ' ').trim();
     if (m[1] === '확인 필요') lines.push(`- [ ] **확인:** ${what} → 확인해서 본문에 반영하고 \`[확인 필요]\` 표시를 지운다`);
-    if (m[1] === '경험 추가 필요') lines.push(`- [ ] **내 경험 넣기:** ${what} → 채우거나, 쓸 경험이 없으면 표시째 지운다`);
+    if (m[1] === '경험 추가 필요') lines.push(`- [ ] **경험 자리 표시 지우기:** ${what} → 경험은 넣지 않으니 표시째 지운다(필요하면 그 문단을 다듬는다)`);
     if (m[1] === '이미지 필요') lines.push(`- [ ] **이미지:** ${what} → 직접 만든 이미지를 글 폴더에 넣고 표시를 지운다`);
   }
   if (type === 'analysis') {

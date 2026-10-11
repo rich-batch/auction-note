@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 글 초안 1편을 헤드리스 클로드 코드(claude -p)로 만들어 PR을 올린다.
 # 클로드 API 토큰이 아니라 이 컴퓨터에 로그인된 클로드 코드 구독 세션을 쓴다.
-# 스킬은 "초안까지만" 만든다([경험 추가 필요]·[확인 필요] 자리 남김, draft: true 유지, 커밋·푸시 안 함).
+# 스킬은 "초안까지만" 만든다([확인 필요] 자리 남김, draft: true 유지, 커밋·푸시 안 함). 경험 자리 표시는 만들지 않는다.
 # 여기서는 PR만 올린다. 사람이 PR의 체크박스를 다 확인하고 머지하면 그때 자동으로 공개·배포된다.
 #
 # 사용법: tools/auto/run-one.sh <guide|analysis> <id>
@@ -36,7 +36,7 @@ if [ "$TYPE" = "guide" ]; then
   LABEL="가이드"
   PROMPT="write-guide 스킬로 새 글 1편을 작성해줘 (기본 --type info). 대상: render-prompt.mjs --slug $ID 한 편만. 다른 글은 절대 건드리지 마라.
 0단계 조사 → 1단계 글쓰기 → ELI5 커버 이미지 생성 → 2단계 셀프 리뷰 → tools/check/guide.mjs 검사와 FAIL 수정까지,
-스킬 지시를 사람에게 되묻지 말고 끝까지 진행해라. 판단이 필요한 부분은 [경험 추가 필요]처럼 스킬이 정한 표시만 남기고,
+스킬 지시를 사람에게 되묻지 말고 끝까지 진행해라. 사람이 확인해야 할 사실은 [확인 필요: …] 표시만 남기고(경험 자리 표시는 만들지 마라),
 draft는 true로 유지하고 커밋이나 푸시는 하지 마라. 이미 있는 슬러그라 SKIPPED로 건너뛰게 되면 그렇다고만 보고하고 끝내라."
   PATHS=(content/guide pipeline/guide)
 else
@@ -72,7 +72,7 @@ git commit -m "[$LABEL] $ID 초안 자동 생성 (검토 필요)
 PR을 머지하면 자동으로 공개·배포됩니다(.github/workflows/publish.yml)."
 git push -u origin "$BRANCH"
 
-# PR 본문 = 머지 전 확인할 것(체크박스). 글 속 [확인 필요]·[경험 추가 필요] 하나하나가 칸이 된다.
+# PR 본문 = 머지 전 확인할 것(체크박스). 글 속 [확인 필요] 하나하나가 칸이 된다.
 # PR 검사(.github/workflows/pr-check.yml)가 커밋이 추가될 때마다 같은 목록을 다시 채운다(체크한 칸은 유지).
 BODY_FILE="$(mktemp)"
 node tools/pr-checklist.mjs origin/main > "$BODY_FILE"

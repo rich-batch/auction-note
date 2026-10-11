@@ -127,7 +127,9 @@ const reviewMarks = body.match(/\[확인 필요[^\]]*\]/g) ?? [];
 if (a.isDraft) warn(!(c?.computed?.review?.length) || reviewMarks.length > 0, `computed.review ${c?.computed?.review?.length}건이 있는데 본문에 [확인 필요: …] 자리가 없음`);
 else check(!reviewMarks.length, `draft: false인데 [확인 필요] ${reviewMarks.length}곳이 남아 있음`);
 const expMarks = body.match(/\[경험 추가 필요[^\]]*\]/g) ?? [];
-if (!a.isDraft) check(!expMarks.length, `draft: false인데 [경험 추가 필요] ${expMarks.length}곳이 남아 있음`);
+// 운영자는 경험을 덧붙이지 않는다 — 경험 자리 표시는 만들지 않는다(초안이면 경고, 공개 기준이면 실패)
+if (a.isDraft) warn(!expMarks.length, `[경험 추가 필요] ${expMarks.length}곳 — 경험 자리 표시는 쓰지 않는다. 지우고 사건 데이터로 채운다`);
+else check(!expMarks.length, `[경험 추가 필요] ${expMarks.length}곳이 남아 있음 — 표시째 지운다(운영자는 경험을 덧붙이지 않는다)`);
 
 // 참고 자료·조사 노트
 const refsText = h2.includes('참고 자료') ? sectionText('참고 자료') : '';

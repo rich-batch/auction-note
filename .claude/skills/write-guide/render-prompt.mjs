@@ -47,6 +47,19 @@ if (!fs.existsSync(tplPath)) {
 }
 const tpl = fs.readFileSync(tplPath, 'utf8');
 
+// 경험 대신 끌어올 "이 블로그가 실제로 분석한 사건". 공개된(draft: false) 분석 글만 — 초안을 링크하면 발행 빌드가 실패한다.
+function analysisCases() {
+  const lines = [];
+  for (const id of listArticles('analysis')) {
+    const text = fs.readFileSync(articlePath('analysis', id), 'utf8');
+    if (/^draft:\s*true\s*$/m.test(text)) continue;
+    const title = text.match(/^title:\s*"?(.+?)"?\s*$/m)?.[1] ?? id;
+    const desc = text.match(/^description:\s*"?(.+?)"?\s*$/m)?.[1] ?? '';
+    lines.push(`- ${title} — 링크: [${title}]({{< relref "/analysis/${id}" >}}) | ${desc}`);
+  }
+  return lines.join('\n') || '(아직 공개된 분석 글 없음 — 실제 사례 연결은 건너뛴다)';
+}
+
 function existingPosts(excludeSlug) {
   const lines = [];
   for (const slug of listArticles('guide').filter(s => s !== excludeSlug)) {
@@ -88,8 +101,9 @@ for (const r of targets) {
     date: today(),
     created: exists(r) ? (fs.readFileSync(articlePath('guide', r.slug), 'utf8').match(/^date:\s*"?(\d{4}-\d{2}-\d{2})/m)?.[1] ?? today()) : today(),
     existing_posts: existingPosts(r.slug),
+    analysis_cases: analysisCases(),
     related_keywords: related(r),
-    my_experience: r.my_experience || '(없음 — 1인칭 경험 문장 금지, [경험 추가 필요: ...] 표시만)',
+    my_experience: r.my_experience || '(없음 — 1인칭 경험 문장도, [경험 추가 필요] 표시도 쓰지 않는다)',
     research_path: rel(researchPath('guide', r.slug)),
   };
   console.log(`\n=== JOB mode=${mode} priority=${r.priority} keyword=${r.keyword} output=${outPath(r)} research=${vars.research_path} type=${type}`);
