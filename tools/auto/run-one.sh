@@ -2,7 +2,7 @@
 # 글 초안 1편을 헤드리스 클로드 코드(claude -p)로 만들어 PR을 올린다.
 # 클로드 API 토큰이 아니라 이 컴퓨터에 로그인된 클로드 코드 구독 세션을 쓴다.
 # 스킬은 "초안까지만" 만든다([경험 추가 필요]·[확인 필요] 자리 남김, draft: true 유지, 커밋·푸시 안 함).
-# 여기서는 PR만 올리고 병합·발행은 사람이 GitHub에서 리뷰 후 결정한다.
+# 여기서는 PR만 올린다. 사람이 PR의 체크박스를 다 확인하고 머지하면 그때 자동으로 공개·배포된다.
 #
 # 사용법: tools/auto/run-one.sh <guide|analysis> <id>
 #   guide    id = keywords.csv의 slug          (write-guide 스킬)
@@ -39,10 +39,6 @@ if [ "$TYPE" = "guide" ]; then
 스킬 지시를 사람에게 되묻지 말고 끝까지 진행해라. 판단이 필요한 부분은 [경험 추가 필요]처럼 스킬이 정한 표시만 남기고,
 draft는 true로 유지하고 커밋이나 푸시는 하지 마라. 이미 있는 슬러그라 SKIPPED로 건너뛰게 되면 그렇다고만 보고하고 끝내라."
   PATHS=(content/guide pipeline/guide)
-  CHECKLIST="- [ ] \`[경험 추가 필요]\` 자리를 실제 경험으로 채웠는가
-- [ ] ELI5 커버 이미지가 사실을 왜곡하지 않는가 (직접 열어서 확인)
-- [ ] 참고 자료 링크가 실제로 열리는가: \`node tools/check/guide.mjs content/guide/$ID/index.md --verify-links\`
-- [ ] \`node tools/check/guide.mjs content/guide/$ID/index.md\` FAIL 항목이 없는가"
 else
   LABEL="분석"
   PROMPT="analyze-case 스킬로 사건 $ID 의 분석 글 1편을 작성해줘. 대상: render-prompt.mjs --case $ID 한 건만. 다른 글·다른 사건 데이터는 절대 건드리지 마라.
@@ -50,10 +46,6 @@ compute.mjs 확인 → 0단계 조사 노트 → 1단계 글쓰기 → 2단계 �
 스킬 지시를 사람에게 되묻지 말고 끝까지 진행해라. data/cases/$ID.json의 입력값은 고치지 마라(INVALID면 그렇다고만 보고하고 끝내라).
 확인이 필요한 부분은 [확인 필요: …] 표시만 남기고, draft는 true로 유지하고 커밋이나 푸시는 하지 마라."
   PATHS=(content/analysis pipeline/analysis data/cases)
-  CHECKLIST="- [ ] \`[확인 필요]\` 항목을 서류·현장으로 확인하고 본문에 반영했는가 (계산 도구 review 포함)
-- [ ] 최신 매각물건명세서와 \`data/cases/$ID.json\`이 여전히 같은가 (매각기일 변경·취하 여부)
-- [ ] 이름·번지·동호수 등 개인정보가 없는가
-- [ ] \`node tools/check/analysis.mjs content/analysis/$ID/index.md\` FAIL 항목이 없는가"
 fi
 
 # 3) 헤드리스 클로드 코드 실행.
@@ -77,19 +69,19 @@ git add -- "${PATHS[@]}"
 git commit -m "[$LABEL] $ID 초안 자동 생성 (검토 필요)
 
 로컬 스케줄러가 헤드리스 claude -p로 만든 초안입니다.
-draft: true 상태라 병합돼도 사이트에는 아직 노출되지 않습니다."
+PR을 머지하면 자동으로 공개·배포됩니다(.github/workflows/publish.yml)."
 git push -u origin "$BRANCH"
 
+# PR 본문 = 머지 전 확인할 것(체크박스). 글 속 [확인 필요]·[경험 추가 필요] 하나하나가 칸이 된다.
+# PR 검사(.github/workflows/pr-check.yml)가 커밋이 추가될 때마다 같은 목록을 다시 채운다(체크한 칸은 유지).
+BODY_FILE="$(mktemp)"
+node tools/pr-checklist.mjs origin/main > "$BODY_FILE"
 gh pr create \
   --title "[자동 초안][$LABEL] $ID" \
   --base main \
   --head "$BRANCH" \
-  --body "로컬 자동화(launchd + claude -p 헤드리스)가 만든 초안 PR입니다. 병합 전에 아래를 확인해주세요.
-
-$CHECKLIST
-- [ ] 발행할 준비가 되면 \`draft: false\`로 바꿔 이 브랜치에 커밋
-
-\`draft: true\`인 동안은 병합해도 실제 사이트에는 노출되지 않습니다."
+  --body-file "$BODY_FILE"
+rm -f "$BODY_FILE"
 
 # 6) 다음 실행에 방해되지 않도록 main으로 되돌린다
 git checkout main
