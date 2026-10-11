@@ -3,7 +3,7 @@ title: 경매 절차, 얼마나 걸릴까
 author: rich-batch
 date: 2026-09-19
 lastmod: 2026-10-11
-draft: true
+draft: false
 volatile: false
 categories: ["경매 절차"]
 tags: [경매 절차, 부동산 경매, 매각기일, 배당요구종기, 매각허가결정, 대금지급기한, 타임라인]
