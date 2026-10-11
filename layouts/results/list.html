@@ -1,0 +1,32 @@
+{{- /* /results/ — 결과가 나온 물건 목록(최근 매각기일 순). 검색·사이트맵 제외(content/results/_index.md). */ -}}
+{{- define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}<p class="cal-desc">{{ . }}</p>{{ end }}
+</header>
+{{- $items := slice -}}
+{{- range .Pages }}{{ $items = $items | append (dict "page" . "c" (index site.Data.cases .Params.case) "date" (index site.Data.cases .Params.case).sale.sale_date) }}{{ end -}}
+{{- with $items }}
+<div class="hc-grid">
+  {{- range $it := sort . "date" "desc" }}
+  {{- $p := $it.page }}{{ $c := $it.c }}
+  <article class="hc-card">
+    {{- $r := $c.result }}
+    <div class="hc-head">
+      <span class="hc-dday {{ if eq $r.outcome "유찰" }}past{{ end }}">{{ $r.outcome }}</span>
+      <span class="hc-cat">{{ partial "category-name.html" $c.case.category }}</span>
+      {{- with $r.bidders }}<span>응찰 {{ . }}명</span>{{ end }}
+    </div>
+    <h3 class="hc-title"><a href="{{ $p.RelPermalink }}">{{ $p.Params.analysisTitle }}</a></h3>
+    <dl class="hc-nums">
+      <div><dt>최저가</dt><dd>{{ partial "krw.html" $c.sale.minimum }}</dd></div>
+      <div><dt>낙찰가</dt><dd>{{ with $r.winning_bid }}{{ partial "krw.html" . }}{{ else }}-{{ end }}</dd></div>
+      <div><dt>최저가 대비</dt><dd>{{ with $r.winning_bid }}{{ div (math.Round (mul (div (float .) (float $c.sale.minimum)) 1000)) 10 }}%{{ else }}-{{ end }}</dd></div>
+    </dl>
+  </article>
+  {{- end }}
+</div>
+{{- else }}
+<p class="cal-empty">아직 결과가 나온 물건이 없습니다.</p>
+{{- end }}
+{{- end }}

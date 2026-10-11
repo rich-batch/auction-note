@@ -1,0 +1,52 @@
+{{- /* 사건별 매각 결과 페이지(/results/<id>/, content/results/_content.gotmpl이 자동 생성). 검색·사이트맵 제외.
+     내용은 전부 사건 데이터에서 온다: 한 줄 요약 → 결과 카드 → 가격 비교 그래프(낙찰가 선) → 핵심 숫자 → 분석 글 링크. */ -}}
+{{- define "main" }}
+{{- $c := partial "case-data.html" . -}}
+{{- $r := $c.result -}}
+{{- $analysis := site.GetPage (printf "/analysis/%s" $c.id) -}}
+{{- $d := time.AsTime $c.sale.sale_date -}}
+{{- $wd := index (slice "일" "월" "화" "수" "목" "금" "토") (int $d.Weekday) -}}
+<article class="post-single result-page">
+  <header class="post-header">
+    {{- with $analysis }}<p class="result-back"><a href="{{ .RelPermalink }}">← 권리분석 글로 돌아가기</a></p>{{ end }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    <p class="result-lede">
+      {{- printf "%d년 %d월 %d일(%s) " $d.Year (int $d.Month) $d.Day $wd -}}
+      {{- if $r.winning_bid -}}
+        {{ $r.outcome }} — <strong>{{ partial "krw.html" $r.winning_bid }}</strong>.
+        최저가의 {{ div (math.Round (mul (div (float $r.winning_bid) (float $c.sale.minimum)) 1000)) 10 }}%,
+        감정가의 {{ div (math.Round (mul (div (float $r.winning_bid) (float $c.sale.appraisal)) 1000)) 10 }}%{{ with $r.bidders }}, 응찰자 {{ . }}명{{ end }}.
+      {{- else if eq $r.outcome "유찰" -}}
+        회차는 응찰자가 없어 <strong>유찰</strong>됐습니다. 최저가 {{ partial "krw.html" $c.sale.minimum }}(감정가의 {{ $c.computed.minimum_ratio }}%)에서도 입찰한 사람이 없었습니다.
+      {{- else -}}
+        <strong>{{ $r.outcome }}</strong>
+      {{- end -}}
+    </p>
+  </header>
+
+  <div class="post-content">
+    {{ partial "case-result-card.html" $c }}
+
+    {{- with $c.computed.price_gap }}
+    <h2>비슷한 물건과 견줘 보면</h2>
+    {{ partial "price-strip.html" $c }}
+    <p class="result-note">점선이 이 물건의 낙찰가, 실선이 최저가입니다. 점 하나가 비교 사례 하나예요.</p>
+    {{- end }}
+
+    <h2>숫자로 보는 이 물건</h2>
+    <dl class="case-grid result-grid">
+      <div><dt>감정가</dt><dd>{{ partial "krw.html" $c.sale.appraisal }}</dd></div>
+      <div><dt>최저가</dt><dd>{{ partial "krw.html" $c.sale.minimum }} ({{ $c.computed.minimum_ratio }}%)</dd></div>
+      <div><dt>그전 유찰</dt><dd>{{ $c.sale.failed_rounds | default 0 }}회</dd></div>
+      {{- with $c.case.vehicle }}{{ with .mileage_km }}<div><dt>주행거리</dt><dd>{{ lang.FormatNumber 0 . }}km</dd></div>{{ end }}{{ end }}
+      {{- with $c.case.area_m2 }}<div><dt>전용면적</dt><dd>{{ lang.FormatNumber 2 . }}㎡</dd></div>{{ end }}
+      <div><dt>인수 위험</dt><dd>{{ index (dict "none" "인수 예상 없음" "assume" "인수 가능 금액 있음" "ownership" "소유권 위험" "review" "확인 필요") (partial "case-risk.html" $c.computed) }}</dd></div>
+      <div class="case-wide"><dt>{{ if $c.case.vehicle }}보관 장소{{ else }}소재지{{ end }}</dt><dd>{{ $c.case.region }}</dd></div>
+    </dl>
+
+    {{- with $analysis }}
+    <a class="home-more" href="{{ .RelPermalink }}">이 물건의 권리분석 읽기 →</a>
+    {{- end }}
+  </div>
+</article>
+{{- end }}

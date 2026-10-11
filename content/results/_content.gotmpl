@@ -1,0 +1,25 @@
+{{- /* 자동 생성: 사건별 매각 결과 페이지(/results/<사건ID>/).
+       사건 데이터(data/cases/<id>.json)에 result.outcome이 있고, 그 사건의 분석 글이 공개돼 있을 때만 만든다
+       (초안 분석 글의 결과는 hugo server -D 같은 초안 포함 빌드에서만 보인다).
+       결과 페이지는 숫자 위주라 내용이 얇아 구글 검색·사이트맵에서 뺀다(robotsNoIndex, sitemap.disable) —
+       분석 글과 내용이 겹치는 얇은 페이지가 검색에 잡혀 사이트 품질 평가를 깎지 않게 하려는 것. */ -}}
+{{- range $id, $c := site.Data.cases -}}
+  {{- with $c.result -}}{{- if .outcome -}}
+    {{- $file := printf "content/analysis/%s/index.md" $id -}}
+    {{- if os.FileExists $file -}}
+      {{- $text := os.ReadFile $file -}}
+      {{- $isDraft := findRE `(?m)^draft:\s*true\s*$` $text -}}
+      {{- if or (not $isDraft) site.BuildDrafts -}}
+        {{- $title := index (findRESubmatch `(?m)^title:\s*"?(.+?)"?\s*$` $text 1) 0 1 -}}
+        {{- $.AddPage (dict
+            "path" $id
+            "title" (printf "%s 매각 결과" $title)
+            "type" "result"
+            "dates" (dict "date" (time.AsTime ($c.result.checked_at | default $c.sale.sale_date)))
+            "sitemap" (dict "disable" true)
+            "params" (dict "case" $id "robotsNoIndex" true "analysisTitle" $title "draft_source" (gt (len $isDraft) 0))
+        ) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}{{- end -}}
+{{- end -}}

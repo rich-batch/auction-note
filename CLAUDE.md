@@ -32,6 +32,7 @@ layouts/_shortcodes/case-*.html     분석 글 표 (사건 데이터에서 그�
 content/analysis/_content.gotmpl    자동 생성: 월별 일정(/analysis/2026-10/), 분류 페이지(/analysis/apartment/)와 그 월별 일정
 layouts/home.html                   홈: 검색 → 분류·조건 바로가기 → 경매 일정(D-day 카드, _partials/home-case-card.html) → 가이드(처음 순서는 data/home.json) → 분석 방식
 layouts/_partials/calendar.html     물건 분석 일정 달력 (평일 5칸, 발행된 글만) — /analysis/ 메인이 이번 달 달력
+content/results/_content.gotmpl     자동 생성: 사건별 매각 결과 페이지(/results/<사건ID>/) — 결과(result.outcome)가 있고 분석 글이 공개된 사건만. 숫자 위주라 검색·사이트맵 제외(robotsNoIndex). 분석 글 맨 위 배너(layouts/analysis/single.html)가 이 페이지로 연결
 layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정렬은 assets/js/analysis-search.js가 브라우저에서 처리, 필터 상태는 URL 쿼리)
 ```
 
