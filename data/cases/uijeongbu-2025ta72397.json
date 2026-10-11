@@ -42,8 +42,8 @@
       "use": "주거",
       "registered_on": "2023-12-20",
       "fixed_date": null,
-      "deposit": 0,
-      "monthly_rent": 0,
+      "deposit": null,
+      "monthly_rent": null,
       "dividend_claim": false,
       "dividend_claim_date": null,
       "occupies": true,
@@ -54,8 +54,8 @@
       "use": "주거",
       "registered_on": "2023-11-10",
       "fixed_date": null,
-      "deposit": 0,
-      "monthly_rent": 0,
+      "deposit": null,
+      "monthly_rent": null,
       "dividend_claim": false,
       "dividend_claim_date": null,
       "occupies": true,
@@ -85,9 +85,10 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
-    "winning_bid": null,
+    "outcome": "매각",
+    "winning_bid": 88333000,
     "bidders": null,
-    "checked_at": null
+    "checked_at": "2026-10-11",
+    "later": []
   }
 }

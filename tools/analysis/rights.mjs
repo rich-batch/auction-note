@@ -16,7 +16,7 @@
 import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 
-export const ENGINE_VERSION = 3; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음
+export const ENGINE_VERSION = 4; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review
 
 export const BASE_KINDS = ['근저당권', '저당권', '압류', '가압류', '담보가등기', '경매개시결정'];
 // 말소기준권리보다 앞서면 매수인이 인수하는 권리 (뒤면 소멸)
@@ -595,6 +595,13 @@ export function computeCase(c, now = new Date()) {
   const surviving = rightResults.filter(r => r.effect === '인수');
   if (spec.surviving_rights_text && /없음/.test(spec.surviving_rights_text) && surviving.length) {
     review.push(`매각물건명세서는 "인수되는 권리 없음"인데 계산 결과 인수 ${surviving.length}건 — 입력 오류인지 확인`);
+  }
+  // 반대 방향: 명세서가 매수인이 떠안는 권리(대항할 수 있는 임차권등기 등)를 적었는데 계산 결과엔 인수가 없으면,
+  // 등기·임차인 입력에서 빠진 것이다 — 예: 임차권등기명령으로 대항력을 유지한 채 이사 간 임차인은 현황조사서에 안 잡힌다
+  // (주택임대차보호법 제3조의3제5항). 명세서가 법원의 공식 판단이니 계산 결과로 덮지 않고 사람 확인으로 넘긴다.
+  const opposableTenants = tenantResults.filter(t => t.opposable === true);
+  if (spec.surviving_rights_text && !/없음/.test(spec.surviving_rights_text) && /인수|대항/.test(spec.surviving_rights_text) && !surviving.length && !opposableTenants.length) {
+    review.push(`매각물건명세서는 매수인이 인수하는 권리를 적었는데("${spec.surviving_rights_text}") 계산 결과엔 인수가 없음 — 등기·임차인 입력에서 빠진 권리가 있는지 확인`);
   }
   if (spec.base_right_text && base) {
     const d = base.date.replace(/-/g, '.');

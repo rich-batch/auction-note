@@ -132,8 +132,8 @@
     "checked_at": "2026-10-11"
   },
   "computed": {
-    "engine_version": 3,
-    "input_hash": "7742e38a15e55650",
+    "engine_version": 4,
+    "input_hash": "03a741e51971eb9f",
     "computed_at": "2026-10-11",
     "base_right": null,
     "rights": [],

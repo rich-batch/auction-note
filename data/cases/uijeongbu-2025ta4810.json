@@ -51,9 +51,10 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
-    "winning_bid": null,
+    "outcome": "매각",
+    "winning_bid": 155100000,
     "bidders": null,
-    "checked_at": null
+    "checked_at": "2026-10-11",
+    "later": []
   }
 }

@@ -166,9 +166,9 @@ export function buildTenantsFromStatusReport(data) {
       use: use ?? '주거',
       registered_on,
       fixed_date: null, // 현황조사서는 확정일자를 다루지 않는다(rgstryCrtcpCfmtnCtt는 "확정일자 확인 여부"일 뿐 날짜가 아님)
-      deposit: 0,
-      monthly_rent: 0,
-      dividend_claim: false,
+      deposit: null, // 현황조사서에 보증금이 없다 — 0으로 두면 "인수 0원"처럼 틀린 결론이 나온다. 미상(null)이면 계산 도구가 review로 남긴다
+      monthly_rent: null,
+      dividend_claim: false, // 배당요구 여부도 이 서류엔 없다 — 매각물건명세서로 확인 전까지 잠정
       dividend_claim_date: null,
       occupies: true,
       lease_registered: false,
