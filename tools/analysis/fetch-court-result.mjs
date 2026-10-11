@@ -101,6 +101,12 @@ for (const id of ids) {
   data.spec_sheet ??= {};
   if (!data.spec_sheet.base_right_text && info.tprtyRnkHypthcStngDts) data.spec_sheet.base_right_text = info.tprtyRnkHypthcStngDts;
   if (!data.spec_sheet.surviving_rights_text && info.ndstrcRghCtt) data.spec_sheet.surviving_rights_text = info.ndstrcRghCtt;
+  // 전용면적: 물건상세 건물 목록의 "전유" 행(예: "철근콘크리트조 / 84.92㎡")에서 면적이 하나뿐일 때만 채운다
+  if (data.case.area_m2 == null) {
+    const own = (goods?.bldSdtrDtlLstAll ?? []).flat().filter(b => b.rletDvsDts === '전유');
+    const areas = own.flatMap(b => [...(b.bldSdtrDtlDts ?? '').matchAll(/([\d.]+)㎡/g)].map(m => Number(m[1])));
+    if (own.length === 1 && areas.length === 1) { data.case.area_m2 = areas[0]; console.log(`  case.area_m2 → ${areas[0]}㎡(전유)`); }
+  }
   if (analyzed.code) {
     data.result = {
       outcome: analyzed.outcome,

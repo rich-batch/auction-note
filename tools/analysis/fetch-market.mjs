@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // 실거래가로 market.trades[] 후보를 보여준다(자동으로 쓰지 않는다 — 사람이 비교 가능한 사례만
 // 골라 data/cases/<id>.json에 직접 넣는다. CLAUDE.md 원칙: 시세는 사람이 확인한 것만).
-//   node tools/analysis/fetch-market.mjs <id> [--months N]
+//   node tools/analysis/fetch-market.mjs <id> [--months N] [--name <단지명 일부>] [--write]
+//   --write: 같은 단지(단지명 또는 법정동+지번 일치)이면서 전용면적이 ±5% 안인 거래만 market.trades(source molit)로 넣는다.
+//            case.area_m2가 없으면 면적을 고를 수 없어 쓰지 않는다. 기존 molit 항목은 교체, 다른 출처는 그대로.
 //
 // 경로 둘:
 //   1) k-skill-proxy(https://github.com/NomaDamas/k-skill, docs/features/real-estate-search.md)
@@ -19,7 +21,7 @@
 // commercial(상업업무용, 경로 1만). land·car는 실거래가 신고 체계가 다르다.
 import fs from 'node:fs';
 import { loadCase } from '../lib/cases.mjs';
-import { todayKST } from '../lib/paths.mjs';
+import { todayKST, casePath } from '../lib/paths.mjs';
 
 const PROXY = 'https://k-skill-proxy.nomadamas.org/v1/real-estate';
 const CATEGORY_TO_ASSET = { apartment: 'apartment', villa: 'villa', commercial: 'commercial' };
@@ -29,6 +31,9 @@ if (!id) { console.error('사용법: fetch-market.mjs <id> [--months N]'); proce
 const monthsArg = rest.find(a => a.startsWith('--months='))?.slice('--months='.length)
   ?? (rest.includes('--months') ? rest[rest.indexOf('--months') + 1] : null);
 const months = Number(monthsArg ?? 3);
+const write = rest.includes('--write');
+// --name <단지명 일부>: 실거래 자료의 단지명 표기가 소재지와 많이 다를 때 직접 지정(예: --name 어반브릿지)
+const nameArg = rest.find(a => a.startsWith('--name='))?.slice('--name='.length) ?? (rest.includes('--name') ? rest[rest.indexOf('--name') + 1] : null);
 
 let c;
 try { c = loadCase(id); } catch (e) { console.error(e.message); process.exit(1); }
@@ -176,7 +181,18 @@ if (!trades) {
   process.exit(1);
 }
 
-const parsed = trades.map(t => ({ ...t, looksLikeSameBuilding: t.name && buildingHint.includes(String(t.name).replace(/\s/g, '')) }));
+// 단지명 표기가 실거래 자료와 다를 수 있어(예: "이편한세상" vs "e편한세상") 법정동+지번이 같으면 같은 단지로 본다
+const lot = /(\S+[동가리로])\s+(산?\d+(?:-\d+)?)/.exec(region);
+const sameLot = t => lot && t.jibun != null && String(t.jibun).trim() === lot[2] && String(t.dong ?? '').includes(lot[1]);
+const nameHit = t => nameArg && t.name && String(t.name).replace(/\s/g, '').includes(nameArg.replace(/\s/g, ''));
+// 단지명이 소재지 문자열에 들어 있으면 같은 단지로 보되, "관악"·"송파"처럼 시군구·동 이름과 겹치는 짧은 단지명은 빼야
+// 주소의 구 이름에 걸려 엉뚱한 단지가 섞이지 않는다
+const placeTokens = region.split(/\s+/).slice(0, 3).map(w => w.replace(/(특별시|광역시|특별자치시|특별자치도|도|시|군|구|동|읍|면|가)$/, ''));
+const nameInRegion = t => {
+  const n = String(t.name ?? '').replace(/\s/g, '');
+  return n.length >= 3 && !placeTokens.includes(n) && buildingHint.replace(/\s/g, '').includes(n);
+};
+const parsed = trades.map(t => ({ ...t, looksLikeSameBuilding: Boolean(nameHit(t) || (!nameArg && nameInRegion(t)) || (!nameArg && sameLot(t))) }));
 
 // 가격/면적(원/㎡)이 같은 단지 내 중앙값의 60% 미만인 거래는 증여성 저가 매매 등으로 보고 뺀다.
 // 단지 전체(예: 관악구 전체)를 기준으로 중앙값을 내면 단지·평형이 섞여 의미가 없어지므로
@@ -211,3 +227,17 @@ if (others.length) {
 }
 
 console.log(`\n사람이 확인 후, 비교 가능한 사례만 골라 data/cases/${id}.json의 market.trades[]에 { "date", "price", "area_m2", "floor" } 형태로 직접 넣어라. market.source_url은 "${source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do'}", market.checked_at은 오늘 날짜로.`);
+
+if (write) {
+  const area = c.case?.area_m2;
+  if (area == null) { console.log('\n--write: case.area_m2가 없어 비교할 면적을 고를 수 없다 — 쓰지 않음'); process.exit(0); }
+  const picked = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05);
+  if (!picked.length) { console.log(`\n--write: 같은 단지에서 전용 ${area}㎡ ±5% 거래가 없음 — 쓰지 않음`); process.exit(0); }
+  const p = casePath(id);
+  const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+  const others = (data.market?.trades ?? []).filter(t => (t.source ?? 'molit') !== 'molit');
+  const rows = picked.map(t => ({ source: 'molit', date: t.date, price: t.price, area_m2: Number(t.area), floor: t.floor != null ? Number(t.floor) : null }));
+  data.market = { ...(data.market ?? {}), trades: [...others, ...rows], checked_at: todayKST(), source_url: source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do' };
+  fs.writeFileSync(p, JSON.stringify(data, null, 2) + '\n');
+  console.log(`\n--write: 같은 단지 전용 ${area}㎡ ±5% 거래 ${rows.length}건을 market.trades에 넣음 — 다음: node tools/analysis/compute.mjs ${id}`);
+}
