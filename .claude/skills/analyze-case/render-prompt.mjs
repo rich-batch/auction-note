@@ -10,7 +10,7 @@ import { articlePath, listArticles, researchPath, rel, todayKST } from '../../..
 import { listCaseIds, loadCase, caseStage } from '../../../tools/lib/cases.mjs';
 import { loadGlossary, relrefFor } from '../../../tools/lib/glossary.mjs';
 import { categoryName } from '../../../tools/lib/categories.mjs';
-import { titleSkeleton, OBJECT_RULE } from '../../../tools/lib/title.mjs';
+import { titleSkeleton, riskTags, OBJECT_RULE } from '../../../tools/lib/title.mjs';
 
 const skillDir = path.dirname(fileURLToPath(import.meta.url));
 const args = {};
@@ -93,6 +93,7 @@ for (const c of targets) {
             ? '## 기타일반재산 사건 추가 지침\n- 위임기관마다 매각 근거 법령이 달라 등기·점유 관계를 코드가 전부 검토로 남긴다는 것을 `## 권리분석`에서 분명히 밝힌다. "말소기준권리"라는 말을 쓰지 마라.\n- `## 임차인과 점유`는 "점유 현황"으로 쓰고, 위임기관·공고문을 직접 확인해야 한다는 review 항목을 옮긴다.\n'
             : '',
     title_skeleton: titleSkeleton(c),
+    risk_tags: riskTags(c).map(t => `"${t}"`).join(', '),
     object_rule: OBJECT_RULE[c.case.category] ?? '물건을 알아볼 수 있는 이름',
     date: today,
     checked_at: c.source?.checked_at ?? '(없음)',

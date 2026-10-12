@@ -47,7 +47,9 @@ if (c) {
   const errors = validateCase(c);
   check(!errors.length, `사건 데이터 검증 실패 — node tools/analysis/compute.mjs ${id}:\n    ${errors.join('\n    ')}`);
   check(isComputedFresh(c), `computed가 없거나 입력보다 오래됨 — node tools/analysis/compute.mjs ${id} 실행 후 글이 새 결과와 맞는지 확인`);
-  const t = checkTitle(a.title, c);
+  // tags: [a, "b", …] 한 줄 형식(템플릿 형식)만 읽는다
+  const tags = (/^tags:\s*\[(.*)\]\s*$/m.exec(front)?.[1] ?? '').split(',').map(x => x.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+  const t = checkTitle(a.title, c, tags);
   t.fails.forEach(m => check(false, m));
   t.warns.forEach(m => warn(false, m));
 }

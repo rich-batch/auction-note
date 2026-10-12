@@ -151,8 +151,8 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 4,
-    "input_hash": "b98d7b73a3314dc6",
+    "engine_version": 5,
+    "input_hash": "5525935701dee97e",
     "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
@@ -217,16 +217,16 @@
     ],
     "ownership_risk": false,
     "assumed_total_min": 0,
-    "assumed_total_max": 0,
+    "assumed_total_max": null,
     "minimum_ratio": 26.2,
     "deposit_rate": 0.1,
     "bid_deposit": 7995400,
     "minimum_plus_assumed_min": 79954000,
-    "minimum_plus_assumed_max": 79954000,
+    "minimum_plus_assumed_max": null,
     "price_gap": {
       "market_avg": 213250000,
       "trade_count": 4,
-      "gap_min": 133296000,
+      "gap_min": null,
       "gap_max": 133296000,
       "basis_source": "molit",
       "basis_label": "국토부 실거래가",
@@ -237,7 +237,7 @@
           "label": "국토부 실거래가",
           "count": 4,
           "avg": 213250000,
-          "gap_min": 133296000,
+          "gap_min": null,
           "gap_max": 133296000
         }
       ]
@@ -254,9 +254,9 @@
         {
           "key": "rights_risk",
           "label": "권리 인수 위험",
-          "value": "인수 예상 최대 0원(최저가의 0%)",
-          "stars": 5,
-          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+          "value": "확인 필요",
+          "stars": null,
+          "note": "인수 금액을 알 수 없는 등기 권리가 있어 계산할 수 없다"
         },
         {
           "key": "tenant_risk",
@@ -276,12 +276,12 @@
           "key": "price_gap",
           "label": "시세 대비 가격갭",
           "value": "국토부 실거래가 평균 213,250,000원, 4건 기준",
-          "stars": 5,
+          "stars": null,
           "note": "최저가에 인수 부담(최대 기준)을 더한 금액이 시세 평균보다 많이 낮을수록 별점이 높다"
         }
       ],
-      "total_stars": 4,
-      "rated_count": 5,
+      "total_stars": 3,
+      "rated_count": 3,
       "has_price_gap": true
     },
     "review": [

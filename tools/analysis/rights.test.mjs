@@ -135,6 +135,7 @@ test('매각물건명세서와 계산 결과가 어긋나면 알림', () => {
 test('매각물건명세서가 인수 권리를 적었는데 계산 결과에 인수가 없으면 알림', () => {
   const c = base({ spec_sheet: { surviving_rights_text: '매수인에게 대항할 수 있는 주택임차권등기 있음(배당에서 보증금이 전액 변제되지 아니하면 잔액을 매수인이 인수함)' } });
   assert.ok(computeCase(c).review.some(r => r.includes('계산 결과엔 인수가 없음')));
+  assert.equal(computeCase(c).assumed_total_max, null, '명세서와 어긋나면 인수 상한은 미상');
   // 대항력 있는 임차인이 계산에 잡혀 있으면 명세서와 맞으니 알리지 않는다
   c.tenants = [tenant({ registered_on: '2019-01-01' })];
   assert.ok(!computeCase(c).review.some(r => r.includes('계산 결과엔 인수가 없음')));
