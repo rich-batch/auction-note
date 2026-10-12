@@ -57,5 +57,5 @@
   <div class="case-tags">{{ range . }}<span class="case-tag">{{ . }}</span>{{ end }}</div>
   {{- end }}
 
-  <p class="case-source">출처: {{ if $isOnbid }}온비드 물건관리번호 {{ $c.case.number }} 물건 상세{{ else }}대법원 법원경매정보 {{ $c.case.number }} 매각물건명세서·등기사항전부증명서{{ end }} ({{ partial "kdate.html" $c.source.checked_at }} 확인)</p>
+  <p class="case-source">출처: {{ if $isOnbid }}온비드 물건관리번호 {{ $c.case.number }} 물건 상세{{ else }}대법원 법원경매정보 {{ $c.case.number }} 매각물건명세서 요약·현황조사서{{ end }} ({{ partial "kdate.html" $c.source.checked_at }} 확인)</p>
 </div>
