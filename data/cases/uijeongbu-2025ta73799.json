@@ -120,7 +120,7 @@
       "has_price_gap": false
     },
     "review": [
-      "시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨"
+      "시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)"
     ]
   }
 }

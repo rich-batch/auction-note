@@ -357,7 +357,7 @@ function computeCarCase(c, now) {
   const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10;
   const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
   const priceGap = computePriceGap(c, minimum, 0, 0);
-  if (!priceGap) review.push('비슷한 차량 시세(market.trades) 없음 — node tools/analysis/fetch-car-market.mjs로 온비드 낙찰 사례를 찾고, 자동차365 평균 매매가·당근중고차 매물가를 확인해 넣으면 시세갭·확인 지표 점수에 반영됨');
+  if (!priceGap) review.push('비슷한 차량 시세(market.trades) 없음 — node tools/analysis/fetch-car-market.mjs로 온비드 낙찰 사례를 찾고, 자동차365 평균 매매가·당근중고차 매물가를 확인해 넣으면 가격 수준 별점에 반영됨');
   const score = computeScore(c, {
     minimum, minimumRatio, failedRounds: c.sale.failed_rounds ?? 0, ownershipRisk: false,
     assumedTotalMax: 0, tenantResults: [], specialCount: (c.special ?? []).length,
@@ -414,7 +414,7 @@ function computePublicAssetCase(c, now) {
   const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10;
   const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
   const priceGap = computePriceGap(c, minimum, 0, 0);
-  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨');
+  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)');
   const score = computeScore(c, {
     minimum, minimumRatio, failedRounds: c.sale.failed_rounds ?? 0, ownershipRisk: false,
     assumedTotalMax: 0, tenantResults: [], specialCount: (c.special ?? []).length,
@@ -466,7 +466,7 @@ function computeOtherAssetCase(c, now) {
   const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10;
   const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
   const priceGap = computePriceGap(c, minimum, 0, 0);
-  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨');
+  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)');
   const score = computeScore(c, {
     minimum, minimumRatio, failedRounds: c.sale.failed_rounds ?? 0, ownershipRisk: false,
     assumedTotalMax: 0, tenantResults: [], specialCount: (c.special ?? []).length,
@@ -619,7 +619,7 @@ export function computeCase(c, now = new Date()) {
 
   // 7) 시세갭 — market.trades가 없으면 계산하지 않고 확인할 것으로만 남긴다
   const priceGap = computePriceGap(c, minimum, assumedMin, assumedMax);
-  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 입력하면 시세갭·확인 지표 점수에 반영됨');
+  if (!priceGap) review.push('시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)');
 
   // 8) 확인 지표 점수 — 지금 데이터로 계산 가능한 객관 지표만
   const score = computeScore(c, {

@@ -58,7 +58,7 @@ function computedSummary(c) {
   lines.push(`- 최저가 + 인수 예상: ${won(k.minimum_plus_assumed_min)} ~ ${won(k.minimum_plus_assumed_max)}`);
   lines.push(`- 최저가는 감정가의 ${k.minimum_ratio}%, 입찰보증금 ${won(k.bid_deposit)}(최저가의 ${Math.round(k.deposit_rate * 100)}%)`);
   if (k.price_gap) lines.push(`- 시세: ${k.price_gap.basis_label} 평균 ${won(k.price_gap.market_avg)}(${k.price_gap.trade_count}건), 최저가와 차이 ${won(k.price_gap.diff_minimum)}(떠안을 금액 제외) / 최저가+인수부담 기준 ${won(k.price_gap.gap_min)} ~ ${won(k.price_gap.gap_max)}`);
-  else lines.push('- 시세갭: market.trades 없음 — 계산 안 됨');
+  else lines.push('- 시세: market.trades 없음 — 가격 수준 별점은 감정가 대비(자동차는 별점 없음)');
   lines.push(`- 확인 지표 점수: 종합 ${k.score.total_stars ?? '확인 필요'} / 5 (계산 가능 ${k.score.rated_count}개)`);
   k.score.items.forEach(x => lines.push(`  - ${x.label}: ${x.value} → ${x.stars ?? '확인 필요'}점 — ${x.note}`));
   return lines.join('\n');

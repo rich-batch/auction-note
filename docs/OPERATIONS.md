@@ -20,7 +20,7 @@
 | **스크립트** (`tools/`) | 후보 물건 조회, 사건 데이터 자동 입력, 권리 계산, 글 검사 | 판단·글쓰기 |
 | **계산 엔진** (`compute.mjs`) | 말소기준권리·인수/소멸·대항력·점수 판정 | 서류에 없는 사실 추정 |
 | **AI** (Claude 스킬) | 조사 노트, 초안 작성, 셀프 리뷰, 검사 FAIL 수정 | 사실 입력, 커밋·푸시, `draft: false` |
-| **운영자** (사람) | 서류 확인·입력, 초안 검토, `[확인 필요]` 해소, 발행, 매각 결과 입력 | `computed` 손으로 고치기 |
+| **운영자** (사람) | 공개 자료(매각물건명세서·현황조사서·공매재산명세)로 사건 데이터 보완, PR 체크박스 확인·머지(=발행) | `computed` 손으로 고치기, 유료 등기부 열람(이 블로그는 보지 않는다) |
 | **GitHub Actions** | main push 시 + 매일 KST 07:00 빌드·배포 | 초안 발행 |
 
 ### 운영의 3대 원칙
@@ -158,7 +158,7 @@ node tools/analysis/scan-daily.mjs --date 2026-10-20
 |---|---|---|
 | **계산 필요** | 입력이 검증을 통과하지 못했거나, 입력을 고친 뒤 다시 계산하지 않음 | 빠진 필드 채우기 → `compute.mjs` |
 | **글 작성 대기** | 계산 완료, 글 폴더 없음 | AI에게 글 작성 맡기기 |
-| **검토 대기** | 글이 `draft: true` | 검토 → `[확인 필요]` 해소 → `draft: false` |
+| **검토 대기** | 글이 `draft: true` | PR 체크박스 확인 → 머지(머지하면 자동으로 `draft: false`) |
 | **발행됨** | 사이트에 노출 중, 매각기일 전 | 매각기일 전 변경·취하 여부만 확인 |
 | **결과 입력 필요** | 매각기일이 지났는데 `result.outcome` 없음 | 매각 결과 입력 |
 | **종료** | 결과까지 입력됨 | 없음 |
@@ -177,7 +177,7 @@ node tools/analysis/fetch-onbid.mjs 2026-0700-036408
 ```
 
 - 압류재산·국유재산·공유재산·기타일반재산은 온비드 표시대로 자동 인식된다.
-- 위임기관에 "신탁"이 있으면 스크립트가 `--type=trust`로 다시 실행하라고 안내한다 → 신탁공매는 **`case.trust_registered_on`(신탁등기 접수일)**을 등기부에서 직접 넣어야 계산된다.
+- 위임기관에 "신탁"이 있으면 스크립트가 `--type=trust`로 다시 실행하라고 안내한다 → 신탁공매는 **`case.trust_registered_on`(신탁등기 접수일)**이 있어야 계산된다. 등기부는 유료라 보지 않으므로 온비드 공고·공매재산명세에 신탁등기일이 공개돼 있을 때만 분석하고, 없으면 분석 대상에서 뺀다.
 - **압류재산 부동산은 `rights[]`·`tenants[]`까지 자동으로 채워진다.** 다만 온비드가 옮겨 적은 *요약*이라 `special[]`에 남은 검토 항목은 꼭 본다.
 - 입찰 시작 7일 전 이전에 등록했다면 배분요구 여부가 비어 있다 → **7일 이내가 되면 다시 조회**하거나 온비드 화면과 대조해 채운다.
 - 최저입찰가가 "비공개"면 `sale.minimum`을 직접 넣는다.
@@ -190,11 +190,12 @@ node tools/analysis/fetch-court.mjs B000210 2026타경12345 --sale-date 2026-10-
 
 ```bash
 node tools/analysis/fetch-court-docs.mjs seoul-central-2026ta12345
+node tools/analysis/fetch-court-result.mjs seoul-central-2026ta12345 --write
 ```
 
 - 첫 명령이 감정가·최저가·소재지·배당요구종기·청구금액까지 채운다.
-- 두 번째가 현황조사서에서 점유관계·전입일(`tenants[]`)을 채우고, "최선순위 설정"을 콘솔에 참고용으로 보여 준다.
-- **`rights[]`는 `node tools/analysis/fetch-court-result.mjs <id> --write`가 매각물건명세서 "최선순위 설정"으로 채운다**(날짜·종류만). 등기사항전부증명서는 유료라 보지 않는다 — 금액·후순위 등기는 글에서 "확인하지 못했다"로 남고 독자가 인터넷등기소에서 확인한다. 물건상세는 매각되면 닫히니 매각기일 전에 돌린다.
+- 두 번째가 현황조사서에서 점유관계·전입일(`tenants[]`)을 채운다. 보증금·확정일자·배당요구는 미상(`null`)으로 남는다 — 0으로 채우지 않는다.
+- 세 번째가 물건상세의 매각물건명세서 요약에서 **`rights[0]`(말소기준권리 날짜·종류)·`spec_sheet`(최선순위 설정·소멸되지 않는 권리)·전용면적·유찰 횟수**를 채운다. 등기사항전부증명서는 유료라 보지 않는다 — 금액·후순위 등기는 글에서 "확인하지 못했다"로 남고 독자가 인터넷등기소에서 확인한다. 물건상세는 매각되면 닫히니 매각기일 전에 돌린다.
 - 보증금·확정일자·배당요구 여부는 매각물건명세서에서 확인해 `tenants[]`에 보탠다.
 
 **직접 입력(자동 조회가 안 되는 경우)**
@@ -213,16 +214,19 @@ node tools/analysis/new-case.mjs seoul-central-2026ta12345 2026타경12345 apart
 | `tenants[]` | 매각물건명세서 + 현황조사서 | 전입일을 모르면 비워 둔다(→ review). 임대차 *기간*을 전입일로 쓰지 않는다 |
 | `special[]` | 매각물건명세서 비고, 유치권 신고 등 | 등기로 판단 못 하는 건 전부 여기. 모두 review로 간다 |
 | `spec_sheet.*` | 매각물건명세서 "최선순위 설정"·"소멸되지 않는 권리" 칸 그대로 | 계산 결과와 대조하는 용도 |
-| `market.trades[]` | 실거래가(아래 명령으로 후보 확인) | **사람이 비교 가능하다고 판단한 사례만** |
+| `market.trades[]` | 국토부 실거래가(부동산), 온비드 낙찰·자동차365·당근(자동차) | 같은 단지·전용면적 ±5%만(`fetch-market --write`가 이 기준으로 넣는다). 가격 수준 별점이 이 평균과 최저가로 정해진다 |
 | `source.checked_at` | 서류를 본 날 | 글의 "기준일"이 된다 |
 
 시세 후보:
 
 ```bash
-node tools/analysis/fetch-market.mjs seoul-central-2026ta12345 --months 12
+node tools/analysis/fetch-market.mjs seoul-central-2026ta12345 --write
+node tools/analysis/fetch-car-market.mjs onbid-202614156001 --write      # 자동차: 온비드 낙찰 사례
 ```
 
-후보만 보여 준다. 같은 단지·비슷한 면적·최근 거래만 골라 `market.trades[]`에 넣는다(아파트 외 유형은 프록시가 실패하면 대체 경로가 없다).
+- 부동산: 같은 단지(단지명 또는 법정동+지번)이면서 전용면적 ±5%인 최근 1년 거래만 넣는다(`case.area_m2` 필요). 단지명 표기가 많이 다르면 `--name <단지명 일부>`. `--write` 없이 돌리면 후보만 보여 준다. 아파트 외 유형은 프록시가 실패하면 대체 경로가 없다.
+- 자동차: 온비드 낙찰 사례만 자동. 자동차365·당근은 로그인이 필요해 사람이 넣는다.
+- 같은 단지 거래가 1년 안에 없으면 비워 둔다 — 가격 수준 별점은 감정가 대비로 매겨지고, 글은 "시세를 확인하지 못했다"로 쓴다.
 
 ### 5.4 계산
 
@@ -307,9 +311,9 @@ AI가 공식 자료 조사 → 초안 → ELI5 커버 이미지 → AI 흔적 �
 
 **글(분석·가이드)은 PR로, 스킬·도구·레이아웃 개선은 main에 바로 넣는다.**
 
-1. PR을 연다(자동 초안 PR은 `tools/auto/run-one.sh`가 연다). **PR 본문에 "머지 전 확인할 것" 체크박스가 자동으로 채워진다** — 글 속 `[확인 필요]` 하나하나가 한 칸이다.
+1. PR을 연다(자동 초안 PR은 `tools/auto/run-one.sh`가 연다). **PR 본문에 "머지 전 확인할 것" 체크박스가 자동으로 채워진다** — 공고 대조·결론 방향·"입찰 전 확인할 것" 같은 글 종류별 항목이 한 칸씩이다.
 2. 체크박스를 하나씩 처리한다. 고칠 게 있으면 그 PR 브랜치에 커밋한다(커밋할 때마다 목록이 다시 채워지고, 이미 체크한 칸은 유지된다).
-   - 로컬에서 보려면: `gh pr checkout <PR번호>` → `hugo server -D` → PR 본문의 미리보기 주소
+   - 로컬에서 보려면: `gh pr checkout <PR번호>` → `hugo server -D` → http://localhost:1313/auction-note/ (다른 폴더에 받았다면 `hugo server --source <폴더> --themesDir <저장소>/themes` — 테마가 서브모듈이라 새 폴더엔 비어 있다)
 3. **"PR 검사"가 초록불인지 본다.** 빨간불이면 남아 있는 `[확인 필요]`·`[경험 추가 필요]` 같은 표시나, 공개되지 않은 글로 가는 링크가 있다는 뜻이다(검사 로그에 위치가 나온다). 지금 스킬은 이런 표시를 만들지 않는다 — 확인 못 한 사실은 글 속 "입찰 전 확인할 것"에 독자가 직접 확인할 일로 적힌다.
 4. 체크박스를 다 채우고 **머지**한다. 머지하면 그 PR의 글이 자동으로 `draft: false`가 되고 바로 배포된다(`.github/workflows/publish.yml` → `tools/publish-merged.mjs`). Actions 탭 "Build and Deploy"가 초록불이면 끝(보통 1~2분).
 
@@ -331,6 +335,8 @@ AI가 공식 자료 조사 → 초안 → ELI5 커버 이미지 → AI 흔적 �
 - [ ] "입찰 전 확인할 것"에 이 글이 확인하지 못한 것과 확인할 곳이 분명히 적혀 있다 (`[확인 필요]` 표시는 없다)
 - [ ] **최신 매각물건명세서(공매는 공매재산명세)와 `data/cases/<id>.json`이 여전히 같다** — 매각기일 변경·취하·권리 추가 여부
 - [ ] 계산 결과(인수/소멸)와 본문 결론이 같은 방향이다
+- [ ] 제목은 `<지역> <물건> <경매|공매> (<사건번호>)`이고 판정(인수 가능·임차권등기 등)은 제목이 아니라 tags에 있다
+- [ ] 등기부를 본 것처럼 쓰지 않았다(출처는 매각물건명세서·현황조사서·공매재산명세)
 - [ ] 본문에 사람 이름이 없다(소재지 전체 주소는 허용)
 - [ ] 입찰 권유·수익 장담 표현이 없다
 - [ ] `node tools/check/analysis.mjs content/analysis/<id>/index.md` FAIL 없음
@@ -340,7 +346,14 @@ AI가 공식 자료 조사 → 초안 → ELI5 커버 이미지 → AI 흔적 �
 
 ## 8. 매각 결과 입력
 
-매각기일이 지나면 `data/cases/<id>.json`에 `result`를 넣는다. 경매는 법원경매정보, 공매는 온비드 입찰 결과에서 확인한다.
+매각기일이 지나면 `data/cases/<id>.json`에 `result`를 넣는다. 대부분 도구가 자동으로 채운다:
+
+```bash
+node tools/analysis/fetch-onbid-result.mjs onbid-202610100001 --write          # 공매
+node tools/analysis/fetch-court-result.mjs seoul-dongbu-2026ta50579 --write     # 경매(여러 ID 한 번에 가능)
+```
+
+분석한 회차 결과와 그 뒤 회차(`later[]`)까지 채운다. 경매 응찰자 수는 공개 API에 없어 비어 있다. 도구가 못 쓰는 경우(취하·정지 등)만 아래처럼 직접 넣는다.
 
 ```json
 "result": {
@@ -491,8 +504,11 @@ k-skill-proxy가 간헐적으로 실패한다(알려진 문제). 아파트는 �
 | 온비드 등록 | `node tools/analysis/fetch-onbid.mjs <물건관리번호> [--type=trust]` |
 | 법원경매 등록 | `node tools/analysis/fetch-court.mjs <법원코드> <사건번호> --sale-date <날짜>` |
 | 현황조사서 보충 | `node tools/analysis/fetch-court-docs.mjs <id>` |
+| 명세서 요약·기일·결과(법원) | `node tools/analysis/fetch-court-result.mjs <id>... --write` |
+| 매각 결과(온비드) | `node tools/analysis/fetch-onbid-result.mjs <id> --write` |
 | 직접 등록 | `node tools/analysis/new-case.mjs <id> <사건번호> <분류>` |
-| 시세 후보 | `node tools/analysis/fetch-market.mjs <id> [--months N]` |
+| 시세(부동산) | `node tools/analysis/fetch-market.mjs <id> [--name <단지명>] [--write]` |
+| 시세(자동차) | `node tools/analysis/fetch-car-market.mjs <id> [--model <차종>] [--write]` |
 | 계산 | `node tools/analysis/compute.mjs <id>` |
 | 엔진 테스트 | `node --test tools/analysis/rights.test.mjs` |
 | 분석 글 검사 | `node tools/check/analysis.mjs content/analysis/<id>/index.md` |
