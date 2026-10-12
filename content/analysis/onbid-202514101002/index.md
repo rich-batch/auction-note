@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "onbid-202514101002"
 categories: ["권리분석·명도"]
-tags: [화성시, 자동차, 압류재산, 유치권]
+tags: [화성시, 자동차, 인수 권리 없음, 압류재산, 유치권]
 description: "2025-14101-002 2014년식 에쿠스 3.8(25.1만km) 공매. 같은 날 나온 제네시스엔 28명이 몰렸지만 이 차엔 3명이 들어와 458만 5,000원에 낙찰됐습니다"
 showToc: true
 TocOpen: false

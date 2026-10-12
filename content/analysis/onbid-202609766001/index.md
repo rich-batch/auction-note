@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "onbid-202609766001"
 categories: ["권리분석·명도"]
-tags: [고양시, 자동차, 유치권, 배분요구]
+tags: [고양시, 자동차, 인수 권리 없음, 유치권, 배분요구]
 description: "2026-09766-001 벤츠 S400 d 4MATIC L(2018년식·10.3만km) 공매. 체납 국세가 6억 원대였지만 인수할 권리는 없었고, 응찰자 7명이 붙어 감정가의 121%에 낙찰됐습니다"
 showToc: true
 TocOpen: false
