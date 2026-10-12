@@ -12,9 +12,10 @@
 // 법원코드를 모르면: node tools/analysis/scan-court.mjs --courts 로 60개 법원 목록을 본다.
 // 법원경매정보는 짧은 시간에 요청이 몰리면 IP를 1시간 차단한다. 이 패키지는 세션 하나
 // 안에서 호출 간 최소 지연·세션당 호출 한도를 강제하는데, 그 보호가 실제로 걸리려면 호출들이
-// 같은 세션(client)을 공유해야 한다 — 그래서 이 스크립트는 법원을 여러 개 순회할 때도
-// client 하나를 만들어 모든 호출에 넘긴다. 그래도 법원을 옮길 때마다 1분을 더 쉬고,
-// 차단(BLOCKED)이나 세션 호출 한도 초과(BUDGET_EXCEEDED)를 만나면 그 자리에서 멈춘다 —
+// 같은 세션(client)을 공유해야 한다 — 그래서 한 법원 안의 호출은 client 하나를 함께 쓴다.
+// 다만 세션 호출 한도(10회)가 법원 12곳 전체에 걸리면 6번째쯤에서 멈추므로 법원마다 client를 새로 만들고,
+// 법원을 옮길 때마다 1분을 더 쉰다. 차단(BLOCKED)을 만나면 그 자리에서 전부 멈추고, 한 법원의 호출 한도
+// 초과(BUDGET_EXCEEDED)는 그 법원의 남은 공고만 건너뛰고 다음 법원으로 간다 —
 // 남은 법원은 다음 실행에서 이어서 조회하면 된다(이미 등록된 사건은 자동으로 제외되니
 // 다시 돌려도 중복되지 않는다).
 // 분석 가치가 낮은 물건(최저가 너무 낮음·공유지분)은 기본으로 목록에서 생략한다(토큰 절약,
@@ -61,7 +62,6 @@ const exactDate = dateArg.length === 10 ? dateArg : null;
 
 const registeredNumbers = new Set(listCaseIds().map(id => loadCase(id).case?.number).filter(Boolean));
 
-const client = new CourtAuctionHttpClient({});
 const EXTRA_DELAY_BETWEEN_COURTS_MS = 60_000; // 패키지 자체 지연 위에 얹는 법원 전환 여유(1분) — 차단 예방
 
 let totalPrinted = 0;
@@ -70,14 +70,15 @@ let blocked = false;
 for (const [i, courtCode] of courtCodes.entries()) {
   if (blocked) break;
   if (i > 0) await new Promise(r => setTimeout(r, EXTRA_DELAY_BETWEEN_COURTS_MS));
+  const client = new CourtAuctionHttpClient({}); // 법원마다 새 세션 — 호출 한도는 법원 단위로
 
   let notices;
   try {
     notices = await searchSaleNotices({ date: month, courtCode, bidType: 'date', client });
   } catch (e) {
     console.error(`[${courtCode}] 매각공고 목록 조회 실패: ${e.message}`);
-    if (e.code === 'BLOCKED' || e.code === 'BUDGET_EXCEEDED') {
-      console.error('법원경매정보가 이 IP를 일시 차단했거나 세션 호출 한도에 도달했다 — 약 1시간 뒤 다시 시도(자동 재시도 금지). 남은 법원은 다음 실행에서 이어서 조회하면 된다.');
+    if (e.code === 'BLOCKED') {
+      console.error('법원경매정보가 이 IP를 일시 차단했다 — 약 1시간 뒤 다시 시도(자동 재시도 금지). 남은 법원은 다음 실행에서 이어서 조회하면 된다.');
       blocked = true;
     }
     continue;
@@ -96,9 +97,13 @@ for (const [i, courtCode] of courtCodes.entries()) {
       detail = await getSaleNoticeDetail(n, { client });
     } catch (e) {
       console.error(`[${courtCode}] ${n.saleDate} ${n.judgeDeptName} 상세 조회 실패: ${e.message}`);
-      if (e.code === 'BLOCKED' || e.code === 'BUDGET_EXCEEDED') {
-        console.error('차단됐거나 세션 호출 한도에 도달했다 — 중단. 남은 법원은 다음 실행에서 이어서 조회하면 된다.');
+      if (e.code === 'BLOCKED') {
+        console.error('차단됐다 — 중단. 남은 법원은 다음 실행에서 이어서 조회하면 된다.');
         blocked = true;
+        break;
+      }
+      if (e.code === 'BUDGET_EXCEEDED') {
+        console.error(`[${courtCode}] 이 법원의 세션 호출 한도에 도달 — 남은 공고는 건너뛰고 다음 법원으로`);
         break;
       }
       continue;
