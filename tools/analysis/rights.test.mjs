@@ -439,3 +439,8 @@ test('자동차: 시세가 있으면 가격 수준 별점을 시세 대비로 �
   assert.ok(apt.score.items.some(x => x.key === 'price_gap'));
   assert.equal(typeof apt.score.items.find(x => x.key === 'price').stars, 'number');
 });
+
+test('주민등록번호 검사: 해시 같은 영숫자 문자열 속 숫자는 걸지 않고, 독립된 번호는 건다', () => {
+  assert.ok(!validateCase(base({ case: { ...base().case, note: '2b1382131679573a' } })).some(e => e.includes('주민등록번호')));
+  assert.ok(validateCase(base({ case: { ...base().case, note: '연락처 900101-1234567' } })).some(e => e.includes('주민등록번호')));
+});
