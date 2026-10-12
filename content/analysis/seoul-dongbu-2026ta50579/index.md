@@ -3,7 +3,7 @@ title: "서울 송파구 잠실포스코더샵 85㎡ 경매, 임차인 보증금
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-dongbu-2026ta50579"
 categories: ["권리분석·명도"]
 tags: [송파구, 아파트, 대항력, 배당요구, 말소기준권리]

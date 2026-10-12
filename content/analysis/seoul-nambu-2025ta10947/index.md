@@ -3,7 +3,7 @@ title: "서울 구로구 루체비스타 30㎡ 경매, 대항력 있는 임차�
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-nambu-2025ta10947"
 categories: ["권리분석·명도"]
 tags: [구로구, 아파트, 임차권등기, 대항력, 매각물건명세서]

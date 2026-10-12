@@ -3,7 +3,7 @@ title: "서울 영등포구 아파트 15㎡ 경매, 대항력 있는 임차권�
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-nambu-2025ta10092"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, 임차권등기, 대항력, 말소기준권리]

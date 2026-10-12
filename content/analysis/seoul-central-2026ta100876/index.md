@@ -3,7 +3,7 @@ title: "서울 관악구 프라비다트라움 14㎡ 경매 (2026타경100876)"
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-central-2026ta100876"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, 대항력, 인도명령]

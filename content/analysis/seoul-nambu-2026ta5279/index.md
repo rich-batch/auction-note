@@ -3,7 +3,7 @@ title: "서울 금천구 가산양우내안애애플 12㎡ 경매 (2026타경527
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-nambu-2026ta5279"
 categories: ["권리분석·명도"]
 tags: [금천구, 아파트, 가압류, 임차권등기, 점유관계]
