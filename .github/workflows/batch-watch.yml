@@ -1,5 +1,5 @@
 # 매일 배치(이 Mac의 Claude 예약 작업)가 돌았는지 확인해 "배치 일지" 이슈에 결과를 남긴다.
-# 저장소 주인을 @멘션하므로 GitHub 알림 메일로 받는다. 배치가 아예 안 돌았을 때도 알리도록
+# 저장소 주인을 @멘션하고, 문제 있는 날(⚠️·❌)은 실패로 끝나 GitHub "Run failed" 메일이 온다. 배치가 아예 안 돌았을 때도 알리도록
 # Mac과 상관없이 GitHub에서 돈다. 배치는 tools/batch-log.mjs로 logs/batch/<날짜>.json을 남긴다.
 name: Batch Watch
 

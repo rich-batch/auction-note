@@ -49,3 +49,10 @@ gh('issue', 'comment', issue, '--body', comment);
 // 실패한 날은 이슈 제목 옆에서도 보이게 라벨을 단다(성공한 날 떼어 낸다)
 const bad = !rec || rec.status !== 'ok';
 try { gh('issue', 'edit', issue, bad ? '--add-label' : '--remove-label', 'bug'); } catch { /* 라벨 문제는 무시 */ }
+
+// 문제 있는 날은 워크플로를 실패로 끝낸다 — GitHub가 기본 설정으로 "Run failed" 메일을 보내므로,
+// 멘션 알림 메일 설정과 상관없이 문제를 메일로 받는다.
+if (bad) {
+  console.error(`배치에 문제가 있음: ${head}`);
+  process.exit(1);
+}

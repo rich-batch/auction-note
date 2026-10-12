@@ -379,7 +379,7 @@ node tools/analysis/fetch-court-result.mjs seoul-dongbu-2026ta50579 --write     
 - **배치**: 이 Mac의 Claude 예약 작업 `auction-note-daily`가 매일 08시대에 결과 반영 → 후보 스캔 → 분석 초안(최대 2건 PR) → 알림을 한다. Mac과 Claude 앱이 켜져 있어야 돈다(꺼져 있었으면 다음에 앱을 열 때). 관리: 사이드바 "Scheduled".
 - **기록**: 배치는 시작할 때 `node tools/batch-log.mjs start`, 끝날 때 `node tools/batch-log.mjs finish <요약.json>`으로 `logs/batch/<날짜>.json`을 main에 남긴다(이 커밋은 사이트를 다시 배포하지 않는다).
 - **감시·메일**: GitHub Actions `Batch Watch`(`.github/workflows/batch-watch.yml`)가 매일 KST 11시에 오늘 기록을 읽어 "배치 일지" 이슈에 `@rich-batch`를 멘션한 댓글을 남긴다 → GitHub 알림 메일이 온다. Mac이 꺼져 있어도 돈다.
-  - ✅ 정상 / ⚠️ 일부 실패 또는 시작만 하고 끝난 기록 없음 / ❌ 오늘 기록 없음(안 돌았음). 문제 있는 날은 이슈에 `bug` 라벨이 붙는다.
+  - ✅ 정상 / ⚠️ 일부 실패 또는 시작만 하고 끝난 기록 없음 / ❌ 오늘 기록 없음(안 돌았음). 문제 있는 날은 이슈에 `bug` 라벨이 붙고 **워크플로가 실패로 끝나 GitHub "Run failed: Batch Watch" 메일이 온다**(멘션 메일 설정과 별개 — 이게 문제 알림의 주 경로).
   - 메일이 안 오면: GitHub Settings → Notifications에서 "Participating, @mentions" 메일이 켜져 있는지 확인.
   - 수동 확인: `node tools/batch-watch.mjs --dry-run` (알림 없이 오늘 판정만 출력)
 
