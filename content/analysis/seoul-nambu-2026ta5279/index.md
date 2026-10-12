@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "seoul-nambu-2026ta5279"
 categories: ["권리분석·명도"]
-tags: [금천구, 아파트, 가압류, 임차권등기, 점유관계]
+tags: [금천구, 아파트, 인수 권리 없음, 가압류, 임차권등기, 점유관계]
 description: "2026타경5279는 1회 유찰로 최저가가 감정가의 80%이고, 임차권자의 반환청구 포기가 매각 조건이며 점유관계는 미상입니다"
 showToc: true
 TocOpen: false

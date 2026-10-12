@@ -1,12 +1,12 @@
 ---
-title: "서울 구로구 아파트 39㎡ 경매, 임차인 보증금 인수 가능 (2026타경141)"
+title: "서울 구로구 아파트 39㎡ 경매 (2026타경141)"
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
 draft: false
 case: "seoul-nambu-2026ta141"
 categories: ["권리분석·명도"]
-tags: [구로구, 아파트, 대항력, 확정일자, 배당요구]
+tags: [구로구, 아파트, 임차인 보증금 인수 가능, 대항력, 확정일자, 배당요구]
 description: "2026타경141은 1회 유찰로 최저가가 감정가의 80%인데, 근저당보다 먼저 전입한 점유자 4명의 보증금이 확인되지 않았습니다"
 showToc: true
 TocOpen: false

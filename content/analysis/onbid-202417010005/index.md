@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "onbid-202417010005"
 categories: ["권리분석·명도"]
-tags: [청주시, 자동차, 압류재산, 유치권]
+tags: [청주시, 자동차, 인수 권리 없음, 압류재산, 유치권]
 description: "2024-17010-005 G80 2.5(2021년식·9.1만km) 공매. 압류 등 19건이 걸려 있었지만 인수할 권리는 없었고, 첫 회차 2,600만 원에선 응찰자가 없었습니다"
 showToc: true
 TocOpen: false

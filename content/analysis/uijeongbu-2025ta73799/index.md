@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "uijeongbu-2025ta73799"
 categories: ["권리분석·명도"]
-tags: [의정부시, 아파트, 강제경매, 경매개시결정]
+tags: [의정부시, 아파트, 인수 권리 없음, 강제경매, 경매개시결정]
 description: "2025타경73799는 세 번 유찰돼 최저가가 감정가의 34.3%이고, 말소기준권리가 저당권이 아니라 경매개시결정입니다"
 showToc: true
 TocOpen: false

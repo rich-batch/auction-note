@@ -6,7 +6,7 @@ lastmod: 2026-10-12
 draft: false
 case: "uijeongbu-2025ta5516"
 categories: ["권리분석·명도"]
-tags: [연천군, 아파트, 근저당권, 점유자, 인도명령]
+tags: [연천군, 아파트, 인수 권리 없음, 근저당권, 점유자, 인도명령]
 description: "2025타경5516 연천읍 전용 84.99㎡ 19층은 1회 유찰로 감정가 70%까지 내려왔지만, 현황조사 때 점유자를 확인하지 못해 명도 상대가 누구인지부터 봐야 합니다"
 showToc: true
 TocOpen: false

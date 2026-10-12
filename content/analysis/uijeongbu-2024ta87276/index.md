@@ -6,7 +6,7 @@ lastmod: 2026-10-12
 draft: false
 case: "uijeongbu-2024ta87276"
 categories: ["권리분석·명도"]
-tags: [의정부시, 아파트, 근저당권, 인도명령]
+tags: [의정부시, 아파트, 인수 권리 없음, 근저당권, 인도명령]
 description: "2024타경87276 호원동 전용 59.76㎡는 1회 유찰로 감정가 70%인 2억 2,330만원까지 내려왔고, 시세와 등기부 원문은 입찰자가 직접 대조해야 합니다"
 showToc: true
 TocOpen: false

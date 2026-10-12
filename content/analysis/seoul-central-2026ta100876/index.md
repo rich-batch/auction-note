@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "seoul-central-2026ta100876"
 categories: ["권리분석·명도"]
-tags: [관악구, 아파트, 대항력, 인도명령]
+tags: [관악구, 아파트, 인수 권리 없음, 대항력, 인도명령]
 description: "2026타경100876 신림동 전용 14㎡는 1회 유찰 뒤 최저가 1억 880만원인데, 최근 같은 면적 실거래 평균보다 500만원 높고 점유 중인 임차인의 명도가 남아 있습니다"
 showToc: true
 TocOpen: false

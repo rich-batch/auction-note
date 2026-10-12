@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "onbid-202614156001"
 categories: ["권리분석·명도"]
-tags: [남양주, 자동차, 압류재산, 배분요구]
+tags: [남양주, 자동차, 인수 권리 없음, 압류재산, 배분요구]
 description: "2026-14156-001 BMW 528i xDrive(2015년식·16.4만km) 공매. 세무서 주차장에 보관된 차로, 감정가의 80%까지 내려왔는데도 9월부터 네 번 연속 유찰됐습니다"
 showToc: true
 TocOpen: false

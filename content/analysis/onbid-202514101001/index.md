@@ -6,7 +6,7 @@ lastmod: 2026-10-11
 draft: false
 case: "onbid-202514101001"
 categories: ["권리분석·명도"]
-tags: [화성시, 자동차, 압류재산, 유치권]
+tags: [화성시, 자동차, 인수 권리 없음, 압류재산, 유치권]
 description: "2025-14101-001 2013년식 제네시스 3.3 공매. 14년 가까이 5만 1천여 km만 달린 차에 응찰자 28명이 몰려 감정가 300만 원의 두 배가 넘는 값에 낙찰됐습니다"
 showToc: true
 TocOpen: false

@@ -6,7 +6,7 @@ lastmod: 2026-10-12
 draft: false
 case: "uijeongbu-2025ta73895"
 categories: ["권리분석·명도"]
-tags: [포천시, 아파트, 대항력, 배당요구, 인도명령]
+tags: [포천시, 아파트, 인수 권리 없음, 대항력, 배당요구, 인도명령]
 description: "2025타경73895 신북면 13층 전용 51㎡는 2회 유찰로 최저가가 감정가의 49%이고, 대항력 없는 임차인이 살고 있어 보증금·배당 여부와 명도를 확인해야 합니다"
 showToc: true
 TocOpen: false

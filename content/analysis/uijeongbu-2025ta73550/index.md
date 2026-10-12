@@ -6,7 +6,7 @@ lastmod: 2026-10-12
 draft: false
 case: "uijeongbu-2025ta73550"
 categories: ["권리분석·명도"]
-tags: [의정부시, 아파트, 말소기준권리, 근저당권, 임의경매]
+tags: [의정부시, 아파트, 인수 권리 없음, 말소기준권리, 근저당권, 임의경매]
 description: "2025타경73550 신곡동 22층 전용 76㎡는 1회 유찰로 최저가가 감정가의 70%이고, 2015년 근저당 뒤의 등기와 실제 점유자는 서류로 직접 봐야 합니다"
 showToc: true
 TocOpen: false
