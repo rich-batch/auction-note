@@ -114,6 +114,18 @@ for (const id of ids) {
       note: `매각물건명세서 "최선순위 설정"(법원경매정보 물건상세, ${today} 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인` }];
     console.log(`  rights[0] → ${data.rights[0].date} ${kind}(명세서 최선순위 설정)`);
   }
+  // 매각으로 소멸되지 않는 권리: 명세서가 "2024.07.09접수 제107054호로 경료된 을구 1번 주택임차권등기는 …"처럼
+  // 날짜·접수번호·종류를 적었으면 그대로 rights[]에 넣는다(금액은 명세서에 없어 null — 계산이 "미상"으로 남긴다).
+  const SURVIVING = [['주택임차권등기', '임차권등기'], ['임차권등기', '임차권등기'], ['전세권', '전세권'], ['지상권', '지상권'], ['가처분', '가처분'], ['소유권이전청구권가등기', '소유권이전청구권가등기']];
+  for (const m of (info.ndstrcRghCtt ?? '').matchAll(/(\d{4})\.(\d{2})\.(\d{2})\.?\s*접수\s*제\s*(\d+)\s*호[^.]*?(주택임차권등기|임차권등기|전세권|지상권|가처분|소유권이전청구권가등기)/g)) {
+    const date = `${m[1]}-${m[2]}-${m[3]}`;
+    const kind = SURVIVING.find(([k]) => k === m[5])[1];
+    data.rights ??= [];
+    if (data.rights.some(r => r.date === date && r.kind === kind)) continue;
+    data.rights.push({ date, receipt_no: Number(m[4]), kind, amount: null, holder_type: null,
+      note: `매각물건명세서 "매각으로 소멸되지 않는 권리"(법원경매정보 물건상세, ${today} 조회) — 금액은 명세서에 없음, 등기부는 보지 않음` });
+    console.log(`  rights[] + ${date} ${kind}(제${m[4]}호, 명세서 인수 권리)`);
+  }
   // 전용면적: 물건상세 건물 목록의 "전유" 행(예: "철근콘크리트조 / 84.92㎡")에서 면적이 하나뿐일 때만 채운다
   if (data.case.area_m2 == null) {
     const own = (goods?.bldSdtrDtlLstAll ?? []).flat().filter(b => b.rletDvsDts === '전유');

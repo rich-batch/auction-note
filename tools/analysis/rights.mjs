@@ -16,7 +16,7 @@
 import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 
-export const ENGINE_VERSION = 6; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거
+export const ENGINE_VERSION = 7; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거 / 7: 금액 모르는 인수 권리가 있으면 인수 상한 미상
 
 export const BASE_KINDS = ['근저당권', '저당권', '압류', '가압류', '담보가등기', '경매개시결정'];
 // 말소기준권리보다 앞서면 매수인이 인수하는 권리 (뒤면 소멸)
@@ -609,10 +609,11 @@ export function computeCase(c, now = new Date()) {
   const sum = arr => arr.reduce((s, v) => (s == null || v == null ? null : s + v), 0);
   const rightAssumed = surviving.map(r => r.amount).filter(v => v != null);
   const unknownRightAmount = surviving.some(r => r.amount == null);
-  if (unknownRightAmount) review.push('인수되는 등기 권리 중 금액이 없는 것이 있음 — 인수 금액 합계는 그 권리를 뺀 값');
+  if (unknownRightAmount) review.push('인수되는 등기 권리 중 금액을 모르는 것이 있음 — 인수 금액 상한은 미상(최소값은 금액을 아는 권리만 더한 값)');
   const assumedMin = sum([...rightAssumed, ...tenantResults.map(t => t.assumed_min)]);
   // 명세서가 인수 권리를 적었는데 계산에 안 잡혔으면, 떠안을 금액의 상한은 "모름"이다(0이라고 하면 명세서와 반대 결론이 된다)
-  const assumedMax = specSaysSurviving ? null : sum([...rightAssumed, ...tenantResults.map(t => t.assumed_max)]);
+  // 금액을 모르는 인수 권리가 있으면 상한도 모른다 — 빼고 더하면 "인수 0원"처럼 틀린 결론이 나온다
+  const assumedMax = specSaysSurviving || unknownRightAmount ? null : sum([...rightAssumed, ...tenantResults.map(t => t.assumed_max)]);
   const rate = c.sale.deposit_rate ?? (c.sale.resale ? 0.2 : 0.1);
   const minimum = c.sale.minimum;
   const minimumRatio = Math.round((minimum / c.sale.appraisal) * 1000) / 10; // 감정가 대비 %

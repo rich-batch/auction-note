@@ -460,3 +460,12 @@ test('주민등록번호 검사: 해시 같은 영숫자 문자열 속 숫자는
   assert.ok(!validateCase(base({ case: { ...base().case, note: '2b1382131679573a' } })).some(e => e.includes('주민등록번호')));
   assert.ok(validateCase(base({ case: { ...base().case, note: '연락처 900101-1234567' } })).some(e => e.includes('주민등록번호')));
 });
+
+test('금액을 모르는 인수 권리(선순위 임차권등기 등)가 있으면 인수 상한은 미상', () => {
+  const c = base();
+  c.rights.unshift({ date: '2019-01-01', receipt_no: 1, kind: '임차권등기' }); // 금액 없음
+  const k = computeCase(c);
+  assert.equal(k.rights[0].effect, '인수');
+  assert.equal(k.assumed_total_max, null);
+  assert.ok(k.review.some(r => r.includes('금액을 모르는 것')));
+});
