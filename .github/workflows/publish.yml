@@ -9,6 +9,7 @@ on:
   workflow_dispatch: # 깃허브 화면에서 수동으로 "Run workflow" 버튼을 눌러 실행할 수 있게 함
   push:
     branches: [main] # main 브랜치에 새 글이 push될 때도 바로 배포되도록 함
+    paths-ignore: ["logs/**"] # 매일 배치 기록(logs/batch)만 바뀐 커밋은 사이트와 무관해 배포하지 않음
 
 # GitHub Pages에 배포하려면 워크플로에 이 권한이 있어야 함
 permissions:

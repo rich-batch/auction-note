@@ -1,0 +1,23 @@
+# 매일 배치(이 Mac의 Claude 예약 작업)가 돌았는지 확인해 "배치 일지" 이슈에 결과를 남긴다.
+# 저장소 주인을 @멘션하므로 GitHub 알림 메일로 받는다. 배치가 아예 안 돌았을 때도 알리도록
+# Mac과 상관없이 GitHub에서 돈다. 배치는 tools/batch-log.mjs로 logs/batch/<날짜>.json을 남긴다.
+name: Batch Watch
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # UTC 02:00 = KST 11:00 (배치는 KST 08시대에 시작, 1시간 안팎)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 오늘 배치 기록 확인·알림
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/batch-watch.mjs
