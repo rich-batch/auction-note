@@ -138,8 +138,8 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 5,
-    "input_hash": "50250b84a691b70e",
+    "engine_version": 6,
+    "input_hash": "aaa151f6e8f205a5",
     "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
@@ -217,8 +217,8 @@
           "key": "price",
           "label": "가격 수준",
           "value": "감정가의 32.8% (유찰 5회)",
-          "stars": 3,
-          "note": "최저매각가격이 감정가 대비 낮을수록 별점이 높다"
+          "stars": 5,
+          "note": "시세 자료가 없어 감정가 대비로 매겼다(30% 이상 낮으면 5점). 감정가는 시세보다 늦게 따라와 참고로만 본다"
         },
         {
           "key": "rights_risk",
@@ -242,7 +242,7 @@
           "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
         }
       ],
-      "total_stars": 1.5,
+      "total_stars": 2.5,
       "rated_count": 2,
       "has_price_gap": false
     },

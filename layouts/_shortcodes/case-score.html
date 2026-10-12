@@ -27,12 +27,12 @@
   {{- with $c.computed.price_gap }}{{ with .by_source }}
   <div class="case-market">
     {{ partial "price-strip.html" $c }}
-    <p class="case-group-title">{{ if eq $c.case.category "car" }}비슷한 차량 시세{{ else }}시세 비교{{ end }} <small>(출처마다 성격이 달라 따로 계산)</small></p>
+    <p class="case-group-title">{{ if eq $c.case.category "car" }}비슷한 차량 시세{{ else }}시세 비교{{ end }} <small>(출처마다 성격이 달라 따로 계산 · 떠안을 금액은 빼지 않은 최저가 기준)</small></p>
     <div class="case-table-wrap"><table>
       <thead><tr><th>출처</th><th>건수</th><th>평균</th><th>최저가와 차이</th></tr></thead>
       <tbody>
       {{- range . }}
-        <tr><td>{{ .label }}</td><td>{{ .count }}건</td><td>{{ partial "krw.html" .avg }}</td><td>{{ if ne .gap_min nil }}{{ if ge (int .gap_min) 0 }}최저가가 {{ partial "krw.html" .gap_min }} 낮음{{ else }}최저가가 {{ partial "krw.html" (sub 0 (int .gap_min)) }} 높음{{ end }}{{ else }}계산 불가{{ end }}</td></tr>
+        <tr><td>{{ .label }}</td><td>{{ .count }}건</td><td>{{ partial "krw.html" .avg }}</td><td>{{ $d := .diff_minimum | default .gap_max }}{{ if ne $d nil }}{{ if ge (int $d) 0 }}최저가가 {{ partial "krw.html" $d }} 낮음{{ else }}최저가가 {{ partial "krw.html" (sub 0 (int $d)) }} 높음{{ end }}{{ else }}계산 불가{{ end }}</td></tr>
       {{- end }}
       </tbody>
     </table></div>

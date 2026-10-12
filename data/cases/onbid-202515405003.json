@@ -132,8 +132,8 @@
     "checked_at": "2026-10-11"
   },
   "computed": {
-    "engine_version": 5,
-    "input_hash": "03bc68ac84a4b7fc",
+    "engine_version": 6,
+    "input_hash": "f2ff1d7faf2fb6b6",
     "computed_at": "2026-10-12",
     "base_right": null,
     "rights": [],
@@ -149,6 +149,7 @@
     "price_gap": {
       "market_avg": 14615909,
       "trade_count": 2,
+      "diff_minimum": 6615909,
       "gap_min": 6615909,
       "gap_max": 6615909,
       "basis_source": "car365",
@@ -160,6 +161,7 @@
           "label": "자동차365 평균 매매가 (업자 판매가)",
           "count": 2,
           "avg": 14615909,
+          "diff_minimum": 6615909,
           "gap_min": 6615909,
           "gap_max": 6615909
         },
@@ -169,6 +171,7 @@
           "label": "자동차365 평균 매매가 (업자 매입가)",
           "count": 4,
           "avg": 12042046,
+          "diff_minimum": 4042046,
           "gap_min": 4042046,
           "gap_max": 4042046
         },
@@ -178,6 +181,7 @@
           "label": "온비드 공매 낙찰가",
           "count": 6,
           "avg": 16800724,
+          "diff_minimum": 8800724,
           "gap_min": 8800724,
           "gap_max": 8800724
         }
@@ -190,7 +194,7 @@
           "label": "가격 수준",
           "value": "자동차365 평균 매매가 (업자 판매가) 14,615,909원(2건)의 55% · 감정가의 100%",
           "stars": 5,
-          "note": "최저가(+인수 부담)가 비슷한 차량 시세보다 많이 낮을수록 별점이 높다(30% 이상 낮으면 5점)"
+          "note": "최저가가 비슷한 차량 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 \"권리 인수 위험\"에서 따로 본다"
         },
         {
           "key": "rights_risk",

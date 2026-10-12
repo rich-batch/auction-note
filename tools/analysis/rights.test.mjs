@@ -237,8 +237,24 @@ test('확인 지표 점수: 항목마다 0~5점, 시세 없으면 시세 지표�
   assert.equal(k.score.has_price_gap, false);
 
   const withMarket = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000, area_m2: 84, floor: 5 }] } }));
-  assert.ok(withMarket.score.items.some(x => x.key === 'price_gap'));
+  assert.deepEqual(withMarket.score.items.map(x => x.key), ['price', 'rights_risk', 'tenant_risk', 'review_load'], '시세는 가격 수준 하나로 — 떠안을 금액은 권리 인수 위험이 따로 본다');
   assert.equal(withMarket.score.has_price_gap, true);
+});
+
+test('가격 수준: 시세가 있으면 최저가 vs 시세 평균, 없으면 감정가 대비 — 30% 이상 낮으면 5점', () => {
+  // 감정가 5억·최저가 4억(80%), 시세 없음 → 감정가보다 20% 낮음 → 5×20/30 = 3.3 → 3점
+  assert.equal(computeCase(base()).score.items.find(x => x.key === 'price').stars, 3);
+  // 시세 평균 5억 → 최저가가 20% 낮음 → 3점, 시세 4억(=최저가) → 0점, 시세 6억 → 33% 낮음 → 5점
+  const at = price => computeCase(base({ market: { trades: [{ date: '2026-01-01', price, area_m2: 84 }] } })).score.items.find(x => x.key === 'price');
+  assert.equal(at(500000000).stars, 3);
+  assert.equal(at(400000000).stars, 0);
+  assert.equal(at(600000000).stars, 5);
+  assert.match(at(500000000).value, /국토부 실거래가 500,000,000원\(1건\)의 80%/);
+  // 떠안을 보증금이 미상이어도 가격 수준은 매긴다(인수 부담은 권리 인수 위험에서 "확인 필요")
+  const unknownDeposit = computeCase(base({ tenants: [tenant({ registered_on: '2020-05-09', deposit: null })], market: { trades: [{ date: '2026-01-01', price: 500000000, area_m2: 84 }] } }));
+  assert.equal(unknownDeposit.score.items.find(x => x.key === 'price').stars, 3);
+  assert.equal(unknownDeposit.price_gap.diff_minimum, 100000000);
+  assert.equal(unknownDeposit.price_gap.gap_min, null);
 });
 
 test('확인 지표 점수: 선순위 가처분처럼 소유권 상실 위험이 있으면 권리 인수 위험 0점', () => {
@@ -429,14 +445,14 @@ test('같은 출처라도 kind가 다르면 따로 계산하고, 먼저 적힌 k
   assert.equal(weighted.price_gap.trade_count, 4);
 });
 
-test('자동차: 시세가 있으면 가격 수준 별점을 시세 대비로 매기고 별도 시세갭 항목은 없음, 부동산은 둘 다 유지', () => {
+test('자동차·부동산 모두 시세가 있으면 가격 수준 별점을 시세 대비로 매기고 별도 시세갭 항목은 없음', () => {
   const car = computeCase(carBase({ sale: { ...carBase().sale, appraisal: 8000000, minimum: 8000000 }, market: { trades: [{ source: 'car365', kind: '업자 판매가', price: 14615909, count: 2 }] } }));
   const price = car.score.items.find(x => x.key === 'price');
   assert.equal(price.stars, 5); // 800만은 1,462만보다 45% 낮음 → 30% 이상이라 5점
   assert.match(price.value, /55%/);
   assert.equal(car.score.items.some(x => x.key === 'price_gap'), false);
   const apt = computeCase(base({ market: { trades: [{ date: '2026-01-01', price: 500000000 }] } }));
-  assert.ok(apt.score.items.some(x => x.key === 'price_gap'));
+  assert.equal(apt.score.items.some(x => x.key === 'price_gap'), false);
   assert.equal(typeof apt.score.items.find(x => x.key === 'price').stars, 'number');
 });
 

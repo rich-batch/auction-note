@@ -16,7 +16,7 @@
 import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 
-export const ENGINE_VERSION = 5; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로
+export const ENGINE_VERSION = 6; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거
 
 export const BASE_KINDS = ['근저당권', '저당권', '압류', '가압류', '담보가등기', '경매개시결정'];
 // 말소기준권리보다 앞서면 매수인이 인수하는 권리 (뒤면 소멸)
@@ -194,13 +194,15 @@ function computePriceGap(c, minimum, assumedMin, assumedMax) {
     const avg = Math.round(list.reduce((s, t) => s + t.price * (t.count ?? 1), 0) / n);
     return {
       source, kind, label: kind ? `${MARKET_SOURCES[source]} (${kind})` : MARKET_SOURCES[source], count: n, avg,
+      // diff_minimum: 최저가 자체와 시세 평균의 차이(떠안을 금액은 빼지 않음 — 그건 "권리 인수 위험"이 따로 본다)
+      diff_minimum: avg - minimum,
       // gap_min: 인수 부담이 최대일 때(보수적으로) 남는 차이 / gap_max: 인수 부담이 최소일 때 남는 차이
       gap_min: assumedMax == null ? null : avg - (minimum + assumedMax),
       gap_max: assumedMin == null ? null : avg - (minimum + assumedMin),
     };
   });
   const basis = by_source[0];
-  return { market_avg: basis.avg, trade_count: basis.count, gap_min: basis.gap_min, gap_max: basis.gap_max, basis_source: basis.source, basis_label: basis.label, by_source };
+  return { market_avg: basis.avg, trade_count: basis.count, diff_minimum: basis.diff_minimum, gap_min: basis.gap_min, gap_max: basis.gap_max, basis_source: basis.source, basis_label: basis.label, by_source };
 }
 
 // 확인 지표 점수: 지금 사건 데이터로 계산할 수 있는 객관 지표만, 각각 0~5점으로 정규화한다.
@@ -209,24 +211,20 @@ function computePriceGap(c, minimum, assumedMin, assumedMax) {
 function computeScore(c, { minimum, minimumRatio, failedRounds, ownershipRisk, assumedTotalMax, tenantResults, specialCount, reviewCount, priceGap }) {
   const items = [];
 
-  // 시세 대비 가격갭 별점: 최저가+인수 부담(최대)이 시세 평균보다 30% 이상 낮으면 5점
-  const gapStars = priceGap => {
-    const gapRatio = priceGap.gap_min == null || priceGap.market_avg === 0 ? null : priceGap.gap_min / priceGap.market_avg;
-    return gapRatio == null ? null : clamp(Math.round(5 * clamp(gapRatio / 0.3, 0, 1)), 0, 5);
-  };
+  // 가격 수준: 최저가가 기준 가격보다 얼마나 낮은지. 30% 이상 낮으면 5점, 같거나 높으면 0점.
+  // 기준은 비슷한 물건 시세(market.trades)가 있으면 시세 평균, 없으면 감정가(부동산만 — 자동차 감정가는 시세를 반영하지 못해 별점 없음).
+  // 떠안을 금액(인수 부담)은 여기서 빼지 않는다 — "권리 인수 위험"이 따로 보므로 두 번 세지 않는다.
+  const belowStars = ratioBelow => clamp(Math.round(5 * clamp(ratioBelow / 0.3, 0, 1)), 0, 5);
   const isCar = c.case?.category === 'car';
 
   items.push((() => {
-    const value = `감정가의 ${minimumRatio}%${failedRounds ? ` (유찰 ${failedRounds}회)` : ''}`;
-    // 자동차 감정가는 중고차 시세를 따라가지 못해(연식·주행거리·사고 이력 반영이 늦다) 감정가 대비가 아니라
-    // 비슷한 차량 시세 대비로 가격 수준을 매긴다. 시세가 없으면 별점 없이 참고용.
-    if (isCar) {
-      if (!priceGap) return { key: 'price', label: '가격 수준', value, stars: null, note: '자동차는 감정가가 현재 중고차 시세를 반영하지 못해 감정가 대비로는 별점을 매기지 않는다 — 비슷한 차량 시세를 넣으면 그 대비로 매긴다' };
-      const pct = Math.round(((minimum + (assumedTotalMax ?? 0)) / priceGap.market_avg) * 100);
-      return { key: 'price', label: '가격 수준', value: `${priceGap.basis_label} ${krw(priceGap.market_avg)}원(${priceGap.trade_count}건)의 ${pct}% · ${value}`, stars: gapStars(priceGap), note: '최저가(+인수 부담)가 비슷한 차량 시세보다 많이 낮을수록 별점이 높다(30% 이상 낮으면 5점)' };
+    const appraisalText = `감정가의 ${minimumRatio}%${failedRounds ? ` (유찰 ${failedRounds}회)` : ''}`;
+    if (priceGap && priceGap.market_avg > 0) {
+      const pct = Math.round((minimum / priceGap.market_avg) * 100);
+      return { key: 'price', label: '가격 수준', value: `${priceGap.basis_label} ${krw(priceGap.market_avg)}원(${priceGap.trade_count}건)의 ${pct}% · ${appraisalText}`, stars: belowStars(1 - minimum / priceGap.market_avg), note: `최저가가 비슷한 ${isCar ? '차량' : '물건'} 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 "권리 인수 위험"에서 따로 본다` };
     }
-    const stars = clamp(Math.round((100 - minimumRatio) / 20), 0, 5);
-    return { key: 'price', label: '가격 수준', value, stars, note: '최저매각가격이 감정가 대비 낮을수록 별점이 높다' };
+    if (isCar) return { key: 'price', label: '가격 수준', value: appraisalText, stars: null, note: '자동차는 감정가가 현재 중고차 시세를 반영하지 못해 감정가 대비로는 별점을 매기지 않는다 — 비슷한 차량 시세를 넣으면 그 대비로 매긴다' };
+    return { key: 'price', label: '가격 수준', value: appraisalText, stars: belowStars((100 - minimumRatio) / 100), note: '시세 자료가 없어 감정가 대비로 매겼다(30% 이상 낮으면 5점). 감정가는 시세보다 늦게 따라와 참고로만 본다' };
   })());
 
   items.push((() => {
@@ -249,11 +247,6 @@ function computeScore(c, { minimum, minimumRatio, failedRounds, ownershipRisk, a
     const stars = clamp(5 - Math.ceil(n / 2), 0, 5);
     return { key: 'review_load', label: '확인 필요 사항', value: `특수 사항 ${specialCount}건, 계산 도구 확인 요청 ${reviewCount}건`, stars, note: '코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다' };
   })());
-
-  // 부동산은 감정가 대비 가격 수준과 별도로 시세갭 지표를 둔다(자동차는 위 가격 수준에 합쳤다)
-  if (priceGap && !isCar) {
-    items.push({ key: 'price_gap', label: '시세 대비 가격갭', value: `${priceGap.basis_label} 평균 ${krw(priceGap.market_avg)}원, ${priceGap.trade_count}건 기준`, stars: gapStars(priceGap), note: '최저가에 인수 부담(최대 기준)을 더한 금액이 시세 평균보다 많이 낮을수록 별점이 높다' });
-  }
 
   const rated = items.filter(x => x.stars != null);
   const totalStars = rated.length ? Math.round((rated.reduce((s, x) => s + x.stars, 0) / rated.length) * 2) / 2 : null;

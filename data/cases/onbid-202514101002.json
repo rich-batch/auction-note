@@ -76,8 +76,8 @@
     "checked_at": "2026-10-11"
   },
   "computed": {
-    "engine_version": 5,
-    "input_hash": "d405b78dfc982539",
+    "engine_version": 6,
+    "input_hash": "5ef92fbfff1e64e1",
     "computed_at": "2026-10-12",
     "base_right": null,
     "rights": [],
@@ -93,6 +93,7 @@
     "price_gap": {
       "market_avg": 6535000,
       "trade_count": 2,
+      "diff_minimum": 3535000,
       "gap_min": 3535000,
       "gap_max": 3535000,
       "basis_source": "onbid",
@@ -104,6 +105,7 @@
           "label": "온비드 공매 낙찰가",
           "count": 2,
           "avg": 6535000,
+          "diff_minimum": 3535000,
           "gap_min": 3535000,
           "gap_max": 3535000
         }
@@ -116,7 +118,7 @@
           "label": "가격 수준",
           "value": "온비드 공매 낙찰가 6,535,000원(2건)의 46% · 감정가의 100%",
           "stars": 5,
-          "note": "최저가(+인수 부담)가 비슷한 차량 시세보다 많이 낮을수록 별점이 높다(30% 이상 낮으면 5점)"
+          "note": "최저가가 비슷한 차량 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 \"권리 인수 위험\"에서 따로 본다"
         },
         {
           "key": "rights_risk",
