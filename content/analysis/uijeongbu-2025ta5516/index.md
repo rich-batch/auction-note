@@ -3,7 +3,7 @@ title: "경기 연천 이편한세상연천웰스하임 85㎡ 경매 (2025타경
 author: "rich-batch"
 date: 2026-10-12
 lastmod: 2026-10-12
-draft: true
+draft: false
 case: "uijeongbu-2025ta5516"
 categories: ["권리분석·명도"]
 tags: [연천군, 아파트, 근저당권, 점유자, 인도명령]

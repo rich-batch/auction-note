@@ -3,7 +3,7 @@ title: "경기 포천 신포천아파트 51㎡ 경매 (2025타경73895)"
 author: "rich-batch"
 date: 2026-10-12
 lastmod: 2026-10-12
-draft: true
+draft: false
 case: "uijeongbu-2025ta73895"
 categories: ["권리분석·명도"]
 tags: [포천시, 아파트, 대항력, 배당요구, 인도명령]

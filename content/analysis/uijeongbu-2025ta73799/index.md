@@ -3,7 +3,7 @@ title: "경기 의정부 아파트 24㎡ 경매 (2025타경73799)"
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "uijeongbu-2025ta73799"
 categories: ["권리분석·명도"]
 tags: [의정부시, 아파트, 강제경매, 경매개시결정]

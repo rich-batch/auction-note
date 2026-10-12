@@ -3,7 +3,7 @@ title: "경기 의정부 호원가든2차아파트 60㎡ 경매 (2024타경87276
 author: "rich-batch"
 date: 2026-10-12
 lastmod: 2026-10-12
-draft: true
+draft: false
 case: "uijeongbu-2024ta87276"
 categories: ["권리분석·명도"]
 tags: [의정부시, 아파트, 근저당권, 인도명령]

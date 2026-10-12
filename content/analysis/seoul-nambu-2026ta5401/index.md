@@ -3,7 +3,7 @@ title: "서울 양천구 우창아파트 84㎡ 경매, 임차인 보증금 인�
 author: "rich-batch"
 date: 2026-10-11
 lastmod: 2026-10-11
-draft: true
+draft: false
 case: "seoul-nambu-2026ta5401"
 categories: ["권리분석·명도"]
 tags: [양천구, 아파트, 대항력, 확정일자, 배당요구]

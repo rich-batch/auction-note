@@ -3,7 +3,7 @@ title: "경기 의정부 극동스타클래스아파트 76㎡ 경매 (2025타경
 author: "rich-batch"
 date: 2026-10-12
 lastmod: 2026-10-12
-draft: true
+draft: false
 case: "uijeongbu-2025ta73550"
 categories: ["권리분석·명도"]
 tags: [의정부시, 아파트, 말소기준권리, 근저당권, 임의경매]
