@@ -229,7 +229,7 @@ function computeScore(c, { minimum, minimumRatio, failedRounds, ownershipRisk, a
 
   items.push((() => {
     if (ownershipRisk) return { key: 'rights_risk', label: '권리 인수 위험', value: '소유권 상실 위험 권리 있음', stars: 0, note: '선순위 가처분·가등기 등으로 소유권을 잃을 수 있는 권리가 있다' };
-    if (assumedTotalMax == null) return { key: 'rights_risk', label: '권리 인수 위험', value: '확인 필요', stars: null, note: '인수 금액을 알 수 없는 등기 권리가 있어 계산할 수 없다' };
+    if (assumedTotalMax == null) return { key: 'rights_risk', label: '권리 인수 위험', value: '확인 필요', stars: null, note: '떠안을 수 있는 금액 중 모르는 것(임차인 보증금·등기 금액, 또는 명세서와 계산이 어긋난 권리)이 있어 계산할 수 없다' };
     const ratio = minimum > 0 ? assumedTotalMax / minimum : 0;
     const stars = clamp(Math.round(5 * (1 - Math.min(ratio, 1))), 0, 5);
     return { key: 'rights_risk', label: '권리 인수 위험', value: `인수 예상 최대 ${krw(assumedTotalMax)}원(최저가의 ${Math.round(ratio * 100)}%)`, stars, note: '매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다' };
