@@ -3,7 +3,7 @@ title: "서울 광진구 중곡동 레졸루트아차산 53㎡ 경매 (2025타�
 author: "rich-batch"
 date: 2026-10-12
 lastmod: 2026-10-12
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta51836"
 categories: ["권리분석·명도"]
 tags: [광진구, 빌라, "확인할 권리 있음", "임차권등기", 말소기준권리, 대항력, 매각물건명세서]
