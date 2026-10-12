@@ -17,7 +17,7 @@
     "kind": "강제경매",
     "category": "apartment",
     "region": "서울특별시 구로구 구로동 98-14 마인드에코프라움 제7층 제705호",
-    "area_m2": null
+    "area_m2": 35.34
   },
   "sale": {
     "appraisal": 290000000,
@@ -25,7 +25,7 @@
     "failed_rounds": 5,
     "sale_date": "2026-11-04",
     "dividend_deadline": "2025-07-21",
-    "resale": false
+    "resale": true
   },
   "rights": [
     {
@@ -140,8 +140,8 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "25117596359c6566",
-    "computed_at": "2026-10-11",
+    "input_hash": "07a7c0407d01bc61",
+    "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
       "date": "2023-08-30",
@@ -207,8 +207,8 @@
     "assumed_total_min": 0,
     "assumed_total_max": null,
     "minimum_ratio": 32.8,
-    "deposit_rate": 0.1,
-    "bid_deposit": 9502700,
+    "deposit_rate": 0.2,
+    "bid_deposit": 19005400,
     "minimum_plus_assumed_min": 95027000,
     "minimum_plus_assumed_max": null,
     "price_gap": null,

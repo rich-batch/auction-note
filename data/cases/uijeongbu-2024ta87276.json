@@ -17,7 +17,7 @@
     "kind": "임의경매",
     "category": "apartment",
     "region": "경기도 의정부시 호동로 72, 204동 9층 905호 (호원동,호원가든2차아파트)",
-    "area_m2": null
+    "area_m2": 59.76
   },
   "sale": {
     "appraisal": 319000000,
@@ -58,8 +58,8 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "7e5ee0f7d66a6f48",
-    "computed_at": "2026-10-11",
+    "input_hash": "4224707073ab236a",
+    "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
       "date": "2016-03-07",

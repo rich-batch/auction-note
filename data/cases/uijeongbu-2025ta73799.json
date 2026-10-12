@@ -17,7 +17,7 @@
     "kind": "강제경매",
     "category": "apartment",
     "region": "경기도 의정부시 호원동 468-4 1동 13층 1302호",
-    "area_m2": null
+    "area_m2": 23.79
   },
   "sale": {
     "appraisal": 154000000,
@@ -58,7 +58,7 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "6476b665735ccf56",
+    "input_hash": "d7dd12503d545a05",
     "computed_at": "2026-10-11",
     "base_right": {
       "index": 0,

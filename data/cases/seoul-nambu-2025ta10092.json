@@ -17,7 +17,7 @@
     "kind": "강제경매",
     "category": "apartment",
     "region": "서울특별시 영등포구 영등포동1가 145 제12층 제1212호",
-    "area_m2": null
+    "area_m2": 15.076
   },
   "sale": {
     "appraisal": 136000000,
@@ -80,8 +80,8 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "78e635b0584f2976",
-    "computed_at": "2026-10-11",
+    "input_hash": "4fcc08e18c0b213f",
+    "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
       "date": "2023-12-15",

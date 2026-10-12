@@ -17,7 +17,7 @@
     "kind": "강제경매",
     "category": "apartment",
     "region": "서울특별시 구로구 구로동 744-3 제4층 제401호",
-    "area_m2": null
+    "area_m2": 38.81
   },
   "sale": {
     "appraisal": 204000000,
@@ -124,8 +124,8 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "b66159d2ebcc85dc",
-    "computed_at": "2026-10-11",
+    "input_hash": "47bb9238e4d14e72",
+    "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
       "date": "2025-12-19",

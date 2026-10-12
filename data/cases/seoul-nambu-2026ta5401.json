@@ -17,7 +17,7 @@
     "kind": "임의경매",
     "category": "apartment",
     "region": "서울특별시 양천구 신월동 530-7 우창아파트 제2층 제201호",
-    "area_m2": null
+    "area_m2": 83.61
   },
   "sale": {
     "appraisal": 465000000,
@@ -76,7 +76,7 @@
   },
   "computed": {
     "engine_version": 4,
-    "input_hash": "34b0ddcb34d80382",
+    "input_hash": "a60f3ca77d567adb",
     "computed_at": "2026-10-11",
     "base_right": {
       "index": 0,
