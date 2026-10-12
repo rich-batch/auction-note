@@ -9,9 +9,9 @@
 // 법원경매정보 사이트에서 직접 확인한 사건번호를 쓴다.
 //
 // 이 스크립트가 채우는 건 공개 API가 주는 필드뿐이다(사건번호·소재지·물건종류·감정가·최저가·
-// 매각기일·배당요구종기·청구금액). 매각물건명세서·등기사항전부증명서·현황조사서는 이 API가
-// 제공하지 않는다(court-auction-notice-search 자체 문서에 명시된 한계) — 사람이 서류를 보고
-// rights[]·tenants[]·spec_sheet에 채워야 한다.
+// 매각기일·배당요구종기·청구금액). 나머지는 다른 공개 경로로 채운다 — tenants[]는 fetch-court-docs.mjs(현황조사서),
+// rights[0]·spec_sheet·전용면적은 fetch-court-result.mjs --write(물건상세의 매각물건명세서 요약).
+// 등기사항전부증명서는 인터넷등기소 유료 열람이라 이 블로그는 보지 않는다.
 import fs from 'node:fs';
 import { getCaseByCaseNumber, getSaleNoticeDetail } from 'court-auction-notice-search';
 import { casePath, casesDir, rel, todayKST, ID_RE } from '../lib/paths.mjs';
@@ -74,7 +74,7 @@ const skeleton = {
     checked_at: todayKST(),
     documents: isCar
       ? ['자동차등록원부 등본(갑구·을구)']
-      : ['매각물건명세서', '현황조사서'], // 실제로 확인한 서류만. 등기사항전부증명서는 사람이 열람해 rights[]를 채운 뒤에 추가한다
+      : ['매각물건명세서', '현황조사서'], // 실제로 확인한 공개 자료만 — 등기사항전부증명서는 유료라 보지 않는다
     type: 'court',
     note: `법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + ${saleDate} 매각공고 상세). 청구금액 ${info.claimAmount?.toLocaleString('ko-KR') ?? '미상'}원.${item.remarks ? ` 공고 비고: "${item.remarks}"` : ''}`,
   },
@@ -121,7 +121,7 @@ if (isCar) {
   console.log(`  - rights[]: 자동차등록원부(을구 저당권 등록사항) — 정부24 등에서 직접 열람`);
   console.log(`  - special[]: 유치권 여부 등`);
 } else {
-  console.log(`  - rights[]: 등기사항전부증명서의 갑구·을구 부담 등기 전체`);
+  console.log(`  - rights[]·spec_sheet·전용면적: node tools/analysis/fetch-court-result.mjs ${id} --write (매각물건명세서 요약의 최선순위 설정 — 등기부는 유료라 보지 않는다)`);
   console.log(`  - tenants[]: 매각물건명세서·현황조사서상 점유자·임차인`);
   console.log(`  - spec_sheet: 매각물건명세서 기재 내용(최선순위 설정, 인수되는 권리 등)`);
 }

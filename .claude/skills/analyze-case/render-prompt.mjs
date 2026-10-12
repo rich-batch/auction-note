@@ -96,6 +96,10 @@ for (const c of targets) {
     object_rule: OBJECT_RULE[c.case.category] ?? '물건을 알아볼 수 있는 이름',
     date: today,
     checked_at: c.source?.checked_at ?? '(없음)',
+    // 참고 자료·조사 노트에 적을 사건 자료 줄 — 이 블로그가 실제로 본 공개 자료만. 등기사항전부증명서는 유료라 열람하지 않는다
+    source_line: c.source?.type === 'onbid'
+      ? `[온비드 공매재산명세](https://www.onbid.co.kr/) — 물건관리번호 ${c.case.number} 물건 상세·공매재산명세서·온비드 공개 등기 요약 (확인일 ${c.source?.checked_at ?? '(없음)'})`
+      : `[대법원 법원경매정보 · ${c.case.number} 사건 검색](https://www.courtauction.go.kr/) — 매각물건명세서 요약(최선순위 설정·매각으로 소멸되지 않는 권리)·현황조사서·기일 내역 (확인일 ${c.source?.checked_at ?? '(없음)'})`,
     article_path: rel(articlePath('analysis', c.id)),
     research_path: rel(researchPath('analysis', c.id)),
     case_json: JSON.stringify(input, null, 2),

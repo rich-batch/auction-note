@@ -7,6 +7,8 @@
 //   result          분석한 회차(sale.sale_date)의 결과 + 그 뒤 회차(later[]) — 결과 페이지·배너가 자동 갱신
 //   sale.failed_rounds  분석한 회차 이전에 유찰된 횟수(공고 데이터와 어긋나던 값을 바로잡는다)
 //   spec_sheet.base_right_text / surviving_rights_text  비어 있을 때만 채운다(사람이 넣은 값은 그대로)
+//   rights[0]       rights에 날짜 있는 권리가 없으면 명세서 "최선순위 설정"의 날짜·종류(등기부는 유료라 보지 않는다)
+//   case.area_m2    비어 있으면 물건상세 "전유" 면적
 // 다음 회차(아직 결과 없음)는 콘솔에 보여 주기만 한다 — 그 회차를 분석할지는 사람이 정한다.
 //
 // 원본 응답은 private/court/<id>.goods.json에 저장한다(이해관계인 실명이 섞여 있어 저장소 밖 — private/는
@@ -101,6 +103,17 @@ for (const id of ids) {
   data.spec_sheet ??= {};
   if (!data.spec_sheet.base_right_text && info.tprtyRnkHypthcStngDts) data.spec_sheet.base_right_text = info.tprtyRnkHypthcStngDts;
   if (!data.spec_sheet.surviving_rights_text && info.ndstrcRghCtt) data.spec_sheet.surviving_rights_text = info.ndstrcRghCtt;
+  // 말소기준권리: 등기부(유료)를 보지 않으므로 명세서 "최선순위 설정"(예: "2023.06.20. 근저당권")의 날짜·종류를 rights[0]에 옮긴다.
+  // rights[]에 날짜 있는 권리가 이미 있으면(사람이 넣었으면) 건드리지 않는다.
+  const KIND = { '근저당': '근저당권', '개시결정': '경매개시결정' };
+  const top = /^(\d{4})\.(\d{2})\.(\d{2})\.?\s*(.+)$/.exec((info.tprtyRnkHypthcStngDts ?? '').trim());
+  if (top && !(data.rights ?? []).some(r => r.date)) {
+    const kind = KIND[top[4].trim()] ?? top[4].trim();
+    const holder = data.rights?.[0]?.holder_type ?? null;
+    data.rights = [{ date: `${top[1]}-${top[2]}-${top[3]}`, receipt_no: null, kind, amount: null, holder_type: /저당/.test(kind) ? holder : null,
+      note: `매각물건명세서 "최선순위 설정"(법원경매정보 물건상세, ${today} 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인` }];
+    console.log(`  rights[0] → ${data.rights[0].date} ${kind}(명세서 최선순위 설정)`);
+  }
   // 전용면적: 물건상세 건물 목록의 "전유" 행(예: "철근콘크리트조 / 84.92㎡")에서 면적이 하나뿐일 때만 채운다
   if (data.case.area_m2 == null) {
     const own = (goods?.bldSdtrDtlLstAll ?? []).flat().filter(b => b.rletDvsDts === '전유');

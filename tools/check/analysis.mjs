@@ -74,6 +74,12 @@ for (const [name, shortcode] of REQUIRED) {
   if (shortcode) check(new RegExp(`\\{\\{<\\s*${shortcode}\\s*>\\}\\}`).test(sectionText(name)), `"## ${name}" 안에 {{< ${shortcode} >}}가 없음 — 표는 사건 데이터에서 자동으로 그린다`);
 }
 check(h2.at(-1) === '참고 자료', '"## 참고 자료"가 마지막 섹션이 아님');
+// 등기사항전부증명서는 유료라 이 블로그는 보지 않는다 — 참고 자료에 출처로 적거나 직접 본 것처럼 쓰면 독자를 속이게 된다
+// (.claude/skills/analyze-case/SKILL.md "등기부를 보지 않는 분석"). 독자에게 열람을 권하는 문장은 괜찮다.
+const refLines = sectionText('참고 자료').split('\n').filter(l => /등기사항(전부)?증명서|등기부/.test(l) && !/iros\.go\.kr|등기사항증명서 주요정보/.test(l)); // 인터넷등기소 링크(독자가 열람하는 곳), 온비드 공개 요약 표 이름("등기사항증명서 주요정보")은 허용
+check(!refLines.length, `참고 자료에 등기사항전부증명서를 출처로 적음 — 이 블로그는 등기부를 보지 않는다(유료). 실제로 본 공개 자료(매각물건명세서 요약·현황조사서·공매재산명세)만 적는다: ${refLines.map(l => l.trim().slice(0, 60)).join(' / ')}`);
+const sawRegistry = body.split(/(?<=[.!?다요])\s+/).filter(x => /등기부(를|에서)? ?(확인|열람|조회)(해 ?보니|한 결과|했더니|해 보면)|등기부상|등기사항전부증명서(를|에서)? (보니|확인한 결과)/.test(x));
+check(!sawRegistry.length, `등기부를 직접 본 것처럼 읽히는 문장 — 출처는 "매각물건명세서에 따르면"처럼 공개 자료로 밝힌다: ${sawRegistry.map(x => x.trim().slice(0, 50)).join(' / ')}`);
 check(!/^\|.+\|\s*\n\|\s*:?-{3,}/m.test(body), '본문에 마크다운 표를 직접 씀 — 사건 수치는 shortcode 표로만 보여 준다(데이터와 어긋나지 않게)');
 
 // 서론: 기준일 = 사건 데이터 확인일(source.checked_at)

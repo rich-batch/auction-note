@@ -38,7 +38,7 @@ layouts/analysissearch/list.html   /analysis/search/ 물건 검색(필터·정�
 
 ## 규칙
 
-- **사실 → 판정 → 해설을 섞지 않는다.** 분석 글의 사실은 `data/cases/<id>.json`에만 있고(사람이 서류를 보고 입력), 말소기준권리·인수/소멸·대항력은 `tools/analysis/compute.mjs`가 계산하고, AI는 그 결과를 해설만 한다. 본문에 사건 수치 표를 직접 쓰지 않는다(`{{< case-summary >}}` 등 shortcode).
+- **사실 → 판정 → 해설을 섞지 않는다.** 분석 글의 사실은 `data/cases/<id>.json`에만 있고(법원·온비드가 무료로 공개하는 자료를 도구와 사람이 옮긴 것 — **등기사항전부증명서는 유료라 보지 않는다**, 등기부로만 알 수 있는 것은 글에서 "확인하지 못했다"로 쓰고 독자가 확인하게 한다), 말소기준권리·인수/소멸·대항력은 `tools/analysis/compute.mjs`가 계산하고, AI는 그 결과를 해설만 한다. 본문에 사건 수치 표를 직접 쓰지 않는다(`{{< case-summary >}}` 등 shortcode).
 - `data/cases/*.json`의 `computed`는 손으로 고치지 않는다. 입력을 고쳤으면 `node tools/analysis/compute.mjs <id>`.
 - 계산 규칙을 바꾸면 `tools/analysis/rights.test.mjs`도 고치고 `node --test tools/analysis/rights.test.mjs`를 통과시킨다.
 - **저장소와 사이트는 공개 상태다.** 이름·주민번호·전화번호를 데이터·글·조사 노트에 넣지 않는다(FORBIDDEN_KEYS·정규식 검사가 막는다). 서류 원본은 `private/`(gitignore)나 저장소 밖에. 소재지(`case.region`)는 지번·동/호수를 포함한 **전체 주소**를 넣는다 — 법원경매정보·온비드가 법률상 공개하는 정보이고 기존 경매정보 서비스(탱크옥션·마당 등)도 동일하게 전체 주소를 쓴다. 사람 이름만 계속 마스킹한다.
