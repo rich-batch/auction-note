@@ -52,9 +52,39 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
+    "outcome": "유찰",
     "winning_bid": null,
     "bidders": null,
-    "checked_at": null
+    "later": [
+      {
+        "date": "2026-09-30",
+        "minimum": 494400000,
+        "outcome": "유찰",
+        "winning_bid": null,
+        "bidders": null
+      },
+      {
+        "date": "2026-09-30",
+        "minimum": 445500000,
+        "outcome": "유찰",
+        "winning_bid": null,
+        "bidders": null
+      },
+      {
+        "date": "2026-10-01",
+        "minimum": 401400000,
+        "outcome": "유찰",
+        "winning_bid": null,
+        "bidders": null
+      },
+      {
+        "date": "2026-10-01",
+        "minimum": 400000000,
+        "outcome": "유찰",
+        "winning_bid": null,
+        "bidders": null
+      }
+    ],
+    "checked_at": "2026-10-12"
   }
 }
