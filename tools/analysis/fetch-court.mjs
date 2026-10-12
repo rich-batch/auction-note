@@ -74,7 +74,7 @@ const skeleton = {
     checked_at: todayKST(),
     documents: isCar
       ? ['자동차등록원부 등본(갑구·을구)']
-      : ['매각물건명세서', '등기사항전부증명서', '현황조사서'],
+      : ['매각물건명세서', '현황조사서'], // 실제로 확인한 서류만. 등기사항전부증명서는 사람이 열람해 rights[]를 채운 뒤에 추가한다
     type: 'court',
     note: `법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + ${saleDate} 매각공고 상세). 청구금액 ${info.claimAmount?.toLocaleString('ko-KR') ?? '미상'}원.${item.remarks ? ` 공고 비고: "${item.remarks}"` : ''}`,
   },

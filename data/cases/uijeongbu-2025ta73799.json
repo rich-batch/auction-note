@@ -4,7 +4,6 @@
     "checked_at": "2026-09-28",
     "documents": [
       "매각물건명세서",
-      "등기사항전부증명서",
       "현황조사서"
     ],
     "type": "court",
@@ -59,7 +58,7 @@
   "computed": {
     "engine_version": 4,
     "input_hash": "d7dd12503d545a05",
-    "computed_at": "2026-10-11",
+    "computed_at": "2026-10-12",
     "base_right": {
       "index": 0,
       "date": "2025-12-17",
