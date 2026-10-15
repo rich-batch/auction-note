@@ -1,0 +1,157 @@
+{
+  "id": "seoul-nambu-2025ta13389",
+  "source": {
+    "checked_at": "2026-10-15",
+    "documents": [
+      "매각물건명세서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-10-29 매각공고 상세). 청구금액 206,076,295원. / 법원경매정보 현황조사서(pgj15B/selectCurstExmndc.on)로 확인, 이름은 저장하지 않음"
+  },
+  "case": {
+    "number": "2025타경13389",
+    "item_no": 1,
+    "court": "서울남부지방법원",
+    "kind": "강제경매",
+    "category": "villa",
+    "region": "서울특별시 강서구 화곡동 345-2 웰스파크빌 제2층 제203호",
+    "area_m2": 27.52
+  },
+  "sale": {
+    "appraisal": 200000000,
+    "minimum": 160000000,
+    "failed_rounds": 1,
+    "sale_date": "2026-10-29",
+    "dividend_deadline": "2026-02-23",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "2025-11-20",
+      "receipt_no": null,
+      "kind": "경매개시결정",
+      "amount": null,
+      "holder_type": null,
+      "note": "매각물건명세서 \"최선순위 설정\"(법원경매정보 물건상세, 2026-10-15 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인"
+    }
+  ],
+  "tenants": [
+    {
+      "use": "주거",
+      "registered_on": "2020-08-05",
+      "fixed_date": "2020-07-02",
+      "deposit": 190400000,
+      "monthly_rent": null,
+      "dividend_claim": false,
+      "dividend_claim_date": null,
+      "occupies": true,
+      "lease_registered": false,
+      "note": "매각물건명세서 요약(물건상세 '매각으로 소멸되지 않는 권리', 2026-10-15 조회)의 '매수인에게 대항할 수 있는 임차인' 기재를 옮김 — 보증금·전입일·확정일자는 명세서 요약 값. 현황조사서 점유관계는 '미상'이라 실제 점유는 확인하지 못함(occupies는 명세서의 대항력 판단을 따름). 배당요구 여부는 공개 요약에 없어 확인하지 못함(false는 미확인 기본값 — 인수액 상한으로 계산됨). 이름은 저장하지 않음"
+    }
+  ],
+  "special": [
+    {
+      "kind": "점유관계 확인 필요",
+      "note": "법원경매정보 현황조사서 점유관계: \"미상\" — 이름은 저장하지 않음. 매각물건명세서·현황조사서 원본으로 직접 확인"
+    }
+  ],
+  "spec_sheet": {
+    "base_right_text": "2025.11.20. 경매개시결정",
+    "surviving_rights_text": "매수인에게 대항할 수 있는 임차인이 있음(임대차보증금 190,400,000원, 전입일자 2020.08.05., 확정일자 2020.07.02.).배당에서 보증금이 전액 변제되지 아니하면 잔액을 매수인이 인수함.",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  },
+  "computed": {
+    "engine_version": 7,
+    "input_hash": "6d85cf99289d0402",
+    "computed_at": "2026-10-15",
+    "base_right": {
+      "index": 0,
+      "date": "2025-11-20",
+      "kind": "경매개시결정"
+    },
+    "rights": [
+      {
+        "index": 0,
+        "date": "2025-11-20",
+        "kind": "경매개시결정",
+        "amount": null,
+        "effect": "소멸",
+        "reason": "말소기준권리"
+      }
+    ],
+    "tenants": [
+      {
+        "index": 0,
+        "use": "주거",
+        "registered_on": "2020-08-05",
+        "deposit": 190400000,
+        "opposable": true,
+        "effect": "인수",
+        "assumed_min": 190400000,
+        "assumed_max": 190400000,
+        "reason": "대항력 있고 배당요구 없음 — 보증금 전액 매수인 인수"
+      }
+    ],
+    "ownership_risk": false,
+    "assumed_total_min": 190400000,
+    "assumed_total_max": 190400000,
+    "minimum_ratio": 80,
+    "deposit_rate": 0.1,
+    "bid_deposit": 16000000,
+    "minimum_plus_assumed_min": 350400000,
+    "minimum_plus_assumed_max": 350400000,
+    "price_gap": null,
+    "score": {
+      "items": [
+        {
+          "key": "price",
+          "label": "가격 수준",
+          "value": "감정가의 80% (유찰 1회)",
+          "stars": 3,
+          "note": "시세 자료가 없어 감정가 대비로 매겼다(30% 이상 낮으면 5점). 감정가는 시세보다 늦게 따라와 참고로만 본다"
+        },
+        {
+          "key": "rights_risk",
+          "label": "권리 인수 위험",
+          "value": "인수 예상 최대 190,400,000원(최저가의 119%)",
+          "stars": 0,
+          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+        },
+        {
+          "key": "tenant_risk",
+          "label": "임차인 위험",
+          "value": "인수 부담 남는 대항력 임차인 1명",
+          "stars": 3,
+          "note": "대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다"
+        },
+        {
+          "key": "review_load",
+          "label": "확인 필요 사항",
+          "value": "특수 사항 1건, 계산 도구 확인 요청 2건",
+          "stars": 3,
+          "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
+        }
+      ],
+      "total_stars": 2.5,
+      "rated_count": 4,
+      "has_price_gap": false
+    },
+    "review": [
+      "특수 사항 \"점유관계 확인 필요\" (법원경매정보 현황조사서 점유관계: \"미상\" — 이름은 저장하지 않음. 매각물건명세서·현황조사서 원본으로 직접 확인) — 등기만으로 판정 불가, 현장·서류 확인",
+      "시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)"
+    ]
+  }
+}
