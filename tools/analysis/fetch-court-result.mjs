@@ -20,6 +20,7 @@ import { loadCase } from '../lib/cases.mjs';
 import { casePath, rel, todayKST } from '../lib/paths.mjs';
 import { courtCodeFromId } from '../lib/courts.mjs';
 import { CourtDocsHttpClient, fetchGoodsDetail } from '../lib/court-docs.mjs';
+import { parseTopPriority, parseSurvivingRights } from '../lib/parse.mjs';
 
 const args = process.argv.slice(2);
 const write = args.includes('--write');
@@ -103,28 +104,29 @@ for (const id of ids) {
   data.spec_sheet ??= {};
   if (!data.spec_sheet.base_right_text && info.tprtyRnkHypthcStngDts) data.spec_sheet.base_right_text = info.tprtyRnkHypthcStngDts;
   if (!data.spec_sheet.surviving_rights_text && info.ndstrcRghCtt) data.spec_sheet.surviving_rights_text = info.ndstrcRghCtt;
-  // 말소기준권리: 등기부(유료)를 보지 않으므로 명세서 "최선순위 설정"(예: "2023.06.20. 근저당권")의 날짜·종류를 rights[0]에 옮긴다.
-  // rights[]에 날짜 있는 권리가 이미 있으면(사람이 넣었으면) 건드리지 않는다.
+  // 말소기준권리: 등기부(유료)를 보지 않으므로 명세서 "최선순위 설정"(예: "2023.06.20. 근저당권", "2023. 4. 13. 근저당권")의
+  // 날짜·종류를 rights[0]에 옮긴다. rights[]에 날짜 있는 권리가 이미 있으면(사람이 넣었으면) 건드리지 않는다.
   const KIND = { '근저당': '근저당권', '개시결정': '경매개시결정' };
-  const top = /^(\d{4})\.(\d{2})\.(\d{2})\.?\s*(.+)$/.exec((info.tprtyRnkHypthcStngDts ?? '').trim());
+  const top = parseTopPriority(info.tprtyRnkHypthcStngDts);
+  if (info.tprtyRnkHypthcStngDts && !top) console.log(`  ⚠ 최선순위 설정 "${info.tprtyRnkHypthcStngDts}"에서 날짜를 못 읽음 — rights[]에 넣지 않음, 사람이 확인`);
   if (top && !(data.rights ?? []).some(r => r.date)) {
-    const kind = KIND[top[4].trim()] ?? top[4].trim();
+    const kind = KIND[top.kind] ?? top.kind;
     const holder = data.rights?.[0]?.holder_type ?? null;
-    data.rights = [{ date: `${top[1]}-${top[2]}-${top[3]}`, receipt_no: null, kind, amount: null, holder_type: /저당/.test(kind) ? holder : null,
+    data.rights = [{ date: top.date, receipt_no: null, kind, amount: null, holder_type: /저당/.test(kind) ? holder : null,
       note: `매각물건명세서 "최선순위 설정"(법원경매정보 물건상세, ${today} 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인` }];
     console.log(`  rights[0] → ${data.rights[0].date} ${kind}(명세서 최선순위 설정)`);
   }
   // 매각으로 소멸되지 않는 권리: 명세서가 "2024.07.09접수 제107054호로 경료된 을구 1번 주택임차권등기는 …"처럼
   // 날짜·접수번호·종류를 적었으면 그대로 rights[]에 넣는다(금액은 명세서에 없어 null — 계산이 "미상"으로 남긴다).
   const SURVIVING = [['주택임차권등기', '임차권등기'], ['임차권등기', '임차권등기'], ['전세권', '전세권'], ['지상권', '지상권'], ['가처분', '가처분'], ['소유권이전청구권가등기', '소유권이전청구권가등기']];
-  for (const m of (info.ndstrcRghCtt ?? '').matchAll(/(\d{4})\.(\d{2})\.(\d{2})\.?\s*접수\s*제\s*(\d+)\s*호[^.]*?(주택임차권등기|임차권등기|전세권|지상권|가처분|소유권이전청구권가등기)/g)) {
-    const date = `${m[1]}-${m[2]}-${m[3]}`;
-    const kind = SURVIVING.find(([k]) => k === m[5])[1];
+  for (const m of parseSurvivingRights(info.ndstrcRghCtt)) {
+    const { date, receipt_no } = m;
+    const kind = SURVIVING.find(([k]) => k === m.kind)[1];
     data.rights ??= [];
     if (data.rights.some(r => r.date === date && r.kind === kind)) continue;
-    data.rights.push({ date, receipt_no: Number(m[4]), kind, amount: null, holder_type: null,
+    data.rights.push({ date, receipt_no, kind, amount: null, holder_type: null,
       note: `매각물건명세서 "매각으로 소멸되지 않는 권리"(법원경매정보 물건상세, ${today} 조회) — 금액은 명세서에 없음, 등기부는 보지 않음` });
-    console.log(`  rights[] + ${date} ${kind}(제${m[4]}호, 명세서 인수 권리)`);
+    console.log(`  rights[] + ${date} ${kind}(제${receipt_no}호, 명세서 인수 권리)`);
   }
   // 전용면적: 물건상세 건물 목록의 "전유" 행(예: "철근콘크리트조 / 84.92㎡")에서 면적이 하나뿐일 때만 채운다
   if (data.case.area_m2 == null) {

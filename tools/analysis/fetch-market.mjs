@@ -22,6 +22,7 @@
 import fs from 'node:fs';
 import { loadCase } from '../lib/cases.mjs';
 import { todayKST, casePath } from '../lib/paths.mjs';
+import { regionParts, matchSigungu } from '../lib/parse.mjs';
 
 const PROXY = 'https://k-skill-proxy.nomadamas.org/v1/real-estate';
 const CATEGORY_TO_ASSET = { apartment: 'apartment', villa: 'villa', commercial: 'commercial' };
@@ -45,7 +46,9 @@ if (!asset) {
 }
 
 const region = c.case?.region ?? '';
-const sigungu = region.split(/\s+/)[1];
+// 구가 있는 시는 "수원시 권선구"처럼 시+구로 조회한다 — "수원시"만으로는 법정동코드·MOLIT 시군구가 하나로 정해지지 않는다
+const parts = regionParts(region);
+const sigungu = parts.sigungu;
 if (!sigungu) { console.error(`case.region에서 시군구를 못 뽑음: "${region}"`); process.exit(1); }
 const buildingHint = region.replace(/\s*외\s*\d+\s*건\s*$/, '');
 
@@ -116,12 +119,13 @@ async function tryMolitDirect() {
     const page = await browser.newPage({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36' });
     await page.goto('https://rt.molit.go.kr/pt/xls/xls.do?mobileAt=', { waitUntil: 'networkidle', timeout: 25000 });
     await page.waitForTimeout(800);
-    const sidoName = region.split(/\s+/)[0];
+    const sidoName = parts.sido;
     await page.selectOption('#srhSidoCd', { label: sidoName });
     await page.waitForTimeout(800);
     const sggOptions = await page.$$eval('#srhSggCd option', els => els.map(e => ({ value: e.value, text: e.textContent.trim() })));
-    const match = sggOptions.find(o => o.text === sigungu);
-    if (!match) { console.error(`  [MOLIT 직접] 시군구 "${sigungu}"를 드롭다운에서 못 찾음`); return null; }
+    // 구가 있는 시가 드롭다운에 시 단위로만 있으면 시 전체를 받아 아래 단지·지번 매칭으로 거른다
+    const match = matchSigungu(sggOptions, parts) ?? (parts.city ? sggOptions.find(o => o.text.replace(/\s/g, '') === parts.city) : null);
+    if (!match) { console.error(`  [MOLIT 직접] 시군구 "${sigungu}"를 드롭다운에서 못 찾음 (보기: ${sggOptions.map(o => o.text).filter(Boolean).join(', ').slice(0, 300)})`); return null; }
     await page.selectOption('#srhSggCd', match.value);
     await page.waitForTimeout(800);
     const [download] = await Promise.all([
@@ -160,12 +164,21 @@ async function tryMolitDirect() {
 // ── 실행 ─────────────────────────────────────────────────────────────
 console.log(`시군구 "${sigungu}"로 지역코드 조회 중...`);
 let lawdCd = null;
-try {
-  const regionData = await getJSON(`${PROXY}/region-code?q=${encodeURIComponent(sigungu)}`);
-  lawdCd = regionData.results?.[0]?.lawd_cd;
-  if (lawdCd) console.log(`지역코드: ${lawdCd} (${regionData.results[0].name})`);
-} catch (e) {
-  console.error(`지역코드 조회 실패(프록시 문제일 수 있음, 계속 진행): ${e.message}`);
+// 시+구는 검색어로 안 잡힐 수 있어 구 이름만으로 한 번 더 찾는다
+for (const q of [sigungu, parts.gu].filter(Boolean)) {
+  try {
+    const regionData = await getJSON(`${PROXY}/region-code?q=${encodeURIComponent(q)}`);
+    // 첫 결과를 그냥 쓰면 "강서구"(서울·부산)·"수원시"(구 4개)에서 엉뚱한 곳을 고를 수 있어 소재지와 맞춰 고른다.
+    // 구 없는 시군구는 예전처럼 맞는 게 없으면 첫 결과를 쓴다
+    const results = regionData.results ?? [];
+    const hit = matchSigungu(results, parts, r => r.name) ?? (parts.gu ? null : results[0]);
+    lawdCd = hit?.lawd_cd;
+    if (lawdCd) { console.log(`지역코드: ${lawdCd} (${hit.name})`); break; }
+    console.error(`지역코드 검색 "${q}" 결과에서 "${sigungu}"를 고르지 못함: ${results.map(r => r.name).join(', ') || '(없음)'}`);
+  } catch (e) {
+    console.error(`지역코드 조회 실패(프록시 문제일 수 있음, 계속 진행): ${e.message}`);
+    break;
+  }
 }
 
 let trades = lawdCd ? await tryProxy(lawdCd) : null;

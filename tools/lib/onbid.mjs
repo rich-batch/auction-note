@@ -27,13 +27,26 @@ export function guessCategory(ctgrFullNm = '') {
 
 // 온비드 물건 검색 API를 한 번 호출한다. paramOverrides로 검색 조건(searchCltrMnmtNoYn·
 // srchCltrMnmtNo·pageIndex·pageUnit·srchCltrType 등)을 덮어쓴다. 실패하면 던진다.
-export async function searchOnbid(paramOverrides = {}) {
+// 온비드 목록 페이지가 가끔 20초 안에 조용해지지 않아(2026-10-16 배치: srchCltrType=0003 Timeout) 한 유형이 통째로 빠졌다 —
+// 시간 초과만 한 번 더, 더 길게 기다려 다시 시도한다. 다른 오류(페이지 구조 변경 등)는 바로 던진다.
+export async function searchOnbid(paramOverrides = {}, { retries = 1, timeoutMs = 20000 } = {}) {
+  for (let i = 0; ; i++) {
+    try { return await searchOnbidOnce(paramOverrides, timeoutMs * (i + 1)); }
+    catch (e) {
+      if (i >= retries || !/Timeout/i.test(e.message)) throw e;
+      console.error(`  온비드 조회 시간 초과 — ${timeoutMs * (i + 2) / 1000}초로 다시 시도`);
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
+}
+
+async function searchOnbidOnce(paramOverrides, timeoutMs) {
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage({ userAgent: USER_AGENT });
     let seedBody = null;
     page.on('request', req => { if (req.url().includes('inqCltrClbtRlstClg.do') && !seedBody) seedBody = req.postData(); });
-    await page.goto(LIST_URL, { waitUntil: 'networkidle', timeout: 20000 });
+    await page.goto(LIST_URL, { waitUntil: 'networkidle', timeout: timeoutMs });
     await page.waitForTimeout(1200);
     if (!seedBody) throw new Error('목록 검색 요청을 가로채지 못함 — 온비드 페이지 구조가 바뀌었을 수 있음. Playwright로 직접 확인 필요');
 
