@@ -60,3 +60,46 @@ export function matchSigungu(options, parts, text = o => o.text) {
   const inSido = tail.filter(o => sido && norm(text(o)).startsWith(sido));
   return inSido.length === 1 ? inSido[0] : null;
 }
+
+// 소재지에서 같은 단지를 알아볼 단서를 뽑는다. 법원·온비드 소재지는 두 형식이 섞여 있다:
+//   지번 주소  "서울특별시 강서구 화곡동 899-21 양지샤인아파트 제12층 제1202호"  (뒤에 "(고덕로98길 75)"가 붙기도)
+//   도로명 주소 "경기도 수원시 권선구 고산로6번길 45, 105동 9층906호 (고색동,대원아파트)"
+// 도로명 주소는 지번이 없어 지번으로 맞출 수 없으므로 도로명+건물번호, 괄호 안 법정동+단지명을 함께 쓴다.
+//   → { dong, lot, road, building }  (없는 것은 null)
+const ROAD_RE = /([가-힣A-Za-z0-9]+(?:로|길))\s*(\d+(?:-\d+)?)(?=[\s,)]|$)/;
+export function addressKeys(region) {
+  const text = String(region ?? '').replace(/\s*외\s*\d+\s*건\s*$/, '').trim();
+  const paren = /\(([^()]*)\)\s*$/.exec(text);
+  const main = paren ? text.slice(0, paren.index) : text;
+  const inParen = paren ? paren[1].split(',').map(s => s.trim()).filter(Boolean) : [];
+  let dong = null, lot = null, road = null, building = null;
+
+  const lotM = /(?:^|\s)([가-힣]+\d*가?(?:동|가|리))\s+(산?\d+(?:-\d+)?)(?=[\s,]|$)/.exec(main);
+  if (lotM) { dong = lotM[1]; lot = lotM[2]; }
+  const roadM = ROAD_RE.exec(main) ?? ROAD_RE.exec(inParen.join(' '));
+  if (roadM && !(lotM && roadM.index === lotM.index)) road = `${roadM[1]} ${roadM[2]}`;
+
+  for (const p of inParen) {
+    if (ROAD_RE.test(p)) continue;
+    if (/^[가-힣]+\d*가?(?:동|가|리|읍|면)$/.test(p)) { dong ??= p; continue; }
+    building ??= p;
+  }
+  // 지번 주소: 지번 바로 뒤의 단어가 단지명이면(층·호·동 번호가 아니면) 쓴다
+  if (!building && lotM) {
+    const after = main.slice(lotM.index + lotM[0].length).trim().split(/\s+/)[0] ?? '';
+    if (/[가-힣]{2,}/.test(after) && !/^제?\d|^[0-9가-힣]*(층|호)$|^[가-힣]?동$/.test(after)) building = after;
+  }
+  return { dong, lot, road, building };
+}
+
+// 실거래 한 건이 소재지와 같은 단지인지. t = { name, dong(법정동이 들어간 문자열), jibun, road }.
+// 지번이 같거나, 도로명+건물번호가 같거나, 같은 법정동에서 단지명이 같으면("대원" = "대원아파트") 같은 단지로 본다.
+const normRoad = s => String(s ?? '').replace(/\s/g, '').replace(/(\D)0+(\d)/g, '$1$2');
+const normName = s => String(s ?? '').replace(/\s/g, '').replace(/(아파트|APT)$/i, '');
+export function sameComplex(t, keys) {
+  const inDong = keys.dong && String(t.dong ?? '').includes(keys.dong);
+  if (keys.lot && t.jibun != null && String(t.jibun).trim() === keys.lot && inDong) return true;
+  if (keys.road && t.road && normRoad(t.road) === normRoad(keys.road)) return true;
+  if (keys.building && inDong && t.name && normName(t.name).length >= 2 && normName(t.name) === normName(keys.building)) return true;
+  return false;
+}

@@ -22,7 +22,7 @@
 import fs from 'node:fs';
 import { loadCase } from '../lib/cases.mjs';
 import { todayKST, casePath } from '../lib/paths.mjs';
-import { regionParts, matchSigungu } from '../lib/parse.mjs';
+import { regionParts, matchSigungu, addressKeys, sameComplex } from '../lib/parse.mjs';
 
 const PROXY = 'https://k-skill-proxy.nomadamas.org/v1/real-estate';
 const CATEGORY_TO_ASSET = { apartment: 'apartment', villa: 'villa', commercial: 'commercial' };
@@ -95,6 +95,9 @@ async function tryProxy(lawdCd) {
       for (const r of rows) {
         out.push({
           name: pick(r, 'aptNm', 'aptName', 'mhouseNm', 'buildingName', 'offiNm'),
+          dong: pick(r, 'umdNm', 'dong'),
+          jibun: pick(r, 'jibun'),
+          road: pick(r, 'roadNm') && pick(r, 'roadNmBonbun') ? `${pick(r, 'roadNm')} ${Number(pick(r, 'roadNmBonbun'))}${Number(pick(r, 'roadNmBubun')) ? `-${Number(pick(r, 'roadNmBubun'))}` : ''}` : undefined,
           date: pick(r, 'dealYear') && pick(r, 'dealMonth') ? `${pick(r, 'dealYear')}-${String(pick(r, 'dealMonth')).padStart(2, '0')}-${String(pick(r, 'dealDay') ?? 1).padStart(2, '0')}` : ym.replace(/(\d{4})(\d{2})/, '$1-$2'),
           price: parsePrice(pick(r, 'dealAmount', 'dealAmt', 'price')),
           area: pick(r, 'excluUseAr', 'area', 'exclusiveArea'),
@@ -142,7 +145,7 @@ async function tryMolitDirect() {
     const col = name => header.indexOf(name);
     const iDong = col('시군구'), iJibun = col('번지'), iName = col('단지명'), iArea = col('전용면적(㎡)'),
       iYm = col('계약년월'), iDay = col('계약일'), iPrice = col('거래금액(만원)'), iFloor = col('층'), iCancel = col('해제사유발생일'),
-      iDealType = col('거래유형');
+      iDealType = col('거래유형'), iRoad = col('도로명');
     const notCancelled = rows.slice(headerIdx + 1).filter(r => r[0] != null && r[iCancel] === '-'); // 해제(취소)된 거래는 뺀다
     const direct = iDealType >= 0 ? notCancelled.filter(r => r[iDealType] === '직거래') : [];
     const data = iDealType >= 0 ? notCancelled.filter(r => r[iDealType] !== '직거래') : notCancelled; // 직거래는 시세 왜곡(증여성 저가 등) 가능성이 커서 뺀다
@@ -151,6 +154,7 @@ async function tryMolitDirect() {
       name: r[iName],
       dong: r[iDong],
       jibun: r[iJibun],
+      road: iRoad >= 0 ? r[iRoad] : undefined,
       date: `${String(r[iYm]).slice(0, 4)}-${String(r[iYm]).slice(4, 6)}-${String(r[iDay]).padStart(2, '0')}`,
       price: Number(String(r[iPrice]).replace(/,/g, '')) * 10000,
       area: Number(r[iArea]),
@@ -195,8 +199,9 @@ if (!trades) {
 }
 
 // 단지명 표기가 실거래 자료와 다를 수 있어(예: "이편한세상" vs "e편한세상") 법정동+지번이 같으면 같은 단지로 본다
-const lot = /(\S+[동가리로])\s+(산?\d+(?:-\d+)?)/.exec(region);
-const sameLot = t => lot && t.jibun != null && String(t.jibun).trim() === lot[2] && String(t.dong ?? '').includes(lot[1]);
+// 도로명 주소(예: "고산로6번길 45, … (고색동,대원아파트)")는 지번이 없어 도로명+건물번호, 같은 법정동의 단지명으로도 맞춘다
+const keys = addressKeys(region);
+const sameLot = t => sameComplex(t, keys);
 const nameHit = t => nameArg && t.name && String(t.name).replace(/\s/g, '').includes(nameArg.replace(/\s/g, ''));
 // 단지명이 소재지 문자열에 들어 있으면 같은 단지로 보되, "관악"·"송파"처럼 시군구·동 이름과 겹치는 짧은 단지명은 빼야
 // 주소의 구 이름에 걸려 엉뚱한 단지가 섞이지 않는다
@@ -225,9 +230,11 @@ if (lowOutliers.length) {
   console.log(`\n같은 단지 내 시세 대비 지나치게 낮은 거래 ${lowOutliers.length}건 제외(같은 단지 원/㎡ 중앙값의 60% 미만 — 증여성 저가 거래 등으로 추정):`);
   for (const p of lowOutliers) console.log(`  ${p.date} | ${p.name ?? '?'} ${p.area ?? '?'}㎡ | ${p.price ? p.price.toLocaleString('ko-KR') + '원' : '?'}`);
 }
-const others = parsed.filter(p => !p.looksLikeSameBuilding);
+// 참고 목록은 소재지 법정동 안의 거래만(시군구 전체가 섞이지 않게)
+const others = parsed.filter(p => !p.looksLikeSameBuilding && (!keys.dong || String(p.dong ?? '').includes(keys.dong)));
 
-console.log(`\n총 ${parsed.length}건 조회됨(${source}). 물건 소재지: "${region}"\n`);
+console.log(`\n총 ${parsed.length}건 조회됨(${source}). 물건 소재지: "${region}"`);
+console.log(`같은 단지 판단 기준: 법정동 ${keys.dong ?? '-'} · 지번 ${keys.lot ?? '-'} · 도로명 ${keys.road ?? '-'} · 단지명 ${keys.building ?? '-'}\n`);
 if (sameBuilding.length) {
   console.log('■ 같은 단지/건물명으로 보이는 거래(우선 검토):');
   for (const p of sameBuilding) console.log(`  ${p.date} | ${p.name ?? '?'} ${p.area ?? '?'}㎡ ${p.floor ?? '?'}층 | ${p.price ? p.price.toLocaleString('ko-KR') + '원' : '가격 파싱 실패'}`);
