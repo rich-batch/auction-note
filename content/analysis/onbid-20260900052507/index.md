@@ -3,7 +3,7 @@ title: "서울 금천구 독산동 모던하우스금천2호점 18㎡ 공매 (20
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260900052507"
 categories: ["권리분석·명도"]
 tags: [금천구, 빌라, "인수 권리 없음", 기타일반재산, 대항력, 입찰보증금]
