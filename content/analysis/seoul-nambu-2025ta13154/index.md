@@ -3,7 +3,7 @@ title: "서울 양천구 신정동 유니크7차 29㎡ 경매 (2025타경13154)"
 author: "rich-batch"
 date: 2026-10-15
 lastmod: 2026-10-15
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13154"
 categories: ["권리분석·명도"]
 tags: [양천구, 빌라, "임차인 보증금 인수 가능", 대항력, 확정일자, 매각물건명세서]
