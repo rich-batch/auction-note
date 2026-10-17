@@ -106,7 +106,7 @@ for (const id of ids) {
   if (!data.spec_sheet.surviving_rights_text && info.ndstrcRghCtt) data.spec_sheet.surviving_rights_text = info.ndstrcRghCtt;
   // 말소기준권리: 등기부(유료)를 보지 않으므로 명세서 "최선순위 설정"(예: "2023.06.20. 근저당권", "2023. 4. 13. 근저당권")의
   // 날짜·종류를 rights[0]에 옮긴다. rights[]에 날짜 있는 권리가 이미 있으면(사람이 넣었으면) 건드리지 않는다.
-  const KIND = { '근저당': '근저당권', '개시결정': '경매개시결정' };
+  const KIND = { '근저당': '근저당권', '개시결정': '경매개시결정', '강제경매개시결정': '경매개시결정', '임의경매개시결정': '경매개시결정' };
   const top = parseTopPriority(info.tprtyRnkHypthcStngDts);
   if (info.tprtyRnkHypthcStngDts && !top) console.log(`  ⚠ 최선순위 설정 "${info.tprtyRnkHypthcStngDts}"에서 날짜를 못 읽음 — rights[]에 넣지 않음, 사람이 확인`);
   if (top && !(data.rights ?? []).some(r => r.date)) {
