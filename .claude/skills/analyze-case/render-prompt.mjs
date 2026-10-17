@@ -76,6 +76,23 @@ const existing = listArticles('analysis').map(id => {
   return `- ${text.match(/^title:\s*"?(.+?)"?\s*$/m)?.[1] ?? id} (/analysis/${id})`;
 }).join('\n') || '(없음)';
 
+// 같은 구·동에서 이미 발행한 분석 글 — 본문에서 "이 블로그가 앞서 본 옆 사건"으로 비교·링크한다(초안은 링크 금지)
+const published = listArticles('analysis').filter(id => /^draft:\s*false\s*$/m.test(fs.readFileSync(articlePath('analysis', id), 'utf8')));
+const district = r => (r ?? '').split(/\s+/).slice(0, 2).join(' ');
+const dong = r => (r ?? '').split(/\s+/).slice(0, 3).join(' ');
+function nearby(c) {
+  const rows = published.filter(id => id !== c.id).map(id => { try { return loadCase(id); } catch { return null; } })
+    .filter(o => o && district(o.case.region) === district(c.case.region))
+    .map(o => {
+      const r = o.result ?? {};
+      const last = (r.later ?? []).at(-1) ?? r;
+      const res = last.outcome ? `${last.outcome}${last.winning_bid ? ` ${won(last.winning_bid)}` : ''}${last.bidders ? `, 응찰 ${last.bidders}명` : ''}` : '결과 미입력';
+      const k = o.computed ?? {};
+      return `- ${dong(o.case.region) === dong(c.case.region) ? '[같은 동] ' : ''}${o.case.region} | ${categoryName(o.case.category)} | 감정가 ${won(o.sale?.appraisal)} · 최저가 ${won(o.sale?.minimum)} | 인수 예상 ${won(k.assumed_total_min)} ~ ${won(k.assumed_total_max)} | 결과: ${res} | 링크: [${o.case.number}]({{< relref "/analysis/${o.id}" >}})`;
+    });
+  return rows.join('\n') || '(같은 구에서 발행한 분석 글 없음)';
+}
+
 for (const c of targets) {
   const input = { ...c };
   delete input.computed;
@@ -108,6 +125,7 @@ for (const c of targets) {
     review: c.computed.review.map(x => `- ${x}`).join('\n') || '(없음)',
     glossary: glossaryText,
     existing_analyses: existing,
+    nearby_cases: nearby(c),
   };
   console.log(`\n=== JOB mode=${args.revise ? 'revise' : 'new'} case=${c.id} number=${c.case.number} output=${vars.article_path} research=${vars.research_path}`);
   console.log(tpl.replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m));
