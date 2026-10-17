@@ -174,19 +174,24 @@ const { refUrls, bodyWithoutRefs } = checkReferences(a, r, { refsText, research 
 
 // 금액: 사건 데이터에 있는 값(또는 두 값의 합·차)이 아니면 같은 줄에 출처 링크
 if (c) {
-  const known = [...knownAmounts(c)];
+  // 숫자 필드 + 데이터의 메모 문장에 적힌 금액(예: source note의 "청구금액 136,199,287원")
+  const noted = [...JSON.stringify(c).matchAll(/(\d{1,3}(?:,\d{3})+)원/g)].map(m => Number(m[1].replace(/,/g, '')));
+  const known = [...new Set([...knownAmounts(c), ...noted])];
   const derived = new Set(known);
   for (const x of known) for (const y of known) { derived.add(x + y); derived.add(Math.abs(x - y)); }
   const AMOUNT = /(?:(\d[\d,]*(?:\.\d+)?)\s*억\s*)?(?:(\d[\d,]*)\s*만\s*)?(\d[\d,]*)?\s*원/g;
   const toInt = s => Number((s ?? '0').replace(/,/g, ''));
   const unknown = [];
-  bodyWithoutRefs.split('\n').forEach(line => {
-    if (/^\s*#|\{\{</.test(line)) return;
+  bodyWithoutRefs.split('\n').forEach(raw => {
+    if (/^\s*#/.test(raw)) return;
+    // relref로 다른 분석 글을 가리키는 줄은 그 사건 데이터의 금액도 허용한다(옆 사건 비교). shortcode는 지우고 나머지 문장은 검사한다
+    const linked = [...raw.matchAll(/relref\s+"\/analysis\/([a-z0-9-]+)"/g)].flatMap(m => { try { return [...knownAmounts(loadCase(m[1]))]; } catch { return []; } });
+    const line = raw.replace(/\{\{<[^>]*>\}\}/g, '');
     const cited = /\]\(https?:/.test(line);
     for (const m of line.matchAll(AMOUNT)) {
       if (!m[1] && !m[2] && !m[3]) continue;
       const v = Math.round(toInt(m[1]) * 1e8 + toInt(m[2]) * 1e4 + toInt(m[3]));
-      if (v < 10000 || derived.has(v) || cited) continue;
+      if (v < 10000 || derived.has(v) || linked.includes(v) || cited) continue;
       unknown.push(`"${m[0].trim()}" — ${line.trim().slice(0, 50)}`);
     }
   });
