@@ -121,8 +121,11 @@ check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${s
   const prose = body.replace(/\{\{<[^>]*>\}\}/g, '').split(/^## 참고 자료/m)[0];
   const tics = prose.match(/[^.\n]*(눈에 띄는 (점|건|숫자)|주목할 (점|만한)|흥미로운 (점|건)|남는 문제는|관건은|여기서 중요한 (건|것은)|제일 먼저 보이는|어느 쪽이든|셈이(에요|다|입니다)|대목|그림이 그려|(가장|제일) 먼저 볼 것은|라는 점에서 의미가)[^.\n]*/g) ?? [];
   check(!tics.length, `AI 말버릇(주의 끌기·의미 정리 문장) — 할 말을 바로 하고 요약 맺음은 지운다: ${tics.map(x => x.trim().slice(0, 40)).join(' / ')}`);
-  const ends = prose.split('\n').filter(l => !/^\s*(>|\||\{)/.test(l)).join(' ').replace(/\([^)]*\)/g, '').match(/[가-힣](다|요)(?=\.)/g) ?? [];
-  const yo = ends.filter(x => x.endsWith('요')).length, da = ends.length - yo;
+  const ends = prose.split('\n').filter(l => !/^\s*(>|\||\{)/.test(l)).join(' ').replace(/\([^)]*\)/g, '').match(/[가-힣]{2}(다|요)(?=\.)/g) ?? [];
+  const soft = x => /(세|데|고)요$/.test(x); // "~하세요"(권유)·"~는데요"·"~고요"(이어 말하기)는 합쇼체 글에도 가끔 섞인다
+  const yo = ends.filter(x => x.endsWith('요') && !soft(x)).length, da = ends.length - ends.filter(x => x.endsWith('요')).length;
+  const softN = ends.filter(x => soft(x) && !x.endsWith('세요')).length;
+  warn(softN <= 3, `"~는데요/~고요" 문장 ${softN}개 — 글 전체에 두세 번까지`);
   check(!(yo >= 3 && da >= 3), `합쇼체(~다 ${da}문장)와 해요체(~요 ${yo}문장)가 섞임 — 한 글은 합쇼체 한 가지로 쓴다`);
   const unchecked = (prose.match(/확인하지 못했/g) ?? []).length;
   check(unchecked <= 4, `"확인하지 못했"가 ${unchecked}번 — 입찰 전 확인할 것 첫머리에 한 번 밝히고 항목마다 되풀이하지 않는다(4번 이하)`);
