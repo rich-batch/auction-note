@@ -3,7 +3,7 @@ title: "경기 수원 동수원2차쌍용스윗닷홈 85㎡ 경매 (2025타경57
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "suwon-2025ta57392"
 categories: ["권리분석·명도"]
 tags: [수원시, 아파트, "확인할 권리 있음", "임차권등기", "임차인 보증금 인수 가능", 대항력, 매각물건명세서, 배당요구]
