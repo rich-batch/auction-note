@@ -3,7 +3,7 @@ title: "인천 미추홀구 도화동 재경빌리지 85㎡ 공매 (2026-0900-05
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260900052170"
 categories: ["권리분석·명도"]
 tags: [미추홀구, 빌라, "인수 권리 없음", 기타일반재산, 신탁, 대항력]
