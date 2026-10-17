@@ -3,7 +3,7 @@ title: "서울 강서구 장미아파트 40㎡ 경매 (2026타경4176)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4176"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 방화동, 근저당권, 임의경매, 입찰보증금]
