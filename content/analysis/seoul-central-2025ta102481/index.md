@@ -3,7 +3,7 @@ title: "서울 동작구 사당동 디에스타운6차 34㎡ 경매 (2025타경1
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "seoul-central-2025ta102481"
 categories: ["권리분석·명도"]
 tags: [동작구, 빌라, "확인할 권리 있음", 대항력, 주택도시보증공사, 특별매각조건]
