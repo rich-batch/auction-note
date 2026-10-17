@@ -3,7 +3,7 @@ title: "울산 울주군 천상리 아파트 60㎡ 공매 (2025-0200-005978)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20250200005978"
 categories: ["권리분석·명도"]
 tags: [울주군, 아파트, "인수 권리 없음", 기타일반재산, 신탁, 대항력]
