@@ -11,6 +11,7 @@ on:
 permissions:
   contents: read
   issues: write
+  pull-requests: read # 머지 안 된 도구 수정 PR을 알림에 넣으려고
 
 jobs:
   watch:
