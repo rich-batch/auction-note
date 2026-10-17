@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 양지샤인아파트 21㎡ 경매 (2025타�
 author: "rich-batch"
 date: 2026-10-16
 lastmod: 2026-10-16
-draft: true
+draft: false
 case: "seoul-nambu-2025ta10286"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 주택임차권, 주택도시보증공사, 말소기준권리]
