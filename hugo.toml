@@ -1,4 +1,5 @@
 baseURL = 'https://rich-batch.github.io/auction-note/'
+timeZone = 'Asia/Seoul'
 locale = 'ko-kr'
 title = '오늘의 경매 노트'
 theme = 'PaperMod'
