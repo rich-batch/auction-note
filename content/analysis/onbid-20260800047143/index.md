@@ -3,7 +3,7 @@ title: "경기 광주 지월리 로얄팰리스 66㎡ 공매 (2026-0800-047143)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260800047143"
 categories: ["권리분석·명도"]
 tags: [광주시, 빌라, "인수 권리 없음", 기타일반재산, 대항력, 입찰보증금]
