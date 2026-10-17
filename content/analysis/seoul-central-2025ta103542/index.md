@@ -3,7 +3,7 @@ title: "서울 강남구 스카이써밋아파트 120㎡ 경매 (2025타경10354
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "seoul-central-2025ta103542"
 categories: ["권리분석·명도"]
 tags: [강남구, 아파트, 확인할 권리 있음, 임차권등기, 임차인 보증금 인수 가능, 대항력, 가압류]
