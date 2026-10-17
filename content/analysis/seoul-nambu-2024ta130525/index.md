@@ -3,7 +3,7 @@ title: "서울 강서구 마곡나루경남아파트 84㎡ 경매 (2024타경130
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "seoul-nambu-2024ta130525"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 임의경매, 대항력, 명도, 배당요구]
