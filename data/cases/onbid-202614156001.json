@@ -80,9 +80,16 @@
         "outcome": "유찰",
         "winning_bid": null,
         "bidders": null
+      },
+      {
+        "date": "2026-10-15",
+        "minimum": 9000000,
+        "outcome": "유찰",
+        "winning_bid": null,
+        "bidders": null
       }
     ],
-    "checked_at": "2026-10-13"
+    "checked_at": "2026-10-17"
   },
   "computed": {
     "engine_version": 7,
