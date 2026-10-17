@@ -3,7 +3,7 @@ title: "서울 강동구 길동 선우빌2 28㎡ 경매 (2025타경52396)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta52396"
 categories: ["권리분석·명도"]
 tags: [강동구, 빌라, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 가압류, 강제경매]
