@@ -3,7 +3,7 @@ title: "인천 연수구 이편한세상송도 70㎡ 경매 (2025타경513977)"
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "incheon-2025ta513977"
 categories: ["권리분석·명도"]
 tags: [연수구, 아파트, "인수 권리 없음", 근저당권, 현황조사서, 인도명령]
