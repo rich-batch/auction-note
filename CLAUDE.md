@@ -70,7 +70,7 @@ node tools/analysis/fetch-car-market.mjs <id>    # 자동차: 비슷한 차량 �
 node tools/analysis/fetch-onbid-result.mjs <id> --write  # 온비드 매각 결과(분석 회차 + 이후 회차) → result. 결과 페이지·배너가 자동 갱신
 node tools/analysis/fetch-court-result.mjs <id>... --write  # 법원경매 기일 내역·매각가 → result, 명세서 최선순위 설정·인수 권리 → spec_sheet(비었을 때만), 유찰 횟수 보정. 다음 회차는 콘솔에만
 node tools/analysis/compute.mjs <id>             # 사건 검증·권리 계산
-node --test tools/analysis/rights.test.mjs       # 계산 엔진 테스트
+node --test tools/analysis/rights.test.mjs tools/lib/parse.test.mjs   # 계산 엔진·자료 읽기 테스트
 tools/auto/batch.sh guide 3                      # 가이드 3편 자동 초안 → PR 3개
 tools/auto/batch.sh analysis 1                   # 분석 1편 자동 초안 → PR
 ```

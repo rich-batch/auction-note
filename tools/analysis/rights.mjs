@@ -15,6 +15,7 @@
 // 근거는 파일 아래 computeCarCase 주석 참고.
 import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
+import { parseKoDate } from '../lib/parse.mjs';
 
 export const ENGINE_VERSION = 7; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거 / 7: 금액 모르는 인수 권리가 있으면 인수 상한 미상
 
@@ -600,7 +601,8 @@ export function computeCase(c, now = new Date()) {
   }
   if (spec.base_right_text && base) {
     const d = base.date.replace(/-/g, '.');
-    if (!spec.base_right_text.includes(d) && !spec.base_right_text.includes(base.date)) {
+    // 명세서 표기는 "2023.06.20."·"2023. 4. 13."처럼 제각각이라 날짜로 읽어서도 비교한다
+    if (!spec.base_right_text.includes(d) && !spec.base_right_text.includes(base.date) && parseKoDate(spec.base_right_text) !== base.date) {
       review.push(`매각물건명세서의 최선순위 설정(${spec.base_right_text})과 계산한 말소기준권리(${base.date} ${base.kind})가 다름`);
     }
   }

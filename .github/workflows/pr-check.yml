@@ -64,9 +64,9 @@ jobs:
           done < articles.txt
           exit $status
 
-      - name: 계산 엔진 테스트
+      - name: 계산 엔진·자료 읽기 테스트
         if: steps.files.outputs.tools == '1'
-        run: node --test tools/analysis/rights.test.mjs
+        run: node --test tools/analysis/rights.test.mjs tools/lib/parse.test.mjs
 
       - name: 공개 상태로 빌드해 보기
         if: always()

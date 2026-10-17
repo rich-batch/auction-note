@@ -11,6 +11,7 @@
 // 그대로 돌려준다(intrpsNm 필드, 그리고 lesDts·gdsPossCtt 같은 서술형 텍스트에도 이름이 섞여
 // 나온다). 이 파일의 매핑 함수는 그 두 필드를 절대 결과에 담지 않는다 — 구조화된 사실
 // (점유관계 코드, 용도 코드, 전입일)만 뽑아 쓴다. CLAUDE.md: "사람 이름만 계속 마스킹한다."
+import { parseTopPriority } from './parse.mjs';
 
 const BASE_URL = 'https://www.courtauction.go.kr';
 const WARMUP_PATH = '/pgj/index.on?w2xPath=/pgj/ui/pgj100/PGJ159M00.xml&pgjId=159M00';
@@ -187,6 +188,6 @@ export function buildTenantsFromStatusReport(data) {
 export function extractBaseRightHint(goodsDetailData) {
   const raw = goodsDetailData?.dspslGdsDxdyInfo?.tprtyRnkHypthcStngDts;
   if (!raw) return null;
-  const m = /^(\d{4})\.(\d{2})\.(\d{2})\.\s*(.+)$/.exec(raw.trim());
-  return m ? `${m[1]}-${m[2]}-${m[3]} ${m[4]}` : raw.trim();
+  const top = parseTopPriority(raw);
+  return top ? `${top.date} ${top.kind}` : raw.trim();
 }

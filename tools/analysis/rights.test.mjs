@@ -132,6 +132,13 @@ test('매각물건명세서와 계산 결과가 어긋나면 알림', () => {
   assert.ok(k.review.some(r => r.includes('최선순위')));
 });
 
+test('매각물건명세서 최선순위 설정이 "2020. 5. 10."처럼 띄어 쓴 표기여도 같은 날짜면 알리지 않음', () => {
+  const same = computeCase(base({ spec_sheet: { base_right_text: '2020. 5. 10. 근저당권' } }));
+  assert.ok(!same.review.some(r => r.includes('최선순위')));
+  const diff = computeCase(base({ spec_sheet: { base_right_text: '2020. 5. 11. 근저당권' } }));
+  assert.ok(diff.review.some(r => r.includes('최선순위')));
+});
+
 test('매각물건명세서가 인수 권리를 적었는데 계산 결과에 인수가 없으면 알림', () => {
   const c = base({ spec_sheet: { surviving_rights_text: '매수인에게 대항할 수 있는 주택임차권등기 있음(배당에서 보증금이 전액 변제되지 아니하면 잔액을 매수인이 인수함)' } });
   assert.ok(computeCase(c).review.some(r => r.includes('계산 결과엔 인수가 없음')));
