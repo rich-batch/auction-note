@@ -3,7 +3,7 @@ title: "경기 포천 신읍동 아파트 28㎡ 공매 (2026-0200-106923)"
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "onbid-20260200106923"
 categories: ["권리분석·명도"]
 tags: [포천시, 아파트, "인수 권리 없음", 공유재산, 대부, 입찰보증금]
