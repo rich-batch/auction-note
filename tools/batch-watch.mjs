@@ -20,6 +20,29 @@ const TITLE = '배치 일지';
 const rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null;
 const md = date.slice(5).replace('-', '/').replace(/^0/, '').replace('/0', '/');
 const list = (title, xs) => (xs?.length ? `\n**${title}**\n${xs.map(x => `- ${x}`).join('\n')}\n` : '');
+const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8' }).trim();
+
+// 직전 기록에도 같은 도구(첫 단어: fetch-market, scan-onbid …)의 문제가 있었으면 표시한다 — 고쳤다고 생각한 문제가 또 났는지 바로 보이게
+const prevFile = fs.existsSync('logs/batch') ? fs.readdirSync('logs/batch').filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f < `${date}.json`).sort().pop() : null;
+const prev = prevFile ? JSON.parse(fs.readFileSync(`logs/batch/${prevFile}`, 'utf8')) : null;
+const errKey = e => String(e).trim().split(/[\s:]/)[0];
+const prevKeys = new Set((prev?.errors ?? []).map(errKey));
+const markRepeat = e => (prevKeys.has(errKey(e)) ? `${e} — **${prevFile.slice(5, 10).replace('-', '/')}에도 같은 도구에서 문제**` : e);
+
+// 머지하지 않은 도구 수정 PR: 배치는 main 코드로 돌기 때문에, 고친 PR이 열려 있기만 하면 같은 문제가 다음 날 또 난다.
+// content/를 건드리지 않는 열린 PR(=도구·스킬·레이아웃 수정)을 알림에 넣는다.
+function openToolPRs() {
+  if (dry || !process.env.GITHUB_REPOSITORY) return [];
+  try {
+    const repo = process.env.GITHUB_REPOSITORY;
+    const prs = JSON.parse(gh('api', `repos/${repo}/pulls?state=open&per_page=50`));
+    return prs.filter(pr => {
+      const files = gh('api', `repos/${repo}/pulls/${pr.number}/files?per_page=100`, '--jq', '.[].filename').split('\n').filter(Boolean);
+      return files.length && !files.some(f => f.startsWith('content/'));
+    }).map(pr => `#${pr.number} ${pr.title} (${pr.created_at.slice(5, 10).replace('-', '/')}에 열림) — 머지 전까지 배치는 예전 코드로 돕니다`);
+  } catch (e) { return [`열린 PR을 확인하지 못함: ${e.message.split('\n')[0]}`]; }
+}
+const toolPRs = openToolPRs();
 
 let head, body = '';
 if (!rec) {
@@ -33,13 +56,13 @@ if (!rec) {
   head = `${ok ? '✅' : '⚠️'} 경매 노트 배치 ${md} — 결과 ${rec.results?.length ?? 0}건 반영, PR ${rec.prs?.length ?? 0}건${ok ? '' : ', 문제 있음'}`;
   const steps = Object.entries(rec.steps ?? {}).map(([k, v]) => `| ${{ pull: '최신화', results: '결과 반영', scan: '후보 스캔', drafts: '분석 초안' }[k] ?? k} | ${v.status === 'ok' ? '✅' : '⚠️'} | ${v.note ?? ''} |`);
   body = (steps.length ? `\n| 단계 | 상태 | 메모 |\n|---|---|---|\n${steps.join('\n')}\n` : '')
-    + list('문제', rec.errors) + list('새 PR', rec.prs) + list('결과 반영', rec.results) + list('할 일', rec.todo);
+    + list('문제', rec.errors?.map(markRepeat)) + list('새 PR', rec.prs) + list('결과 반영', rec.results) + list('할 일', rec.todo);
 }
+body += list('머지 안 된 도구 수정 PR', toolPRs);
 const comment = `@${owner} ${head}\n${body}\n<sub>기록: \`${file}\` · 확인: ${new Date().toISOString()}</sub>`;
 console.log(comment);
 if (dry) process.exit(0);
 
-const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8' }).trim();
 try { gh('label', 'create', LABEL, '--color', '0e8a16', '--description', '매일 배치 실행 결과'); } catch { /* 이미 있음 */ }
 let issue = gh('issue', 'list', '--label', LABEL, '--state', 'open', '--json', 'number', '--jq', '.[0].number');
 if (!issue) {
