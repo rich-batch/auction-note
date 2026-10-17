@@ -3,7 +3,7 @@ title: "서울 관악구 건영아파트 85㎡ 경매 (2025타경3006)"
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "seoul-central-2025ta3006"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 임의경매, 대항력, 명도, 배당요구]
