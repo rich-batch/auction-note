@@ -3,7 +3,7 @@ title: "서울 강동구 강동리버스트4단지 60㎡ 경매 (2026타경50047
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "seoul-dongbu-2026ta50047"
 categories: ["권리분석·명도"]
 tags: [강동구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구, 근저당권]
