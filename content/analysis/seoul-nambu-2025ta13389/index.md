@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 웰스파크빌 28㎡ 경매 (2025타경13389
 author: "rich-batch"
 date: 2026-10-15
 lastmod: 2026-10-15
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13389"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "임차인 보증금 인수 가능", 대항력, 현황조사서, 매각물건명세서]
