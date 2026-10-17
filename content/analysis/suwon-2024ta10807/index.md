@@ -3,7 +3,7 @@ title: "경기 화성 병점동 인텔리스테이 10층 오피스텔 경매 (20
 author: "rich-batch"
 date: 2026-10-17
 lastmod: 2026-10-17
-draft: true
+draft: false
 case: "suwon-2024ta10807"
 categories: ["권리분석·명도"]
 tags: [화성시, 상가, "임차인 보증금 인수 가능", "임차권등기", 오피스텔, 대항력, 매각물건명세서]
