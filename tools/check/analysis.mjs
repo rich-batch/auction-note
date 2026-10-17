@@ -116,6 +116,19 @@ const firstSentence = body.replace(/^\s+/, '').split('\n')[0];
 check(!/^이 (글|사건)은/.test(firstSentence), `서론 첫 문장이 "${firstSentence.slice(0, 12)}…"로 시작함 — 이 사건에만 있는 사실로 연다(차종·건수·금액 등)`);
 const stock = body.match(/[^.\n]*(단순합니다|하는 게 정확합니다|별도 확인이 필요합니다|지표는 (둘 다|모두) 만점)[^.\n]*/g) ?? [];
 check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${stock.map(x => x.trim().slice(0, 40)).join(' / ')}`);
+// AI 말투: 주의 끌기·의미 정리 말버릇, 합쇼체/해요체 섞기, 같은 단서 반복 (템플릿 "사람이 쓴 글처럼")
+{
+  const prose = body.replace(/\{\{<[^>]*>\}\}/g, '').split(/^## 참고 자료/m)[0];
+  const tics = prose.match(/[^.\n]*(눈에 띄는 (점|건|숫자)|주목할 (점|만한)|흥미로운 (점|건)|남는 문제는|관건은|여기서 중요한 (건|것은)|제일 먼저 보이는|어느 쪽이든|셈이(에요|다|입니다)|대목|그림이 그려|(가장|제일) 먼저 볼 것은|라는 점에서 의미가)[^.\n]*/g) ?? [];
+  check(!tics.length, `AI 말버릇(주의 끌기·의미 정리 문장) — 할 말을 바로 하고 요약 맺음은 지운다: ${tics.map(x => x.trim().slice(0, 40)).join(' / ')}`);
+  const ends = prose.split('\n').filter(l => !/^\s*(>|\||\{)/.test(l)).join(' ').replace(/\([^)]*\)/g, '').match(/[가-힣](다|요)(?=\.)/g) ?? [];
+  const yo = ends.filter(x => x.endsWith('요')).length, da = ends.length - yo;
+  check(!(yo >= 3 && da >= 3), `합쇼체(~다 ${da}문장)와 해요체(~요 ${yo}문장)가 섞임 — 한 글은 합쇼체 한 가지로 쓴다`);
+  const unchecked = (prose.match(/확인하지 못했/g) ?? []).length;
+  check(unchecked <= 4, `"확인하지 못했"가 ${unchecked}번 — 입찰 전 확인할 것 첫머리에 한 번 밝히고 항목마다 되풀이하지 않는다(4번 이하)`);
+  const bolds = (prose.match(/\*\*[^*\n]+\*\*/g) ?? []).filter(x => x !== '**핵심 요약**').length;
+  warn(bolds <= 4, `굵은 글씨 ${bolds}곳 — 항목마다 굵은 머리말을 달지 말고 꼭 필요한 2~3곳만`);
+}
 {
   const plain = t => t.split(/^---$/m).slice(2).join('').replace(/\{\{<[^>]*>\}\}/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
   const sentences = t => t.split(/(?<=[.다요])\s+|\n+/).map(x => x.replace(/[\s>*#\-\d]/g, '')).filter(x => x.length >= 25);
