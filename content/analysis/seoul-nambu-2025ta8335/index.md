@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 아파트 26㎡ 경매 (2025타경8335)"
 author: "rich-batch"
 date: 2026-10-16
 lastmod: 2026-10-16
-draft: true
+draft: false
 case: "seoul-nambu-2025ta8335"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "확인할 권리 있음", 대항력, 주택도시보증공사, 말소기준권리, 배당요구]
