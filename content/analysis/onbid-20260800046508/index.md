@@ -3,7 +3,7 @@ title: "경기 오산 은계동 퀸즈타운 64㎡ 공매 (2026-0800-046508)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260800046508"
 categories: ["권리분석·명도"]
 tags: [오산시, 빌라, "인수 권리 없음", 기타일반재산, 도시형생활주택, 대항력, 입찰보증금]
