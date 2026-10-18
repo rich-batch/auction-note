@@ -3,7 +3,7 @@ title: "서울 관악구 한라타운아파트 78㎡ 경매 (2025타경104110)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "seoul-central-2025ta104110"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 임의경매, 말소기준권리, 인도명령]
