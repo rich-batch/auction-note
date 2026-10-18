@@ -3,7 +3,7 @@ title: "인천 남동구 만수10단지주공아파트 50㎡ 경매 (2025타경5
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "incheon-2025ta514692"
 categories: ["권리분석·명도"]
 tags: [남동구, 아파트, "인수 권리 없음", 강제경매, 근저당권, 인도명령]
