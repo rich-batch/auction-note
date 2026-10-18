@@ -3,7 +3,7 @@ title: "서울 양천구 목동신시가지아파트 48㎡ 경매 (2025타경115
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "seoul-nambu-2025ta11570"
 categories: ["권리분석·명도"]
 tags: [양천구, 아파트, "인수 권리 없음", 근저당권, 말소기준권리, 인도명령]
