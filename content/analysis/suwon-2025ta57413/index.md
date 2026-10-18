@@ -3,7 +3,7 @@ title: "경기 화성 대광파인밸리 85㎡ 경매 (2025타경57413)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "suwon-2025ta57413"
 categories: ["권리분석·명도"]
 tags: [화성시, 아파트, "인수 권리 없음", 근저당권, 말소기준권리, 인도명령]
