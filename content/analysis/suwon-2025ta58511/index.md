@@ -3,7 +3,7 @@ title: "경기 오산 한주아파트 125㎡ 경매 (2025타경58511)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "suwon-2025ta58511"
 categories: ["권리분석·명도"]
 tags: [오산시, 아파트, "인수 권리 없음", 근저당권, 말소기준권리, 임의경매]
