@@ -145,7 +145,8 @@ const skeleton = {
     ...(isTrustDisposal ? { trust_registered_on: null } : {}),
     region: carSplit?.storage ?? region,
     ...(carSplit ? { vehicle: carSplit.vehicle } : {}),
-    area_m2: it.landSqms || it.bldSqms || null,
+    // 온비드는 건물(bldSqms)과 토지·대지권(landSqms) 면적을 따로 준다. 건물이 있는 물건은 건물 면적, 토지만 파는 물건은 토지 면적
+    area_m2: (category === 'land' ? (it.landSqms || it.bldSqms) : (it.bldSqms || it.landSqms)) || null,
   },
   sale: {
     appraisal: it.cltrApslEvlAvgAmt ?? 0,
