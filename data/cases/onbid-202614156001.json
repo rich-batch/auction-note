@@ -89,12 +89,12 @@
         "bidders": null
       }
     ],
-    "checked_at": "2026-10-17"
+    "checked_at": "2026-10-18"
   },
   "computed": {
     "engine_version": 7,
     "input_hash": "e0eccf2a4594e075",
-    "computed_at": "2026-10-12",
+    "computed_at": "2026-10-18",
     "base_right": null,
     "rights": [],
     "tenants": [],
