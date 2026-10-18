@@ -3,7 +3,7 @@ title: "경기 수원 구운동 어반시아 1동 101호 상가 공매 (2026-080
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260800047149"
 categories: ["권리분석·명도"]
 tags: [수원시 권선구, 상가, "인수 권리 없음", 기타일반재산, 상가 임차인, 입찰보증금]
