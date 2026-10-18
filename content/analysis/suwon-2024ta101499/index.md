@@ -3,7 +3,7 @@ title: "경기 수원 대원아파트 85㎡ 경매 (2024타경101499)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "suwon-2024ta101499"
 categories: ["권리분석·명도"]
 tags: [권선구, 아파트, "인수 권리 없음", 대항력, 근저당권, 말소기준권리, 명도]
