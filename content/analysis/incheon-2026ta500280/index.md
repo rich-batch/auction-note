@@ -3,7 +3,7 @@ title: "인천 부평구 신성미소지움아파트 152㎡ 경매 (2026타경50
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "incheon-2026ta500280"
 categories: ["권리분석·명도"]
 tags: [부평구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구, 근저당권]
