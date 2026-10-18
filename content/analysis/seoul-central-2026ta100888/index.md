@@ -3,7 +3,7 @@ title: "서울 종로구 대아파크빌 85㎡ 경매 (2026타경100888)"
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-central-2026ta100888"
 categories: ["권리분석·명도"]
 tags: [종로구, 아파트, "인수 권리 없음", 임의경매, 말소기준권리, 대항력, 인도명령]
