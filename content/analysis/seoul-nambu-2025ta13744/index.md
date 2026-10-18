@@ -3,7 +3,7 @@ title: "서울 구로구 고척엘아이지리가 1단지 85㎡ 경매 (2025타�
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13744"
 categories: ["권리분석·명도"]
 tags: [구로구, 아파트, "인수 권리 없음", 강제경매, 근저당권, 말소기준권리]
