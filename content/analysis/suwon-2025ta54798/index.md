@@ -3,7 +3,7 @@ title: "경기 용인 삼거마을삼성래미안1차아파트 135㎡ 경매 (20
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "suwon-2025ta54798"
 categories: ["권리분석·명도"]
 tags: [용인시, 아파트, "인수 권리 없음", 근저당권, 임의경매, 배당요구종기]
