@@ -3,7 +3,7 @@ title: "경북 문경 흥덕동 대지 100㎡ 공매 (2026-0400-018268)"
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "onbid-20260400018268"
 categories: ["권리분석·명도"]
 tags: [문경시, 토지, "인수 권리 없음", 공유재산, 대부, 법정지상권]
