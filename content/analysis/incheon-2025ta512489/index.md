@@ -3,7 +3,7 @@ title: "인천 부평구 금호이수마운트밸리 115㎡ 경매 (2025타경51
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "incheon-2025ta512489"
 categories: ["권리분석·명도"]
 tags: [부평구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 말소기준권리]
