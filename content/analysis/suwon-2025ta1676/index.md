@@ -3,7 +3,7 @@ title: "경기 화성 진안파크자이아파트 85㎡ 경매 (2025타경1676)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "suwon-2025ta1676"
 categories: ["권리분석·명도"]
 tags: [화성시, 아파트, "인수 권리 없음", 근저당권, 말소기준권리, 명도]
