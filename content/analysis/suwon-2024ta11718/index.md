@@ -3,7 +3,7 @@ title: "경기 용인 서천동 건우까사미3 46㎡ 경매 (2024타경11718)"
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "suwon-2024ta11718"
 categories: ["권리분석·명도"]
 tags: [용인시, 빌라, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구, 강제경매]
