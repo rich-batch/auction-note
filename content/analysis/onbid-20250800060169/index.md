@@ -3,7 +3,7 @@ title: "서울 구로구 구로예미지어반코어 2004호 오피스텔 공매
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "onbid-20250800060169"
 categories: ["권리분석·명도"]
 tags: [구로구, 상가, "인수 권리 없음", 기타일반재산, 오피스텔, 대항력, 명도]
