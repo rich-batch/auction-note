@@ -3,7 +3,7 @@ title: "부산 동구 범일동 소극장 2층 사무실 공매 (2026-0800-04550
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260800045505"
 categories: ["권리분석·명도"]
 tags: [동구, 상가, "인수 권리 없음", 공유재산, 대부, 입찰보증금]
