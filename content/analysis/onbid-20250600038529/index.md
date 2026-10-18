@@ -3,7 +3,7 @@ title: "광주 남구 월산동 수빌딩 101호 외 5개호실 근린생활시�
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20250600038529"
 categories: ["권리분석·명도"]
 tags: [남구, 상가, "인수 권리 없음", 기타일반재산, 일괄매각, 상가 임차인, 계약갱신요구권]
