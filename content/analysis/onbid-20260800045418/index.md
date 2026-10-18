@@ -3,7 +3,7 @@ title: "부산 서구 구덕신용협동조합 동대신동지점 근린생활�
 author: "rich-batch"
 date: 2026-10-18
 lastmod: 2026-10-18
-draft: true
+draft: false
 case: "onbid-20260800045418"
 categories: ["권리분석·명도"]
 tags: [서구, 상가, "인수 권리 없음", 기타일반재산, 상가 임차인, 계약갱신요구권]
