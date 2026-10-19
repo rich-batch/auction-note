@@ -3,7 +3,7 @@ title: "서울 관악구 봉천동 다세대 42㎡ 경매 (2025타경104295)"
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-central-2025ta104295"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 근저당권, 임의경매, 인도명령]
