@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 올림푸스 702호 60㎡ 경매 (2026타경3
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-nambu-2026ta3518"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "인수 권리 없음", 근저당권, 매각물건명세서, 현황조사서]
