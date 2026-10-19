@@ -3,7 +3,7 @@ title: "인천 미추홀구 숭의동 퍼스트힐 301호 오피스텔 공매 (2
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "onbid-20260800045456"
 categories: ["권리분석·명도"]
 tags: [미추홀구, 상가, "인수 권리 없음", 기타일반재산, 오피스텔, 대항력, 명도]
