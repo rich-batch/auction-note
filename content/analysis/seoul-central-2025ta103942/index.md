@@ -3,7 +3,7 @@ title: "서울 강남구 디오빌역삼 30㎡ 경매 (2025타경103942)"
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-central-2025ta103942"
 categories: ["권리분석·명도"]
 tags: [강남구, 아파트, "확인할 권리 있음", "임차권등기", 대항력, 근저당권, 배당요구]
