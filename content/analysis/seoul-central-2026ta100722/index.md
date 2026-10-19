@@ -3,7 +3,7 @@ title: "서울 서초구 방배대우유로카운티 234㎡ 경매 (2026타경10
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-central-2026ta100722"
 categories: ["권리분석·명도"]
 tags: [서초구, 아파트, "인수 권리 없음", 임의경매, 말소기준권리, 인도명령]
