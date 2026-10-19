@@ -3,7 +3,7 @@ title: "인천 부평구 산곡동 한화 60㎡ 경매 (2025타경509176)"
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "incheon-2025ta509176"
 categories: ["권리분석·명도"]
 tags: [부평구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 점유관계, 인도명령]
