@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 다안빌라트 33㎡ 경매 (2026타경4626)
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4626"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "인수 권리 없음", 가압류, 주택도시보증공사, 특별매각조건]
