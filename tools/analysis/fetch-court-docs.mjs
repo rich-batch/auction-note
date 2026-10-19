@@ -69,7 +69,7 @@ try {
 }
 
 if (statusData) {
-  const { tenants, special } = buildTenantsFromStatusReport(statusData);
+  const { tenants, special } = buildTenantsFromStatusReport(statusData, { region: c.case?.region });
   console.log(`\n■ 현황조사서 — 점유관계 확인됨 ${tenants.length}건(임차인), 검토 항목 ${special.length}건`);
   for (const s of special) console.log(`  - [${s.kind}] ${s.note}`);
 
