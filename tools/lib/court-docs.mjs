@@ -143,11 +143,20 @@ function parseDotDate(raw) {
 // 현황조사서 원본(fetchStatusReport 결과)에서 tenants[]/special[] 후보를 만든다.
 // intrpsNm(점유자 실명)과 lesDts·gdsPossCtt(이름이 섞인 서술형 텍스트)는 절대 쓰지 않는다.
 // 보증금·차임·확정일자는 현황조사서에 안 나온다(전입세대·점유 확인용 서류라서) — 항상 review.
-export function buildTenantsFromStatusReport(data) {
+// region(사건 소재지)을 주면, 현황조사서가 사건 전체(여러 호실)를 한꺼번에 돌려줄 때 그 소재지와 같은
+// 목적물(dlt_ordTsRlet.printSt)의 행만 쓴다 — 다세대 여러 호실을 물건번호별로 파는 사건에서 다른 호실
+// 임차인이 섞이지 않게. 일치하는 목적물이 없으면(주소 표기가 다르면) 예전처럼 전부 쓴다.
+export function buildTenantsFromStatusReport(data, { region } = {}) {
   const tenants = [];
   const special = [];
 
-  const possessionByObject = new Map((data?.dlt_ordTsRlet ?? []).map(r => [r.objctSeq, r]));
+  const norm = s => String(s ?? '').replace(/\s+/g, '');
+  const objects = data?.dlt_ordTsRlet ?? [];
+  const matched = region ? objects.filter(r => norm(r.printSt) === norm(region)) : [];
+  const targetSeqs = matched.length ? new Set(matched.map(r => r.objctSeq)) : null;
+  const inTarget = r => !targetSeqs || targetSeqs.has(r.objctSeq);
+
+  const possessionByObject = new Map(objects.filter(inTarget).map(r => [r.objctSeq, r]));
   for (const [, obj] of possessionByObject) {
     // 01(채무자 단독 점유)은 임차인 없음, 02(임차인 단독 점유)는 아래 tenants 루프가 이미 다룬다.
     // 그 외(제3자·혼합·미상·기타)만 별도로 검토를 남긴다 — tenants 루프로는 못 잡는 경우라서다.
@@ -156,7 +165,7 @@ export function buildTenantsFromStatusReport(data) {
     special.push({ kind: '점유관계 확인 필요', note: `법원경매정보 현황조사서 점유관계: "${label}" — 이름은 저장하지 않음. 매각물건명세서·현황조사서 원본으로 직접 확인` });
   }
 
-  for (const row of data?.dlt_ordTsLserLtn ?? []) {
+  for (const row of (data?.dlt_ordTsLserLtn ?? []).filter(inTarget)) {
     if (row.auctnIntrpsDvsCd !== '0001562') continue; // 0001562 = 임차인(코드표 확인됨). 그 외(소유자 등)는 tenants 대상 아님
     const registered_on = parseDotDate(row.mvinDtlCtt);
     const use = LES_USG_TO_USE[row.auctnLesUsgCd] ?? null;
