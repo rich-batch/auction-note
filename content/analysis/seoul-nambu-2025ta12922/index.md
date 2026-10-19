@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 황제파크빌 43㎡ 경매 (2025타경12922
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-nambu-2025ta12922"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "임차인 보증금 인수 가능", 대항력, 배당요구, 강제경매]
