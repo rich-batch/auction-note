@@ -3,7 +3,7 @@ title: "경기 고양 가좌마을7단지꿈에그린아파트 161㎡ 경매 (20
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "goyang-2025ta7027"
 categories: ["권리분석·명도"]
 tags: [고양시, 아파트, "인수 권리 없음", 근저당권, 임의경매, 유찰]
