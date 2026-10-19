@@ -3,7 +3,7 @@ title: "서울 영등포구 영등포중흥에스클래스 56㎡ 경매 (2026타
 author: "rich-batch"
 date: 2026-10-19
 lastmod: 2026-10-19
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4672"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구]
