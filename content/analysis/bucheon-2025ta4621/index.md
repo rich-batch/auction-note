@@ -3,7 +3,7 @@ title: "경기 부천 고강동 보우주택 41㎡ 경매 (2025타경4621)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "bucheon-2025ta4621"
 categories: ["권리분석·명도"]
 tags: [부천시, 빌라, "인수 권리 없음", 근저당권, 임의경매, 점유자 미상]

@@ -3,7 +3,7 @@ title: "인천 미추홀구 센트럴아파트 60㎡ 경매 (2025타경1469)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "incheon-2025ta1469"
 categories: ["권리분석·명도"]
 tags: [미추홀구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 유찰]

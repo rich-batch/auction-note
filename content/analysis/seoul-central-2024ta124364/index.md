@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 레미안아트빌 29㎡ 경매 (2024타경12
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2024ta124364"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 강제경매, 경매개시결정, 인도명령]

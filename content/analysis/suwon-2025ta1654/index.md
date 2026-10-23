@@ -3,7 +3,7 @@ title: "경기 수원 인계동 엘리시아아이티타워 514호 28㎡ 경매 
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "suwon-2025ta1654"
 categories: ["권리분석·명도"]
 tags: [수원시 팔달구, 상가, "인수 권리 없음", 근저당권, 점유자 미상, 입찰보증금]

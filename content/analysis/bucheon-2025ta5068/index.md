@@ -3,7 +3,7 @@ title: "경기 부천 채움아파트 73㎡ 경매 (2025타경5068)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "bucheon-2025ta5068"
 categories: ["권리분석·명도"]
 tags: [오정구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 제시외건물]
