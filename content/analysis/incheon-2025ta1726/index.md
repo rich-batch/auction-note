@@ -3,7 +3,7 @@ title: "인천 중구 하늘도시우미린2단지 85㎡ 경매 (2025타경1726)
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "incheon-2025ta1726"
 categories: ["권리분석·명도"]
 tags: [중구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 대항력, 인도명령]
