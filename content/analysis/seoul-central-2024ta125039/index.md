@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 태양오피스텔 19㎡ 경매 (2024타경12
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2024ta125039"
 categories: ["권리분석·명도"]
 tags: [관악구, 상가, "인수 권리 없음", 오피스텔, 대항력, 인도명령, 매각물건명세서]

@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 우성 29㎡ 경매 (2025타경13815)"
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13815"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "인수 권리 없음", 근저당권, 대항력, 명도]

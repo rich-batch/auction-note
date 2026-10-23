@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 해담채 41㎡ 경매 (2025타경102764)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2025ta102764"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 강제경매, 경매개시결정, 인도명령]
