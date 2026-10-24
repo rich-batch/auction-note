@@ -3,7 +3,7 @@ title: "인천 계양구 대산아파트 58㎡ 경매 (2025타경1578)"
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "incheon-2025ta1578"
 categories: ["권리분석·명도"]
 tags: [계양구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 현황조사서]
