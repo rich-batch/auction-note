@@ -3,7 +3,7 @@ title: "서울 동작구 동작상떼빌 129㎡ 경매 (2026타경100495)"
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-central-2026ta100495"
 categories: ["권리분석·명도"]
 tags: [동작구, 아파트, 인수 권리 없음, 말소기준권리, 대항력, 명도]
