@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 우공아파트 36㎡ 경매 (2026타경4341)
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4341"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "확인할 권리 있음", 대항력, 가압류, 배당요구]
