@@ -3,7 +3,7 @@ title: "서울 은평구 구산동 수베르디앙 29.99㎡ 공매 (2026-0900-05
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "onbid-20260900052552"
 categories: ["권리분석·명도"]
 tags: [은평구, 빌라, "인수 권리 없음", 기타일반재산, 다세대주택, 입찰보증금]
