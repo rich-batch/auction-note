@@ -3,7 +3,7 @@ title: "서울 강서구 화곡동 라인파크 17㎡ 경매 (2026타경4120)"
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4120"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "확인할 권리 있음", 임차권등기, 대항력, 매각물건명세서]

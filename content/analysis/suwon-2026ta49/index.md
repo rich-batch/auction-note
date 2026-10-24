@@ -3,7 +3,7 @@ title: "경기 오산 이편한세상오산세교 85㎡ 경매 (2026타경49)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "suwon-2026ta49"
 categories: ["권리분석·명도"]
 tags: [오산시, 아파트, "인수 권리 없음", 근저당권, 말소기준권리, 인도명령]
