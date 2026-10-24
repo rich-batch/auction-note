@@ -3,7 +3,7 @@ title: "서울 강서구 등촌동 세명클래스 19㎡ 경매 (2025타경12255
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-nambu-2025ta12255"
 categories: ["권리분석·명도"]
 tags: [강서구, 빌라, "확인할 권리 있음", "임차권등기", "임차인 보증금 인수 가능", 대항력, 말소기준권리]
