@@ -3,7 +3,7 @@ title: "경기 의정부 신도브래뉴아파트 85㎡ 경매 (2026타경70247)
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "uijeongbu-2026ta70247"
 categories: ["권리분석·명도"]
 tags: [의정부시, 아파트, 인수 권리 없음, 말소기준권리, 근저당권, 임의경매]
