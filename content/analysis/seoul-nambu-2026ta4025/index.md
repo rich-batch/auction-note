@@ -3,7 +3,7 @@ title: "서울 강서구 천우네오젠아파트 77㎡ 경매 (2026타경4025)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4025"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 등촌동, 근저당권, 임의경매, 인도명령]

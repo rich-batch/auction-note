@@ -3,7 +3,7 @@ title: "서울 은평구 덕산아파트 138㎡ 경매 (2026타경50182)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50182"
 categories: ["권리분석·명도"]
 tags: [은평구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 말소기준권리, 임의경매]

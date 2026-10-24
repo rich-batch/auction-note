@@ -3,7 +3,7 @@ title: "서울 영등포구 문래동해태아파트 59㎡ 경매 (2025타경123
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-nambu-2025ta12360"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 확정일자]

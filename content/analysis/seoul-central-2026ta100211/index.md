@@ -3,7 +3,7 @@ title: "서울 동작구 대방동 명성하우스 47㎡ 경매 (2026타경10021
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2026ta100211"
 categories: ["권리분석·명도"]
 tags: [동작구, 빌라, "확인할 권리 있음", "임차권등기", 대항력, 가압류, 배당요구]
