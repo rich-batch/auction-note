@@ -3,7 +3,7 @@ title: "서울 관악구 봉천동 일광리치빌 42㎡ 경매 (2026타경10020
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-central-2026ta100201"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 임의경매, 대항력, 인도명령]

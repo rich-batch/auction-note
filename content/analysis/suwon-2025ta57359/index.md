@@ -3,7 +3,7 @@ title: "경기 수원 서수원레이크푸르지오2단지 85㎡ 경매 (2025�
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "suwon-2025ta57359"
 categories: ["권리분석·명도"]
 tags: [수원시, 아파트, "인수 권리 없음", 가등기, 강제경매, 말소기준권리]
