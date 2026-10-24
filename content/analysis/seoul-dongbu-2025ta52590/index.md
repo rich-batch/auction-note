@@ -3,7 +3,7 @@ title: "서울 강동구 천호동 청림메카빌 53㎡ 경매 (2025타경52590
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta52590"
 categories: ["권리분석·명도"]
 tags: [강동구, 빌라, "인수 권리 없음", 대항력, 근저당, 임의경매, 명도]
