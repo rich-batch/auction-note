@@ -61,8 +61,8 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "2a41be844104972f",
+    "engine_version": 8,
+    "input_hash": "a8294a02f9510036",
     "computed_at": "2026-10-24",
     "base_right": {
       "index": 0,
