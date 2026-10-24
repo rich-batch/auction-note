@@ -148,6 +148,13 @@ test('매각물건명세서가 인수 권리를 적었는데 계산 결과에 �
   assert.ok(!computeCase(c).review.some(r => r.includes('계산 결과엔 인수가 없음')));
 });
 
+test('매각물건명세서가 "인수함" 없이 권리 이름만 적어도(을구1번 주택임차권 등기) 인수 권리로 알림', () => {
+  const c = base({ spec_sheet: { surviving_rights_text: '을구1번 주택임차권 등기' } });
+  assert.ok(computeCase(c).review.some(r => r.includes('계산 결과엔 인수가 없음')));
+  assert.equal(computeCase(c).assumed_total_max, null);
+  assert.ok(!computeCase(base({ spec_sheet: { surviving_rights_text: '해당사항없음' } })).review.some(r => r.includes('계산 결과엔 인수가 없음')));
+});
+
 test('입찰보증금: 기본 10%, 재매각 20%', () => {
   assert.equal(computeCase(base()).bid_deposit, 40000000);
   const c = base();

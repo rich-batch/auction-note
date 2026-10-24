@@ -17,7 +17,7 @@ import crypto from 'node:crypto';
 import { CATEGORIES, categoryBySlug } from '../lib/categories.mjs';
 import { parseKoDate } from '../lib/parse.mjs';
 
-export const ENGINE_VERSION = 7; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거 / 7: 금액 모르는 인수 권리가 있으면 인수 상한 미상
+export const ENGINE_VERSION = 8; // 3: 시세 출처(market.trades[].source)별 시세갭, 자동차는 감정가 대비 별점을 매기지 않음 / 4: 명세서가 인수 권리를 적었는데 계산에 인수가 없으면 review / 5: 그때 인수 상한을 미상(null)으로 / 6: 가격 수준을 시세 평균 대비(없으면 감정가) 30% 기준으로, 별도 시세갭 별점 제거 / 7: 금액 모르는 인수 권리가 있으면 인수 상한 미상 / 8: 명세서가 "을구1번 주택임차권 등기"처럼 권리 이름만 적어도 인수 권리로 봄
 
 export const BASE_KINDS = ['근저당권', '저당권', '압류', '가압류', '담보가등기', '경매개시결정'];
 // 말소기준권리보다 앞서면 매수인이 인수하는 권리 (뒤면 소멸)
@@ -594,8 +594,9 @@ export function computeCase(c, now = new Date()) {
   // 반대 방향: 명세서가 매수인이 떠안는 권리(대항할 수 있는 임차권등기 등)를 적었는데 계산 결과엔 인수가 없으면,
   // 등기·임차인 입력에서 빠진 것이다 — 예: 임차권등기명령으로 대항력을 유지한 채 이사 간 임차인은 현황조사서에 안 잡힌다
   // (주택임대차보호법 제3조의3제5항). 명세서가 법원의 공식 판단이니 계산 결과로 덮지 않고 사람 확인으로 넘긴다.
+  // 명세서는 "인수함" 없이 "을구1번 주택임차권 등기"처럼 권리 이름만 적기도 한다 — 이 칸에 적힌 것 자체가 매각으로 소멸되지 않는 권리다.
   const opposableTenants = tenantResults.filter(t => t.opposable === true);
-  const specSaysSurviving = Boolean(spec.surviving_rights_text && !/없음/.test(spec.surviving_rights_text) && /인수|대항/.test(spec.surviving_rights_text) && !surviving.length && !opposableTenants.length);
+  const specSaysSurviving = Boolean(spec.surviving_rights_text && !/없음/.test(spec.surviving_rights_text) && /인수|대항|임차권|전세권|지상권|가처분|가등기/.test(spec.surviving_rights_text) && !surviving.length && !opposableTenants.length);
   if (specSaysSurviving) {
     review.push(`매각물건명세서는 매수인이 인수하는 권리를 적었는데("${spec.surviving_rights_text}") 계산 결과엔 인수가 없음 — 등기·임차인 입력에서 빠진 권리가 있는지 확인`);
   }
