@@ -3,7 +3,7 @@ title: "서울 강서구 방화아파트 39㎡ 경매 (2025타경13394)"
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13394"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 방화동, 근저당권, 임의경매, 점유관계]
