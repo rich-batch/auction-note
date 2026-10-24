@@ -3,7 +3,7 @@ title: "서울 관악구 프라비다엠 30㎡ 경매 (2025타경103762)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2025ta103762"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 강제경매, 말소기준권리, 인도명령]

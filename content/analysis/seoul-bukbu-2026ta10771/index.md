@@ -3,7 +3,7 @@ title: "서울 강북구 번동주공아파트 41㎡ 경매 (2026타경10771)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10771"
 categories: ["권리분석·명도"]
 tags: [강북구, 아파트, "인수 권리 없음", 번동, 근저당권, 임의경매, 유찰]
