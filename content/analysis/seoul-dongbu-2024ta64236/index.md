@@ -3,7 +3,7 @@ title: "서울 송파구 거여2단지동아아파트 135㎡ 경매 (2024타경6
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-dongbu-2024ta64236"
 categories: ["권리분석·명도"]
 tags: [송파구, 아파트, "인수 권리 없음", 말소기준권리, 근저당권, 매각불허가]
