@@ -3,7 +3,7 @@ title: "서울 노원구 상계주공아파트 58㎡ 경매 (2026타경10505)"
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10505"
 categories: ["권리분석·명도"]
 tags: [노원구, 아파트, "인수 권리 없음", 상계동, 근저당권, 임의경매, 인도명령]
