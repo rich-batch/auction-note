@@ -3,7 +3,7 @@ title: "서울 관악구 하이파크아파트 75㎡ 경매 (2026타경100629)"
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-central-2026ta100629"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 가능 금액 있음", "임차권등기", 임차인 보증금 인수 가능, 대항력, 가압류, 확정일자]

@@ -3,7 +3,7 @@ title: "서울 강서구 방화동 경동팰리스힐 12㎡ 경매 (2025타경13
 author: "rich-batch"
 date: 2026-10-23
 lastmod: 2026-10-23
-draft: true
+draft: false
 case: "seoul-nambu-2025ta13136"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 가압류, 대항력 포기, 서울보증보험, 주택임차권]

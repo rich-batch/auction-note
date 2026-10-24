@@ -3,7 +3,7 @@ title: "서울 은평구 은평뉴타운우물골 168㎡ 경매 (2026타경50703
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50703"
 categories: ["권리분석·명도"]
 tags: [은평구, 아파트, "확인할 권리 있음", "임차권등기", 대항력, 근저당권, 매각물건명세서]

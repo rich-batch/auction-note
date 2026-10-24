@@ -3,7 +3,7 @@ title: "서울 은평구 은평뉴타운제각말 85㎡ 경매 (2026타경50455)
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50455"
 categories: ["권리분석·명도"]
 tags: [은평구, 아파트, "인수 권리 없음", 대항력, 강제경매, 명도]
