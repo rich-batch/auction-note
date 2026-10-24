@@ -3,7 +3,7 @@ title: "경기 파주 야당동 비아루체 69㎡ 공매 (2026-1000-056632)"
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "onbid-20261000056632"
 categories: ["권리분석·명도"]
 tags: [파주시, 빌라, "인수 권리 없음", 기타일반재산, 다세대주택, 입찰보증금]

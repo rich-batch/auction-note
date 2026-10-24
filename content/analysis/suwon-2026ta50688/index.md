@@ -3,7 +3,7 @@ title: "경기 용인 교동마을동양파라곤 128㎡ 경매 (2026타경50688
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "suwon-2026ta50688"
 categories: ["권리분석·명도"]
 tags: [용인시, 아파트, "인수 권리 없음", 근저당권, 임의경매, 인도명령]

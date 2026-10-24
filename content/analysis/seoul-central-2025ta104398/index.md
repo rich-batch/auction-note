@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 리치아트빌 38㎡ 경매 (2025타경10439
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-central-2025ta104398"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 가압류, 강제경매, 대항력]
