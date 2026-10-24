@@ -3,7 +3,7 @@ title: "경기 용인 연원마을쉐르빌아파트 149㎡ 경매 (2024타경89
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "suwon-2024ta89407"
 categories: ["권리분석·명도"]
 tags: [용인시, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구]
