@@ -3,7 +3,7 @@ title: "서울 송파구 송파동 에스아이팰리스레이크잠실 19.7㎡ 
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "seoul-dongbu-2024ta62209"
 categories: ["권리분석·명도"]
 tags: [송파구, 빌라, "확인할 권리 있음", "임차권등기", "임차인 보증금 인수 가능", 말소기준권리, 강제경매]

@@ -3,7 +3,7 @@ title: "인천 서구 영남탑스빌아파트 120㎡ 경매 (2026타경500445)"
 author: "rich-batch"
 date: 2026-10-24
 lastmod: 2026-10-24
-draft: true
+draft: false
 case: "incheon-2026ta500445"
 categories: ["권리분석·명도"]
 tags: [서구, 아파트, "확인할 권리 있음", "임차권등기", 대항력, 가압류, 매각물건명세서]
