@@ -3,7 +3,7 @@ title: "경기 성남 더샵판교퍼스트파크 85㎡ 경매 (2026타경50816)
 author: "rich-batch"
 date: 2026-10-25
 lastmod: 2026-10-25
-draft: true
+draft: false
 case: "seongnam-2026ta50816"
 categories: ["권리분석·명도"]
 tags: [성남시, 아파트, 인수 권리 없음, 말소기준권리, 근저당권, 임의경매]
