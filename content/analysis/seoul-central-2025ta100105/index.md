@@ -3,7 +3,7 @@ title: "서울 중구 오장동 오렌지카운티을지로 14.54㎡ 경매 (202
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2025ta100105"
 categories: ["권리분석·명도"]
 tags: [중구, 빌라, "인수 권리 없음", 가압류, 강제경매, 인도명령]
