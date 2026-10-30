@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 가온빌 28.44㎡ 경매 (2026타경100801)"
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2026ta100801"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 말소기준권리, 압류, 인도명령]
