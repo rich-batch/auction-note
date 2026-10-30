@@ -3,7 +3,7 @@ title: "서울 중구 황학동 신당역올리브2 7층 오피스텔 경매 (20
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2025ta104492"
 categories: ["권리분석·명도"]
 tags: [중구, 상가, "확인할 권리 있음", 오피스텔, 강제경매, 대항력, 매각물건명세서]
