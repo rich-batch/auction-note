@@ -3,7 +3,7 @@ title: "서울 관악구 봉천동 아파트 72㎡ 경매 (2025타경103418)"
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "seoul-central-2025ta103418"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 근저당권]

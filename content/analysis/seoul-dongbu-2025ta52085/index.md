@@ -3,7 +3,7 @@ title: "서울 강동구 길동 베네시티 29㎡ 경매 (2025타경52085)"
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta52085"
 categories: ["권리분석·명도"]
 tags: [강동구, 빌라, "확인할 권리 있음", 임차권등기, 강제경매, 가압류, 매각물건명세서]
