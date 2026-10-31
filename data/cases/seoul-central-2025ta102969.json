@@ -1,0 +1,63 @@
+{
+  "id": "seoul-central-2025ta102969",
+  "source": {
+    "checked_at": "2026-10-31",
+    "documents": [
+      "매각물건명세서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-11-05 매각공고 상세). 청구금액 307,965,575원. 공고 비고: \"임차인(이름 생략)은 대항력 있는 임차인으로 배당에서 보증금을 변제받지 못하면 잔액을 매수인이 인수함\" / 법원경매정보 현황조사서(pgj15B/selectCurstExmndc.on)로 확인, 이름은 저장하지 않음"
+  },
+  "case": {
+    "number": "2025타경102969",
+    "item_no": 1,
+    "court": "서울중앙지방법원",
+    "kind": "강제경매",
+    "category": "apartment",
+    "region": "서울특별시 강남구 역삼동 681-26 역삼동하나빌 6층602호",
+    "area_m2": 28.44
+  },
+  "sale": {
+    "appraisal": 452000000,
+    "minimum": 185139000,
+    "failed_rounds": 4,
+    "sale_date": "2026-11-05",
+    "dividend_deadline": "2025-08-01",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "2025-05-20",
+      "receipt_no": null,
+      "kind": "경매개시결정",
+      "amount": null,
+      "holder_type": null,
+      "note": "매각물건명세서 \"최선순위 설정\"(법원경매정보 물건상세, 2026-10-31 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인"
+    }
+  ],
+  "tenants": [],
+  "special": [
+    {
+      "kind": "점유관계 확인 필요",
+      "note": "법원경매정보 현황조사서 점유관계: \"미상\" — 이름은 저장하지 않음. 매각물건명세서·현황조사서 원본으로 직접 확인"
+    }
+  ],
+  "spec_sheet": {
+    "base_right_text": "2025.05.20.경매개시결정",
+    "surviving_rights_text": "매수인에게 대항할 수 있는 을구 순위 5번 임차권등기(2024.06.14. 제100892호)있음 [임대차보증금 278,250,000원(2022.01.17. 13,250,000원 증액), 전입일자 \n2020.04.10. 확정일자 1차2020.02.24.(265,000,000원) 2차 2022.01.17.(13,250,000원 증액부분)] 배당에서 전액 변제되지 않으면 잔액을 매수인이 인수함",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}
