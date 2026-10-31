@@ -3,7 +3,7 @@ title: "서울 동작구 동작협성휴포레시그니처 85㎡ 경매 (2025타
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2025ta104108"
 categories: ["권리분석·명도"]
 tags: [동작구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구]

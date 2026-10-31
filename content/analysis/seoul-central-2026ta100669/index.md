@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 성진리치빌5차 29.54㎡ 경매 (2026타�
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2026ta100669"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "확인할 권리 있음", 압류, 대항력, 배당요구, 인도명령]

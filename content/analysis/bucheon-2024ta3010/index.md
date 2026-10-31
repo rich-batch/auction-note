@@ -3,7 +3,7 @@ title: "경기 부천 오정동 디에스미소가2차 44.19㎡ 경매 (2024타�
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "bucheon-2024ta3010"
 categories: ["권리분석·명도"]
 tags: [오정구, 빌라, "인수 권리 없음", 근저당권, 임의경매, 인도명령]

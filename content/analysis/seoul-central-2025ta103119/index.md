@@ -3,7 +3,7 @@ title: "서울 관악구 봉천동 다세대 29.5㎡ 경매 (2025타경103119)"
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "seoul-central-2025ta103119"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 강제경매, 가압류, 제시외 건물, 인도명령]

@@ -3,7 +3,7 @@ title: "경기 부천 센트럴파크푸르지오 85㎡ 경매 (2026타경31498)
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "bucheon-2026ta31498"
 categories: ["권리분석·명도"]
 tags: [부천시, 아파트, "인수 권리 없음", 임의경매, 근저당권, 대항력, 인도명령]

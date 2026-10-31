@@ -3,7 +3,7 @@ title: "서울 관악구 행운5길 다세대 23.81㎡ 경매 (2024타경125411)
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "seoul-central-2024ta125411"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "확인할 권리 있음", 대항력, 배당요구, 압류]

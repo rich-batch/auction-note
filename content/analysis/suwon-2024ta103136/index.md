@@ -3,7 +3,7 @@ title: "경기 수원 인계동 다원캐슬 902호 오피스텔 57㎡ 경매 (2
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "suwon-2024ta103136"
 categories: ["권리분석·명도"]
 tags: [수원시 팔달구, 상가, "인수 권리 없음", 임차권등기, 주택도시보증공사, 재매각, 입찰보증금]
