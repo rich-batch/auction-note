@@ -3,7 +3,7 @@ title: "경기 수원 권선구 세권로 빌라 201호 53㎡ 경매 (2024타경
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "suwon-2024ta7221"
 categories: ["권리분석·명도"]
 tags: [수원시 권선구, 빌라, "인수 권리 없음", 근저당권, 점유자, 명도]

@@ -3,7 +3,7 @@ title: "서울 강서구 방화동 신마곡벽산블루밍 7층 오피스텔 �
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-nambu-2025ta430"
 categories: ["권리분석·명도"]
 tags: [강서구, 상가, "확인할 권리 있음", 오피스텔, 대항력, 배당요구, 매각물건명세서]

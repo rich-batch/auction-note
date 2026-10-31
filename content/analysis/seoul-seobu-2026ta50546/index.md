@@ -3,7 +3,7 @@ title: "서울 은평구 역촌동 한주파크빌 27.15㎡ 경매 (2026타경50
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50546"
 categories: ["권리분석·명도"]
 tags: [은평구, 빌라, "인수 권리 없음", 압류, 강제경매, 대항력]

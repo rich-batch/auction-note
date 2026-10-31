@@ -3,7 +3,7 @@ title: "서울 서초구 양재동 다세대 22㎡ 경매 (2026타경100758)"
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-central-2026ta100758"
 categories: ["권리분석·명도"]
 tags: [서초구, 빌라, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 배당요구, 인도명령]
