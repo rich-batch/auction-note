@@ -3,7 +3,7 @@ title: "서울 강동구 둔촌동 오앤하우스 18㎡ 경매 (2025타경52503
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta52503"
 categories: ["권리분석·명도"]
 tags: [강동구, 빌라, "인수 권리 없음", 선순위 전세권, 배당요구, 임의경매]

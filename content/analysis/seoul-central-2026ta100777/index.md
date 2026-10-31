@@ -3,7 +3,7 @@ title: "서울 서초구 양재동 다세대 24.53㎡ 경매 (2026타경100777)"
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "seoul-central-2026ta100777"
 categories: ["권리분석·명도"]
 tags: [서초구, 빌라, "인수 권리 없음", 말소기준권리, 대항력, 배당요구, 인도명령]
