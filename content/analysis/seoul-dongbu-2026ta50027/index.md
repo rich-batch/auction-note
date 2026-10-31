@@ -3,7 +3,7 @@ title: "서울 강동구 천호동 성우스타팰리스 16.95㎡ 경매 (2026�
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-dongbu-2026ta50027"
 categories: ["권리분석·명도"]
 tags: [강동구, 빌라, "확인할 권리 있음", 임차권등기, 강제경매, 매각물건명세서]

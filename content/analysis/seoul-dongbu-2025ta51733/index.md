@@ -3,7 +3,7 @@ title: "서울 송파구 방이동 신동아타워 58㎡ 경매 (2025타경51733
 author: "rich-batch"
 date: 2026-10-30
 lastmod: 2026-10-30
-draft: true
+draft: false
 case: "seoul-dongbu-2025ta51733"
 categories: ["권리분석·명도"]
 tags: [송파구, 아파트, "확인할 권리 있음", "임차권등기", 말소기준권리, 대항력, 배당요구]

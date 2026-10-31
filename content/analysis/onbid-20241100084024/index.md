@@ -3,7 +3,7 @@ title: "인천시 부평구 더샵 부평센트럴시티 상가H동 105호 공�
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "onbid-20241100084024"
 categories: ["권리분석·명도"]
 tags: [부평구, 상가, "인수 권리 없음", 기타일반재산, 상가 임차인, 입찰보증금]

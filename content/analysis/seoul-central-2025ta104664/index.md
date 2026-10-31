@@ -3,7 +3,7 @@ title: "서울 관악구 봉천동 에스클래스 29.98㎡ 경매 (2025타경10
 author: "rich-batch"
 date: 2026-10-31
 lastmod: 2026-10-31
-draft: true
+draft: false
 case: "seoul-central-2025ta104664"
 categories: ["권리분석·명도"]
 tags: [관악구, 빌라, "인수 권리 없음", 말소기준권리, 강제경매, 인도명령]
