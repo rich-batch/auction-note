@@ -3,7 +3,7 @@ title: "경기 화성 신동탄푸르지오 85㎡ 경매 (2026타경51245)"
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "suwon-2026ta51245"
 categories: ["권리분석·명도"]
 tags: [화성시, 아파트, "인수 권리 없음", 근저당권, 대지권, 임의경매]

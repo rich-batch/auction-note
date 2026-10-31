@@ -3,7 +3,7 @@ title: "인천 미추홀구 도화동 더머뭄 67.59㎡ 공매 (2023-1100-06723
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "onbid-20231100067238"
 categories: ["권리분석·명도"]
 tags: [미추홀구, 빌라, "인수 권리 없음", 기타일반재산, 신탁, 대항력]

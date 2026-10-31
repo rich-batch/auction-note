@@ -3,7 +3,7 @@ title: "서울 관악구 벽산블루밍 102㎡ 경매 (2025타경102941)"
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "seoul-central-2025ta102941"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "임차인 보증금 인수 가능", "임차권등기", 대항력, 확정일자, 배당요구]
