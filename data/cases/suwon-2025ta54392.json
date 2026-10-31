@@ -1,0 +1,63 @@
+{
+  "id": "suwon-2025ta54392",
+  "source": {
+    "checked_at": "2026-10-31",
+    "documents": [
+      "매각물건명세서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-11-03 매각공고 상세). 청구금액 229,064,287원."
+  },
+  "case": {
+    "number": "2025타경54392",
+    "item_no": 1,
+    "court": "수원지방법원",
+    "kind": "임의경매",
+    "category": "apartment",
+    "region": "경기도 수원시 권선구 호매실동 1388 호매실경남아너스빌 1519동 10층1002호",
+    "area_m2": 74.93
+  },
+  "sale": {
+    "appraisal": 428000000,
+    "minimum": 299600000,
+    "failed_rounds": 1,
+    "sale_date": "2026-11-03",
+    "dividend_deadline": "2025-05-02",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "2021-03-15",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": "매각물건명세서 \"최선순위 설정\"(법원경매정보 물건상세, 2026-10-31 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인"
+    }
+  ],
+  "tenants": [],
+  "special": [
+    {
+      "kind": "기일 내역 확인",
+      "note": "법원경매정보 기일 내역상 2025-12-10 기일 결과가 '매각'으로 나오는데 2026-11-03에 같은 최저가(299,600,000원)로 다시 매각기일이 잡혔다. 관련 사건으로 개인회생 사건(수원회생법원)과 2026타기 사건이 표시된다. 앞선 매각이 불허가·취소됐는지, 대금 미납 재매각인지(재매각이면 입찰보증금 20%) 법원경매정보 기일 내역·매각물건명세서로 확인"
+    }
+  ],
+  "spec_sheet": {
+    "base_right_text": "2021.03.15. 근저당권",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}
