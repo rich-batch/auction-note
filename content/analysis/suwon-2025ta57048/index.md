@@ -3,7 +3,7 @@ title: "경기 오산 오산운암1단지주공아파트 50㎡ 경매 (2025타�
 author: "rich-batch"
 date: 2026-11-01
 lastmod: 2026-11-01
-draft: true
+draft: false
 case: "suwon-2025ta57048"
 categories: ["권리분석·명도"]
 tags: [오산시, 아파트, "임차인 보증금 인수 가능", "임차권등기", 대항력, 확정일자, 배당요구]
