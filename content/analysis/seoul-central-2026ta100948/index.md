@@ -3,7 +3,7 @@ title: "서울 동작구 상도동 다세대 45.57㎡ 경매 (2026타경100948)"
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seoul-central-2026ta100948"
 categories: ["권리분석·명도"]
 tags: [동작구, 빌라, "인수 권리 없음", 근저당권, 대항력, 명도]
