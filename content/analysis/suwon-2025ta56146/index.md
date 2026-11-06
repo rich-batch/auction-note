@@ -3,7 +3,7 @@ title: "경기 수원 원천주공아파트 41㎡ 경매 (2025타경56146)"
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "suwon-2025ta56146"
 categories: ["권리분석·명도"]
 tags: [영통구, 아파트, "인수 권리 없음", 말소기준권리, 강제경매, 점유자 확인]

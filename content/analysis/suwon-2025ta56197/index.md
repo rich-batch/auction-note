@@ -3,7 +3,7 @@ title: "경기 수원 광교더샵 91㎡ 경매 (2025타경56197)"
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "suwon-2025ta56197"
 categories: ["권리분석·명도"]
 tags: [수원시, 아파트, "인수 권리 없음", 근저당권, 임의경매, 인도명령]

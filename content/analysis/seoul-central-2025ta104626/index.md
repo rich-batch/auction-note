@@ -3,7 +3,7 @@ title: "서울 관악구 삼성산주공아파트 83㎡ 경매 (2025타경104626
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seoul-central-2025ta104626"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 임의경매, 유찰, 명도]

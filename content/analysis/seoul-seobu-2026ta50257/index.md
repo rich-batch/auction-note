@@ -3,7 +3,7 @@ title: "서울 용산구 한가람아파트 60㎡ 경매 (2026타경50257)"
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50257"
 categories: ["권리분석·명도"]
 tags: [용산구, 아파트, "확인할 권리 있음", "임차인 보증금 인수 가능", 대항력, 가압류, 강제경매]
