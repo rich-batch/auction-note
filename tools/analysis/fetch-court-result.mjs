@@ -110,7 +110,9 @@ for (const id of ids) {
   const top = parseTopPriority(info.tprtyRnkHypthcStngDts);
   if (info.tprtyRnkHypthcStngDts && !top) console.log(`  ⚠ 최선순위 설정 "${info.tprtyRnkHypthcStngDts}"에서 날짜를 못 읽음 — rights[]에 넣지 않음, 사람이 확인`);
   if (top && !(data.rights ?? []).some(r => r.date)) {
-    const kind = KIND[top.kind] ?? top.kind;
+    // 명세서가 "근저당권설정"처럼 "설정"을 붙여 쓰는 경우가 있다 — 등기 종류 이름만 남긴다
+    const bare = top.kind.replace(/설정$/, '');
+    const kind = KIND[bare] ?? bare;
     const holder = data.rights?.[0]?.holder_type ?? null;
     data.rights = [{ date: top.date, receipt_no: null, kind, amount: null, holder_type: /저당/.test(kind) ? holder : null,
       note: `매각물건명세서 "최선순위 설정"(법원경매정보 물건상세, ${today} 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인` }];
