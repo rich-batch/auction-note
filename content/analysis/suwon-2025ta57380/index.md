@@ -3,7 +3,7 @@ title: "경기 화성 휴먼시아 동화마을 85㎡ 경매 (2025타경57380)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "suwon-2025ta57380"
 categories: ["권리분석·명도"]
 tags: [화성시, 아파트, "임차인 보증금 인수 가능", "임차권등기", 대항력, 확정일자, 배당요구]

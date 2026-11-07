@@ -3,7 +3,7 @@ title: "경기 오산 늘푸른오스카빌 85㎡ 경매 (2026타경50800)"
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "suwon-2026ta50800"
 categories: ["권리분석·명도"]
 tags: [오산시, 아파트, "인수 권리 없음", 임차권등기, 주택도시보증공사, 대항력]

@@ -3,7 +3,7 @@ title: "서울 서초구 강남월드메르디앙프레스티지 43㎡ 경매 (2
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "seoul-central-2026ta101199"
 categories: ["권리분석·명도"]
 tags: [서초구, 아파트, "인수 권리 없음", 강제경매, 말소기준권리, 인도명령]

@@ -3,7 +3,7 @@ title: "서울 마포구 연남동 도화엘리시아 27.32㎡ 경매 (2026타�
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "seoul-seobu-2026ta50160"
 categories: ["권리분석·명도"]
 tags: [마포구, 빌라, "인수 권리 없음", 압류, 강제경매, 대항력]

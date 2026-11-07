@@ -3,7 +3,7 @@ title: "경기 화성 봉담휴먼빌 85㎡ 경매 (2025타경57264)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "suwon-2025ta57264"
 categories: ["권리분석·명도"]
 tags: [화성시, 아파트, "임차인 보증금 인수 가능", 강제경매, 대항력, 배당요구, 근저당권]
