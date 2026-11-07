@@ -3,7 +3,7 @@ title: "인천 계양구 동아아파트 58㎡ 경매 (2026타경363)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "incheon-2026ta363"
 categories: ["권리분석·명도"]
 tags: [계양구, 아파트, "인수 권리 없음", 임의경매, 근저당권, 현황조사서]

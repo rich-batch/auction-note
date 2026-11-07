@@ -3,7 +3,7 @@ title: "서울 노원구 월계센트럴아이파크 85㎡ 경매 (2026타경100
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10032"
 categories: ["권리분석·명도"]
 tags: [노원구, 아파트, "인수 권리 없음", 근저당권, 임의경매, 인도명령]

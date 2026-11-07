@@ -3,7 +3,7 @@ title: "서울 관악구 신림동 더위일관악파크뷰 9층 오피스텔 �
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seoul-central-2025ta102202"
 categories: ["권리분석·명도"]
 tags: [관악구, 상가, "인수 권리 없음", 오피스텔, 압류, 현황조사서, 인도명령]
