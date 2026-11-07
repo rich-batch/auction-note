@@ -3,7 +3,7 @@ title: "서울 관악구 라이프아파트 84㎡ 경매 (2025타경103199)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "seoul-central-2025ta103199"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 임의경매, 말소기준권리, 명도]

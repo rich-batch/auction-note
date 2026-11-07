@@ -3,7 +3,7 @@ title: "경기 화성 태안로 다세대 34.88㎡ 경매 (2024타경10630)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "suwon-2024ta10630"
 categories: ["권리분석·명도"]
 tags: [화성시, 빌라, "확인할 권리 있음", "임차권등기", 대항력, 배당요구, 매각물건명세서]
