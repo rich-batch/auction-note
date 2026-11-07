@@ -1,6 +1,47 @@
 {
   "date": "2026-11-08",
-  "status": "running",
+  "status": "warn",
   "started_at": "2026-11-07T23:10:56.617Z",
-  "runs": 1
+  "runs": 1,
+  "steps": {
+    "pull": {
+      "status": "warn",
+      "note": "운영자 작업 트리에 원격과 겹치는 미추적 사건 파일 2개(suwon-2026ta49, seoul-dongbu-2024ta64236 옛 사본)가 있어 pull 실패 — 작업 트리는 건드리지 않고 .claude/worktrees/batch-1108에서 진행"
+    },
+    "results": {
+      "status": "warn",
+      "note": "31건 반영(매각 8, 유찰 23). fetch-court-result가 기일 날짜 null 행에서 TypeError로 멈춰 고친 뒤 재실행(main 2c3e34a). 6건은 분석 회차가 기일 내역에 없어 미반영"
+    },
+    "scan": {
+      "status": "ok",
+      "note": "2026-11-23: 공매 0건, 관심 법원 12곳 0건"
+    },
+    "drafts": {
+      "status": "warn",
+      "note": "후보가 없어 초안 0건"
+    }
+  },
+  "results": [
+    "bucheon-2024ta3010 매각 145,189,500원",
+    "seoul-bukbu-2026ta10505 매각 262,559,000원",
+    "seoul-central-2025ta103418 매각 328,790,000원",
+    "seoul-dongbu-2024ta64236 매각 1,560,000,000원",
+    "seoul-dongbu-2025ta52237 매각 2,318,100,000원",
+    "seoul-nambu-2025ta13394 매각 570,610,011원",
+    "suwon-2024ta103136 매각 159,000,888원",
+    "suwon-2024ta89407 매각 316,000,000원",
+    "유찰 23건(온비드 4, 법원 19)"
+  ],
+  "prs": [],
+  "candidates": [],
+  "errors": [
+    "fetch-court-result.mjs:79 TypeError: Cannot read properties of null (reading 'localeCompare') — 수정 후 재실행",
+    "git pull: 미추적 data/cases 파일 2개가 병합으로 덮어써질 수 있어 중지"
+  ],
+  "todo": [
+    "로컬 저장소의 미추적 data/cases/suwon-2026ta49.json·seoul-dongbu-2024ta64236.json(원격보다 옛 사본) 정리 후 pull",
+    "기일 변경 의심 6건 sale.sale_date 확인: seoul-central-2025ta104308(다음 12-10), seoul-central-2026ta100801, seoul-nambu-2025ta430, seoul-nambu-2026ta216(정지 코드 01), seoul-nambu-2026ta4341, seoul-nambu-2026ta4392",
+    "유찰 후 다음 회차 이동 판단: seoul-central-2026ta100201(12-02 최저 2.624억), suwon-2025ta57359(11-30 최저 3.787억)"
+  ],
+  "finished_at": "2026-11-07T23:32:30.063Z"
 }
