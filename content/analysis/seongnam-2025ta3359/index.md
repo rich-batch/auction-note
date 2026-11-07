@@ -3,7 +3,7 @@ title: "경기 하남 망월동 미사강변 오벨리스크 418호 75㎡ 경매
 author: "rich-batch"
 date: 2026-11-06
 lastmod: 2026-11-06
-draft: true
+draft: false
 case: "seongnam-2025ta3359"
 categories: ["권리분석·명도"]
 tags: [하남시, 상가, "인수 권리 없음", 근저당권, 상가 임차인, 명도]

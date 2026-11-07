@@ -3,7 +3,7 @@ title: "서울 관악구 프라비다트라움 14㎡ 경매 (2026타경100250)"
 author: "rich-batch"
 date: 2026-11-07
 lastmod: 2026-11-07
-draft: true
+draft: false
 case: "seoul-central-2026ta100250"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 말소기준권리, 인도명령]
