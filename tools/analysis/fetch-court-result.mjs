@@ -76,6 +76,7 @@ for (const id of ids) {
       const winning_bid = outcome === '매각' && sold && ymd(sold.dspslDxdyYmd) === date ? Number(sold.dspslAmt) || null : null;
       return { date, minimum: Number(r.tsLwsDspslPrc) || (sold && ymd(sold.dspslDxdyYmd) === date ? Number(sold.fstPbancLwsDspslPrc) || null : null), code: r.auctnDxdyRsltCd ?? null, outcome, winning_bid };
     })
+    .filter(r => r.date) // 기일 날짜가 비어 오는 행이 있다 — 정렬·대조할 수 없으니 뺀다
     .sort((a, b) => a.date.localeCompare(b.date));
 
   console.log(`\n■ ${id} ${c.case.number} — 유찰 ${info.flbdNcnt ?? '?'}회, 최선순위 설정: ${info.tprtyRnkHypthcStngDts ?? '(없음)'}`);
