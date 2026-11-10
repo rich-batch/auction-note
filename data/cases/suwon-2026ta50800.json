@@ -59,15 +59,16 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
-    "winning_bid": null,
+    "outcome": "매각",
+    "winning_bid": 241600000,
     "bidders": null,
-    "checked_at": null
+    "checked_at": "2026-11-10",
+    "later": []
   },
   "computed": {
     "engine_version": 8,
     "input_hash": "a43fd30d39cfaa5a",
-    "computed_at": "2026-11-06",
+    "computed_at": "2026-11-10",
     "base_right": {
       "index": 0,
       "date": "2026-02-23",

@@ -50,15 +50,16 @@
     "checked_at": null
   },
   "result": {
-    "outcome": null,
+    "outcome": "유찰",
     "winning_bid": null,
     "bidders": null,
-    "checked_at": null
+    "checked_at": "2026-11-10",
+    "later": []
   },
   "computed": {
     "engine_version": 8,
     "input_hash": "6713c394dd70460b",
-    "computed_at": "2026-10-30",
+    "computed_at": "2026-11-10",
     "base_right": {
       "index": 0,
       "date": "2016-05-20",
