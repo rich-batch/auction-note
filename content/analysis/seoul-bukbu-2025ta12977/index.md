@@ -3,7 +3,7 @@ title: "서울 도봉구 성원아파트 60㎡ 경매 (2025타경12977)"
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta12977"
 categories: ["권리분석·명도"]
 tags: [도봉구, 아파트, "인수 권리 없음", 유찰, 말소기준권리, 임의경매]

@@ -3,7 +3,7 @@ title: "서울 영등포구 대림동신동아아파트 67㎡ 경매 (2026타경
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-nambu-2026ta5959"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, "인수 권리 없음", 말소기준권리, 임의경매, 인도명령]

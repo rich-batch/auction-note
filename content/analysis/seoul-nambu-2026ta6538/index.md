@@ -3,7 +3,7 @@ title: "서울 양천구 해태아파트 84㎡ 경매 (2026타경6538)"
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-nambu-2026ta6538"
 categories: ["권리분석·명도"]
 tags: [양천구, 아파트, "인수 권리 없음", 말소기준권리, 대항력, 임의경매]

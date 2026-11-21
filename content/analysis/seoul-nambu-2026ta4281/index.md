@@ -3,7 +3,7 @@ title: "서울 구로구 덕영드림아파트 61㎡ 경매 (2026타경4281)"
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4281"
 categories: ["권리분석·명도"]
 tags: [구로구, 아파트, "인수 권리 없음", 임의경매, 말소기준권리, 인도명령]

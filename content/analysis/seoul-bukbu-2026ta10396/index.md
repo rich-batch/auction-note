@@ -3,7 +3,7 @@ title: "서울 성북구 길음뉴타운 85㎡ 경매 (2026타경10396)"
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10396"
 categories: ["권리분석·명도"]
 tags: [성북구, 아파트, "인수 권리 없음", 강제경매, 유찰, 말소기준권리]

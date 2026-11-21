@@ -3,7 +3,7 @@ title: "서울 영등포구 양평동6차현대아파트 60㎡ 경매 (2026타�
 author: "rich-batch"
 date: 2026-11-22
 lastmod: 2026-11-22
-draft: true
+draft: false
 case: "seoul-nambu-2026ta152"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, "인수 권리 없음", 말소기준권리, 대항력, 전입세대열람]
