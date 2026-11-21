@@ -3,7 +3,7 @@ title: "서울 영등포구 대림동문영칸타빌레아파트 120㎡ 경매 (
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-nambu-2026ta4305"
 categories: ["권리분석·명도"]
 tags: [영등포구, 아파트, "인수 권리 없음", 대림동, 근저당권, 임의경매, 인도명령]
