@@ -3,7 +3,7 @@ title: "서울 중랑구 묵동 아파트 경매 (2025타경13948)"
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta13948"
 categories: ["권리분석·명도"]
 tags: [중랑구, 아파트, "인수 권리 없음", 묵동, 근저당권, 임의경매]
