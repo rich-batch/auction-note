@@ -3,7 +3,7 @@ title: "서울 강서구 롯데아파트 85㎡ 경매 (2026타경3747)"
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-nambu-2026ta3747"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 내발산동, 근저당권, 임의경매, 인도명령]
