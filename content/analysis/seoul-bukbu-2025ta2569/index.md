@@ -3,7 +3,7 @@ title: "서울 성북구 종암에스케이아파트 115㎡ 경매 (2025타경25
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta2569"
 categories: ["권리분석·명도"]
 tags: [성북구, 아파트, "인수 권리 없음", 종암동, 근저당권, 임의경매]

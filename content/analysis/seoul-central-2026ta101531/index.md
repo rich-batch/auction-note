@@ -3,7 +3,7 @@ title: "서울 관악구 남현동 아파트 99㎡ 경매 (2026타경101531)"
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-central-2026ta101531"
 categories: ["권리분석·명도"]
 tags: [관악구, 아파트, "인수 권리 없음", 남현동, 근저당권, 임의경매]

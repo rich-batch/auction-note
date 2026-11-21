@@ -3,7 +3,7 @@ title: "서울 강남구 세곡푸르지오 85㎡ 경매 (2026타경48)"
 author: "rich-batch"
 date: 2026-11-21
 lastmod: 2026-11-21
-draft: true
+draft: false
 case: "seoul-central-2026ta48"
 categories: ["권리분석·명도"]
 tags: [강남구, 아파트, "인수 권리 없음", 세곡동, 근저당권, 임의경매]
