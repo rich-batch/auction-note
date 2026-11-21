@@ -386,10 +386,11 @@ node tools/analysis/fetch-court-result.mjs seoul-dongbu-2026ta50579 --write     
 
 ### 매일 분석 글 공개(클라우드 예약 작업)
 
-- **예약 작업** "경매 노트 매일 분석 글 공개"(claude.ai 클라우드, 매일 KST 07:13, 매번 새 세션)가 하루 1회 돈다. 예전 매시간 작업을 대신한다.
-- **대상**: 서울 아파트 중 권리관계가 깔끔한 사건만(인수 예상액 0원·소멸 안 하는 권리 없음·대항력 임차인 부담 없음, 공고 비고에 유치권·지분·선순위 등 없음).
-- **순서**: ① 어제 올린 분석 PR이 green이면 머지(하루 1편 공개) → ② 열린 분석 PR이 2개 이상이면 끝 → ③ `node tools/auto/daily-plan.mjs`가 오늘 할 일을 한 줄로 정함(`WRITE`/`REGISTER`/`STOP`) → ④ 등록·계산 후 `daily-plan.mjs --check <id>`가 `CLEAN`일 때만 analyze-case로 글을 써 PR. CI는 기다리지 않고 다음 날 ①에서 머지한다.
-- **토큰 절약**: 후보 고르기·접속 확인·스캔은 스크립트가 하고 결론 몇 줄만 출력한다. 할 일이 없으면 바로 끝난다. 깔끔하지 않은 사건은 사건 데이터만 main에 등록해 다음 날 다시 고르지 않는다.
+- **예약 작업** "경매 노트 매일 분석 글 공개"(claude.ai 클라우드, 매일 KST 07:13, 매번 새 세션).
+- **대상**: 서울 아파트 중 권리관계가 깔끔한 사건 **전부**(인수 예상액 0원·소멸 안 하는 권리 없음·대항력 임차인 부담 없음, 공고 비고에 유치권·지분·선순위 등 없음).
+- **순서**: ① 검사 통과한 분석 PR 머지 → ② `node tools/auto/daily-plan.mjs --all`로 후보 목록 → ③ 한 건마다 사용량 확인(`--budget`) 후 등록·계산·`--check`가 `CLEAN`이면 글을 써 PR → ④ 끝에 검사 통과한 PR 머지(공개) → ⑤ `--log`로 `logs/auto/<날짜>.json`에 사용량 기록.
+- **사용량 제한**: `data/auto-limits.json` — 한 번 실행 최대 편수(`max_articles_per_run`), 5시간 사용량(`stop_if_five_hour_at`)·7일 사용량(`stop_if_seven_day_at`)이 넘으면 멈춘다. 사용량은 세션의 rate_limit_event(utilization 0~1)에서 읽는다. 글 한 편에 5시간 사용량 약 2%p, 7일 사용량 약 0.5%p(2026-11-21 실측).
+- **사용량 확인**: `logs/auto/<날짜>.json`의 `used`·`per_article`.
 
 ### 9.1 무엇이 자동으로 돌아가나
 

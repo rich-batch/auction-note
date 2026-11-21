@@ -1,0 +1,6 @@
+{
+  "_설명": "매일 분석 글 예약 작업의 사용량 제한. tools/auto/daily-plan.mjs --budget이 읽는다. utilization은 0~1(0.5 = 50%). 글 한 편에 5시간 사용량 약 2%, 7일 사용량 약 0.3~0.5%가 든다(2026-11-21 실측).",
+  "max_articles_per_run": 10,
+  "stop_if_five_hour_at": 0.5,
+  "stop_if_seven_day_at": 0.4
+}
