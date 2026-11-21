@@ -123,6 +123,8 @@ if (!fs.existsSync(path.join(ROOT, 'node_modules', 'court-auction-notice-search'
 const from = addDays(today, MIN_LEAD_NEW);
 const to = addDays(today, WINDOW_DAYS);
 const registeredNumbers = new Set(registered.map(c => c.case?.number).filter(Boolean));
+const buildingKey = a => { const s = (typeof a === 'string' ? a : JSON.stringify(a ?? '')).replace(/\s+/g, ' '); const m = /^(.*?)(\s제?\d+동)?\s*제?\d+층/.exec(s); return m ? m[1].trim() : null; };
+const registeredBuildings = new Set(registered.filter(c => c.sale?.sale_date >= today).map(c => buildingKey(c.case?.region)).filter(Boolean));
 const notes = [];
 
 // 2) 법원경매: 서울 5개 법원, 매각공고 목록(월 단위) → 기간 안 공고 상세 → 아파트·비고 깨끗·미등록
@@ -150,7 +152,11 @@ for (const [ci, code] of courts.entries()) {
         if (RISKY.test(`${it.usage ?? ''} ${it.remarks ?? ''}`)) continue;
         if ((it.minimumSalePrice ?? 0) < MIN_PRICE) continue;
         if (found.some(f => f.caseNumber === caseNumber)) continue;
-        found.push({ code, caseNumber, date: n.saleDate, min: it.minimumSalePrice, addr: it.address });
+        // 같은 건물 호실이 수십 건씩 한꺼번에 나오면(도시형생활주택 등) 한 실행에 건물당 1건만,
+        // 그 건물 호실이 이미 등록돼 있으면(앞서 판정함) 건너뛴다.
+        const bldg = buildingKey(it.address);
+        if (bldg && (registeredBuildings.has(bldg) || found.some(f => f.bldg === bldg))) continue;
+        found.push({ code, caseNumber, bldg, date: n.saleDate, min: it.minimumSalePrice, addr: it.address });
         hits++;
       }
       if (found.length >= LIMIT) break;
