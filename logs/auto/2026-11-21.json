@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-21",
+  "runs": [
+    {
+      "started_at": "2026-11-21T09:18:04.876Z",
+      "start": {
+        "five_hour": 0.18,
+        "seven_day": 0.06
+      },
+      "finished_at": "2026-11-21T09:18:04.950Z",
+      "end": {
+        "five_hour": 0.27,
+        "seven_day": 0.07
+      },
+      "articles": [
+        "seoul-bukbu-2025ta2569",
+        "seoul-central-2026ta101531",
+        "seoul-central-2026ta101212",
+        "seoul-central-2026ta121",
+        "seoul-central-2026ta48"
+      ],
+      "used": {
+        "five_hour": 0.09,
+        "seven_day": 0.01
+      },
+      "per_article": {
+        "five_hour": 0.018,
+        "seven_day": 0.002
+      }
+    }
+  ]
+}
