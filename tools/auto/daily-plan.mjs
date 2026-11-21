@@ -52,7 +52,8 @@ function cleanReason(c) {
   if (!isComputedFresh(c)) return 'compute.mjs 결과가 없거나 최신이 아님';
   const k = c.computed;
   if (k.ownership_risk) return '소유권 위험(선순위 가처분·가등기 등)';
-  if ((k.assumed_total_max ?? 1) > 0) return `인수 예상액 최대 ${(k.assumed_total_max ?? 0).toLocaleString('ko-KR')}원`;
+  if (k.assumed_total_max == null) return "인수 예상액 미상(보증금·금액 정보 없음)";
+  if (k.assumed_total_max > 0) return `인수 예상액 최대 ${k.assumed_total_max.toLocaleString("ko-KR")}원`;
   if ((k.rights ?? []).some(r => r.effect !== '소멸')) return '소멸하지 않는 권리 있음';
   const stars = Object.fromEntries((k.score?.items ?? []).map(i => [i.key, i.stars]));
   if (stars.tenant_risk != null && stars.tenant_risk < 5) return '대항력 임차인 인수 부담 가능';
