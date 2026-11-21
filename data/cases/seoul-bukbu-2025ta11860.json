@@ -1,0 +1,58 @@
+{
+  "id": "seoul-bukbu-2025ta11860",
+  "source": {
+    "checked_at": "2026-11-21",
+    "documents": [
+      "매각물건명세서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-12-01 매각공고 상세). 청구금액 306,706,201원."
+  },
+  "case": {
+    "number": "2025타경11860",
+    "item_no": 1,
+    "court": "서울북부지방법원",
+    "kind": "임의경매",
+    "category": "apartment",
+    "region": "서울특별시 동대문구 전농동 10 전농에스케이아파트 104동 13층1304호",
+    "area_m2": null
+  },
+  "sale": {
+    "appraisal": 930000000,
+    "minimum": 930000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-12-01",
+    "dividend_deadline": "2025-04-28",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": ""
+    }
+  ],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [],
+    "source_url": null,
+    "checked_at": null
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  }
+}
