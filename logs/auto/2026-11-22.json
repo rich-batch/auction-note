@@ -13,15 +13,24 @@
         "seven_day": 0.09
       },
       "articles": [
-        "seoul-central-2023ta113343,seoul-nambu-2026ta5959,seoul-nambu-2026ta152,seoul-bukbu-2026ta117,seoul-bukbu-2026ta18,seoul-bukbu-2026ta10506,seoul-bukbu-2026ta10396,seoul-bukbu-2025ta12977,seoul-nambu-2026ta4281,seoul-nambu-2026ta6538"
+        "seoul-central-2023ta113343",
+        "seoul-nambu-2026ta5959",
+        "seoul-nambu-2026ta152",
+        "seoul-bukbu-2026ta117",
+        "seoul-bukbu-2026ta18",
+        "seoul-bukbu-2026ta10506",
+        "seoul-bukbu-2026ta10396",
+        "seoul-bukbu-2025ta12977",
+        "seoul-nambu-2026ta4281",
+        "seoul-nambu-2026ta6538"
       ],
       "used": {
         "five_hour": 0.14,
         "seven_day": 0.02
       },
       "per_article": {
-        "five_hour": 0.14,
-        "seven_day": 0.02
+        "five_hour": 0.014,
+        "seven_day": 0.002
       }
     }
   ]
