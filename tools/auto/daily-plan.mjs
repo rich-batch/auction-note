@@ -52,6 +52,8 @@ function cleanReason(c) {
   if (!isComputedFresh(c)) return 'compute.mjs 결과가 없거나 최신이 아님';
   const k = c.computed;
   if (k.ownership_risk) return '소유권 위험(선순위 가처분·가등기 등)';
+  if ((c.special ?? []).length) return `특수 사항 ${c.special.length}건(${c.special.map(s => s.kind).join(', ')})`;
+  if ((c.tenants ?? []).length) return `임차인·점유자 ${c.tenants.length}명 — 보증금·대항력을 공개 자료로 다 알 수 없음`;
   if (k.assumed_total_max == null) return "인수 예상액 미상(보증금·금액 정보 없음)";
   if (k.assumed_total_max > 0) return `인수 예상액 최대 ${k.assumed_total_max.toLocaleString("ko-KR")}원`;
   if ((k.rights ?? []).some(r => r.effect !== '소멸')) return '소멸하지 않는 권리 있음';
