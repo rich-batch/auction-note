@@ -74,9 +74,9 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "0ab41c7163817003",
-    "computed_at": "2026-10-16",
+    "engine_version": 8,
+    "input_hash": "e1b3dc3e24857a4b",
+    "computed_at": "2026-11-22",
     "base_right": {
       "index": 0,
       "date": "2025-02-04",

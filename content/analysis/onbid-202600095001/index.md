@@ -38,7 +38,7 @@ TocOpen: false
 
 명세서상 점유자는 없고, 차는 경기 광주 도척면 오토마트 동부보관소에 보관돼 있었습니다. 디젤 SUV이므로 배출가스 저감장치 관련 정비 이력도 같이 봐 둘 만합니다.
 
-## 같은 투싼은 얼마에 팔렸나
+## 비슷한 차량 낙찰 사례
 
 최근 1년 사이 온비드에서 팔린 2020~2022년식 투싼은 2건이었습니다([온비드 물건입찰결과](https://www.onbid.co.kr/op/cltrpbancinf/bidrsltmng/cltrbidrslt/CltrBidRsltController/mvmnCltrBidRsltClg.do)).
 

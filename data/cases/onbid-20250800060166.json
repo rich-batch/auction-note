@@ -53,9 +53,9 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "0f919ebec72f5d20",
-    "computed_at": "2026-10-18",
+    "engine_version": 8,
+    "input_hash": "91eec63429734d30",
+    "computed_at": "2026-11-22",
     "disposal_type": "기타일반재산",
     "base_right": null,
     "rights": [],

@@ -40,7 +40,7 @@ TocOpen: false
 
 점유자 기재는 없습니다. 다만 25만 km를 넘긴 차는 엔진·변속기 수리를 거쳤을 가능성이 높고, 그 수리비를 못 받은 정비소가 있으면 유치권 문제로 이어질 수 있습니다.
 
-## 같은 연식 에쿠스는 얼마에 팔렸나
+## 비슷한 차량 낙찰 사례
 
 최근 1년 동안 온비드에서 낙찰된 2014년식 에쿠스는 2건입니다([온비드 물건입찰결과](https://www.onbid.co.kr/op/cltrpbancinf/bidrsltmng/cltrbidrslt/CltrBidRsltController/mvmnCltrBidRsltClg.do)). 7만 5천여 km를 탄 차가 577만 원에, 22만 km를 넘긴 차가 730만 원에 팔려 주행거리와 값의 순서가 거꾸로였습니다. 응찰자는 앞의 차가 2명, 뒤의 차가 6명이었습니다.
 
