@@ -382,6 +382,7 @@ node tools/analysis/fetch-court-result.mjs seoul-dongbu-2026ta50579 --write     
   - ✅ 정상 / ⚠️ 일부 실패 또는 시작만 하고 끝난 기록 없음 / ❌ 오늘 기록 없음(안 돌았음). 문제 있는 날은 이슈에 `bug` 라벨이 붙고 **워크플로가 실패로 끝나 GitHub "Run failed: Batch Watch" 메일이 온다**(멘션 메일 설정과 별개 — 이게 문제 알림의 주 경로).
   - 메일이 안 오면: GitHub Settings → Notifications에서 "Participating, @mentions" 메일이 켜져 있는지 확인.
   - 수동 확인: `node tools/batch-watch.mjs --dry-run` (알림 없이 오늘 판정만 출력)
+  - `logs/batch/<날짜>.json`이 없으면 클라우드 예약 작업의 `logs/auto/<날짜>.json`을 본다(2026-11-20부터 매일 작업은 클라우드 예약 작업이 한다). 둘 다 없을 때만 ❌.
 
 
 ### 매일 분석 글 공개(클라우드 예약 작업)
