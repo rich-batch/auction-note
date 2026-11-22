@@ -96,10 +96,17 @@ export function addressKeys(region) {
 // 지번이 같거나, 도로명+건물번호가 같거나, 같은 법정동에서 단지명이 같으면("대원" = "대원아파트") 같은 단지로 본다.
 const normRoad = s => String(s ?? '').replace(/\s/g, '').replace(/(\D)0+(\d)/g, '$1$2');
 const normName = s => String(s ?? '').replace(/\s/g, '').replace(/(아파트|APT)$/i, '');
-export function sameComplex(t, keys) {
+const baseName = s => normName(s).replace(/\d+(차|단지)?$/, '').replace(/(아파트|APT)$/i, '');
+export function sameComplex(t, keys) { return complexMatch(t, keys) != null; }
+// 'exact' = 지번·도로명·단지명이 그대로 같음, 'series' = 차수·단지 번호만 다름(같은 동의 "동성1"·"동성3"은 실제로는
+// 다른 단지일 수 있다). 호출 쪽은 exact가 하나라도 있으면 series를 버린다.
+export function complexMatch(t, keys) {
   const inDong = keys.dong && String(t.dong ?? '').includes(keys.dong);
-  if (keys.lot && t.jibun != null && String(t.jibun).trim() === keys.lot && inDong) return true;
-  if (keys.road && t.road && normRoad(t.road) === normRoad(keys.road)) return true;
-  if (keys.building && inDong && t.name && normName(t.name).length >= 2 && normName(t.name) === normName(keys.building)) return true;
-  return false;
+  if (keys.lot && t.jibun != null && String(t.jibun).trim() === keys.lot && inDong) return 'exact';
+  if (keys.road && t.road && normRoad(t.road) === normRoad(keys.road)) return 'exact';
+  if (keys.building && inDong && t.name && normName(t.name).length >= 2 && normName(t.name) === normName(keys.building)) return 'exact';
+  // 실거래 자료는 단지명을 줄여 적는다(소재지 "동성아파트" ↔ 실거래 "동성3", "한신2차"). 같은 법정동에서
+  // 차수·단지 번호를 뗀 이름이 같으면 같은 이름 시리즈로 본다 — 면적(±5%)으로 한 번 더 거른다
+  if (keys.building && inDong && t.name && baseName(t.name).length >= 2 && baseName(t.name) === baseName(keys.building)) return 'series';
+  return null;
 }
