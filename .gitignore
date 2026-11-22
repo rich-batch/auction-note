@@ -36,3 +36,4 @@ tools/auto/*.plist
 
 # npm 의존성(playwright 등) — 온비드 링크 자동 조회에만 쓴다
 /node_modules/
+.cache/

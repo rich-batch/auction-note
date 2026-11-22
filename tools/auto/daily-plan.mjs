@@ -2,7 +2,7 @@
 // 하루 1회 클라우드 예약 작업("경매 노트 매일 분석 글 공개")이 오늘 무엇을 할지 정한다.
 // 대상은 **서울·경기 아파트 + 권리관계가 깔끔 + 같은 단지·같은 평형 실거래가 최근 3년 안에 1건 이상**인 사건만이다
 // (2026-11-20 서울 아파트·권리 깔끔, 2026-11-22 경기 추가·실거래 조건 추가 — 글 맨 위에 예상 손익을 근거 있게 내기 위해).
-// 실거래는 등록 뒤 fetch-market.mjs <id> --months 36 --write로 넣는다(--check 전에).
+// 실거래는 --check가 없을 때 직접 조회해 넣는다(fetch-market.mjs <id> --months 36 --write → compute.mjs).
 // 예약 작업이 사건 데이터·스캔 출력·스킬 문서를 통째로 읽지 않도록, 판단에 필요한 것만
 // 몇 줄로 출력한다(토큰 절약). 사건을 등록하거나 파일을 바꾸지는 않는다.
 //
@@ -67,7 +67,7 @@ function cleanReason(c) {
   if (stars.tenant_risk != null && stars.tenant_risk < 5) return '대항력 임차인 인수 부담 가능';
   const since = addDays(today, -365 * MARKET_YEARS);
   const trades = (c.market?.trades ?? []).filter(t => (t.source ?? 'molit') === 'molit' && t.price && String(t.date ?? '') >= since);
-  if (!trades.length) return `같은 단지·같은 평형 실거래가 최근 ${MARKET_YEARS}년 안에 없음(fetch-market.mjs ${c.id} --months 36 --write 를 돌렸는지 확인)`;
+  if (!trades.length) return `같은 단지·같은 평형 실거래가 최근 ${MARKET_YEARS}년 안에 없음`;
   return null;
 }
 
@@ -107,7 +107,18 @@ if (args.includes('--log')) {
 
 const checkId = get('check');
 if (checkId) {
-  const why = cleanReason(loadCase(checkId));
+  let why = cleanReason(loadCase(checkId));
+  // 실거래 조건만 걸리면 여기서 시세를 조회해 넣고(fetch-market --months 36 --write → compute) 다시 판정한다.
+  // 예약 작업 지시문이 이 단계를 따로 부르지 않아도 되게 --check 안에서 한다.
+  // 조회 자체가 실패하면 NOT_CLEAN(영구 제외)이 아니라 INVALID — 예약 작업은 INVALID를 커밋하지 않고 지워 다음 날 다시 본다.
+  if (why?.startsWith('같은 단지·같은 평형 실거래가')) {
+    const tools = path.join(ROOT, 'tools', 'analysis');
+    const env = { ...process.env, FETCH_MARKET_CACHE: process.env.FETCH_MARKET_CACHE ?? path.join(ROOT, '.cache', 'market') };
+    const fm = spawnSync('node', [path.join(tools, 'fetch-market.mjs'), checkId, '--months', '36', '--write'], { encoding: 'utf8', env, timeout: 8 * 60_000 });
+    if (fm.status !== 0) out(`INVALID 실거래 조회 실패 — 다음 실행에서 다시 본다: ${((fm.stderr ?? '').trim().split('\n').pop() ?? '').slice(0, 120)}`);
+    spawnSync('node', [path.join(tools, 'compute.mjs'), checkId], { encoding: 'utf8', timeout: 2 * 60_000 });
+    why = cleanReason(loadCase(checkId));
+  }
   out(why ? `NOT_CLEAN ${why}` : 'CLEAN');
 }
 
