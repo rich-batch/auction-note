@@ -3,7 +3,7 @@ title: "서울 양천구 푸른마을2단지아파트 49㎡ 경매 (2026타경62
 author: "rich-batch"
 date: 2026-11-23
 lastmod: 2026-11-23
-draft: true
+draft: false
 case: "seoul-nambu-2026ta6218"
 categories: ["권리분석·명도"]
 tags: [양천구, 아파트, "인수 권리 없음", 말소기준권리, 근저당권, 실거래가]

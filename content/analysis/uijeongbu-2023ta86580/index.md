@@ -3,7 +3,7 @@ title: "경기 의정부 민락 금강펜테리움아파트 85㎡ 경매 (2023�
 author: "rich-batch"
 date: 2026-11-23
 lastmod: 2026-11-23
-draft: true
+draft: false
 case: "uijeongbu-2023ta86580"
 categories: ["권리분석·명도"]
 tags: [의정부시, 아파트, "인수 권리 없음", 말소기준권리, 유찰, 청구금액]

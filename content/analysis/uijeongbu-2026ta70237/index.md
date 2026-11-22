@@ -3,7 +3,7 @@ title: "경기 동두천 송내주공아파트 45㎡ 경매 (2026타경70237)"
 author: "rich-batch"
 date: 2026-11-23
 lastmod: 2026-11-23
-draft: true
+draft: false
 case: "uijeongbu-2026ta70237"
 categories: ["권리분석·명도"]
 tags: [동두천시, 아파트, "인수 권리 없음", 말소기준권리, 근저당권, 실거래가]
