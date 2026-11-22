@@ -67,9 +67,115 @@
     "remarks": ""
   },
   "market": {
-    "trades": [],
-    "source_url": null,
-    "checked_at": null
+    "trades": [
+      {
+        "source": "molit",
+        "date": "2026-07-28",
+        "price": 1180000000,
+        "area_m2": 101.95,
+        "floor": 10
+      },
+      {
+        "source": "molit",
+        "date": "2026-06-27",
+        "price": 1300000000,
+        "area_m2": 101.95,
+        "floor": 14
+      },
+      {
+        "source": "molit",
+        "date": "2026-05-21",
+        "price": 1178000000,
+        "area_m2": 101.95,
+        "floor": 19
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-28",
+        "price": 1090000000,
+        "area_m2": 101.95,
+        "floor": 7
+      },
+      {
+        "source": "molit",
+        "date": "2026-03-20",
+        "price": 1160000000,
+        "area_m2": 101.95,
+        "floor": 15
+      },
+      {
+        "source": "molit",
+        "date": "2026-03-19",
+        "price": 1140000000,
+        "area_m2": 101.95,
+        "floor": 10
+      },
+      {
+        "source": "molit",
+        "date": "2026-02-21",
+        "price": 1090000000,
+        "area_m2": 101.95,
+        "floor": 1
+      },
+      {
+        "source": "molit",
+        "date": "2026-02-06",
+        "price": 1100000000,
+        "area_m2": 101.95,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2026-02-02",
+        "price": 1030000000,
+        "area_m2": 101.95,
+        "floor": 1
+      },
+      {
+        "source": "molit",
+        "date": "2026-01-31",
+        "price": 1075000000,
+        "area_m2": 101.95,
+        "floor": 25
+      },
+      {
+        "source": "molit",
+        "date": "2026-01-21",
+        "price": 1175000000,
+        "area_m2": 101.95,
+        "floor": 8
+      },
+      {
+        "source": "molit",
+        "date": "2025-12-27",
+        "price": 930000000,
+        "area_m2": 101.95,
+        "floor": 16
+      },
+      {
+        "source": "molit",
+        "date": "2025-12-12",
+        "price": 1100000000,
+        "area_m2": 101.95,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2025-11-29",
+        "price": 950000000,
+        "area_m2": 101.95,
+        "floor": 13
+      },
+      {
+        "source": "molit",
+        "date": "2025-11-22",
+        "price": 1025000000,
+        "area_m2": 101.95,
+        "floor": 15
+      }
+    ],
+    "source_url": "https://k-skill-proxy.nomadamas.org/v1/real-estate/apartment/trade",
+    "checked_at": "2026-11-01"
   },
   "result": {
     "outcome": null,
@@ -79,8 +185,8 @@
   },
   "computed": {
     "engine_version": 8,
-    "input_hash": "90d55c5c4dea05b1",
-    "computed_at": "2026-10-31",
+    "input_hash": "1a9afed3fb933e88",
+    "computed_at": "2026-11-22",
     "base_right": {
       "index": 0,
       "date": "2025-05-16",
@@ -117,15 +223,35 @@
     "bid_deposit": 94800000,
     "minimum_plus_assumed_min": 1548000000,
     "minimum_plus_assumed_max": 1548000000,
-    "price_gap": null,
+    "price_gap": {
+      "market_avg": 1101533333,
+      "trade_count": 15,
+      "diff_minimum": 153533333,
+      "gap_min": -446466667,
+      "gap_max": -446466667,
+      "basis_source": "molit",
+      "basis_label": "국토부 실거래가",
+      "by_source": [
+        {
+          "source": "molit",
+          "kind": null,
+          "label": "국토부 실거래가",
+          "count": 15,
+          "avg": 1101533333,
+          "diff_minimum": 153533333,
+          "gap_min": -446466667,
+          "gap_max": -446466667
+        }
+      ]
+    },
     "score": {
       "items": [
         {
           "key": "price",
           "label": "가격 수준",
-          "value": "감정가의 100%",
-          "stars": 0,
-          "note": "시세 자료가 없어 감정가 대비로 매겼다(30% 이상 낮으면 5점). 감정가는 시세보다 늦게 따라와 참고로만 본다"
+          "value": "국토부 실거래가 1,101,533,333원(15건)의 86% · 감정가의 100%",
+          "stars": 2,
+          "note": "최저가가 비슷한 물건 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 \"권리 인수 위험\"에서 따로 본다"
         },
         {
           "key": "rights_risk",
@@ -144,19 +270,18 @@
         {
           "key": "review_load",
           "label": "확인 필요 사항",
-          "value": "특수 사항 2건, 계산 도구 확인 요청 3건",
-          "stars": 2,
+          "value": "특수 사항 2건, 계산 도구 확인 요청 2건",
+          "stars": 3,
           "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
         }
       ],
-      "total_stars": 2,
+      "total_stars": 2.5,
       "rated_count": 4,
-      "has_price_gap": false
+      "has_price_gap": true
     },
     "review": [
       "특수 사항 \"점유관계 확인 필요\" (법원경매정보 현황조사서 공개 요약에서 점유 임차인이 확인되지 않음 — 현재 누가 점유하는지(공실·소유자·임차인)는 현황조사서 원본·현장으로 확인) — 등기만으로 판정 불가, 현장·서류 확인",
-      "특수 사항 \"신청채권자 확인 필요\" (강제경매 청구금액(600,000,000원)이 명세서의 임차권등기 보증금과 같음 — 임차인이 보증금반환 판결로 경매를 신청했을 가능성이 있으나 공개 요약으로는 신청채권자가 누구인지 확인하지 못함. 신청채권자라면 배당에 참가하므로 인수 금액이 달라짐) — 등기만으로 판정 불가, 현장·서류 확인",
-      "시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)"
+      "특수 사항 \"신청채권자 확인 필요\" (강제경매 청구금액(600,000,000원)이 명세서의 임차권등기 보증금과 같음 — 임차인이 보증금반환 판결로 경매를 신청했을 가능성이 있으나 공개 요약으로는 신청채권자가 누구인지 확인하지 못함. 신청채권자라면 배당에 참가하므로 인수 금액이 달라짐) — 등기만으로 판정 불가, 현장·서류 확인"
     ]
   }
 }

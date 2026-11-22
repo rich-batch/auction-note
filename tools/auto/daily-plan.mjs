@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // 하루 1회 클라우드 예약 작업("경매 노트 매일 분석 글 공개")이 오늘 무엇을 할지 정한다.
-// 대상은 **서울 아파트 + 권리관계가 깔끔한 사건**만이다(2026-11-20 운영자 결정).
+// 대상은 **서울·경기 아파트 + 권리관계가 깔끔 + 같은 단지·같은 평형 실거래가 최근 3년 안에 1건 이상**인 사건만이다
+// (2026-11-20 서울 아파트·권리 깔끔, 2026-11-22 경기 추가·실거래 조건 추가 — 글 맨 위에 예상 손익을 근거 있게 내기 위해).
+// 실거래는 --check가 없을 때 직접 조회해 넣는다(fetch-market.mjs <id> --months 36 --write → compute.mjs).
 // 예약 작업이 사건 데이터·스캔 출력·스킬 문서를 통째로 읽지 않도록, 판단에 필요한 것만
 // 몇 줄로 출력한다(토큰 절약). 사건을 등록하거나 파일을 바꾸지는 않는다.
 //
@@ -38,17 +40,21 @@ const addDays = (d, n) => { const x = new Date(`${d}T00:00:00Z`); x.setUTCDate(x
 const isWeekday = d => { const w = new Date(`${d}T00:00:00Z`).getUTCDay(); return w >= 1 && w <= 5; };
 
 const SEOUL_COURTS = ['B000210', 'B000211', 'B000212', 'B000213', 'B000215']; // 서울중앙·동부·남부·북부·서부
+// 경기 관할: 의정부·고양·남양주·부천(인천지법 소속, 부천·김포 관할)·수원·성남·여주·평택·안산·안양
+const GYEONGGI_COURTS = ['B000214', 'B214807', 'B214804', 'B000241', 'B000250', 'B000251', 'B000252', 'B000253', 'B250826', 'B000254'];
+const COURTS = [...SEOUL_COURTS, ...GYEONGGI_COURTS];
+const MARKET_YEARS = 3; // 실거래 조건: 같은 단지·같은 평형 거래가 이 기간 안에 1건 이상
 const MIN_LEAD_WRITE = 2;  // 이미 등록된 사건: 오늘 PR → 내일 머지라 모레 이후 매각만
 const MIN_LEAD_NEW = 4;    // 새 사건: 등록·작성·다음 날 머지까지 여유
 const WINDOW_DAYS = 14;
-const MIN_PRICE = 100_000_000; // 서울 아파트 최저가 1억 미만은 지분·특수물건일 가능성이 커서 뺀다
+const MIN_PRICE = 100_000_000; // 서울·경기 아파트 최저가 1억 미만은 지분·특수물건일 가능성이 커서 뺀다
 // 공고 비고에 이런 말이 있으면 권리관계가 깔끔하지 않다고 보고 후보에서 뺀다.
 const RISKY = /유치권|법정지상권|대항력|선순위|임차권|전세권|지분|위반건축|대지권\s*(미등기|없음)|토지별도등기|가처분|가등기|인수|특별매각조건|재매각|농지취득|분묘|맹지|제시외/;
 
 // ---- 깔끔한가: 계산 결과 기준 ----
 function cleanReason(c) {
   if (c.case?.category !== 'apartment') return `분류가 아파트가 아님(${c.case?.category})`;
-  if (!/^서울/.test(c.case?.region ?? '')) return '서울 소재가 아님';
+  if (!/^(서울|경기)/.test(c.case?.region ?? '')) return '서울·경기 소재가 아님';
   if (!isComputedFresh(c)) return 'compute.mjs 결과가 없거나 최신이 아님';
   const k = c.computed;
   if (k.ownership_risk) return '소유권 위험(선순위 가처분·가등기 등)';
@@ -59,6 +65,9 @@ function cleanReason(c) {
   if ((k.rights ?? []).some(r => r.effect !== '소멸')) return '소멸하지 않는 권리 있음';
   const stars = Object.fromEntries((k.score?.items ?? []).map(i => [i.key, i.stars]));
   if (stars.tenant_risk != null && stars.tenant_risk < 5) return '대항력 임차인 인수 부담 가능';
+  const since = addDays(today, -365 * MARKET_YEARS);
+  const trades = (c.market?.trades ?? []).filter(t => (t.source ?? 'molit') === 'molit' && t.price && String(t.date ?? '') >= since);
+  if (!trades.length) return `같은 단지·같은 평형 실거래가 최근 ${MARKET_YEARS}년 안에 없음`;
   return null;
 }
 
@@ -98,7 +107,18 @@ if (args.includes('--log')) {
 
 const checkId = get('check');
 if (checkId) {
-  const why = cleanReason(loadCase(checkId));
+  let why = cleanReason(loadCase(checkId));
+  // 실거래 조건만 걸리면 여기서 시세를 조회해 넣고(fetch-market --months 36 --write → compute) 다시 판정한다.
+  // 예약 작업 지시문이 이 단계를 따로 부르지 않아도 되게 --check 안에서 한다.
+  // 조회 자체가 실패하면 NOT_CLEAN(영구 제외)이 아니라 INVALID — 예약 작업은 INVALID를 커밋하지 않고 지워 다음 날 다시 본다.
+  if (why?.startsWith('같은 단지·같은 평형 실거래가')) {
+    const tools = path.join(ROOT, 'tools', 'analysis');
+    const env = { ...process.env, FETCH_MARKET_CACHE: process.env.FETCH_MARKET_CACHE ?? path.join(ROOT, '.cache', 'market') };
+    const fm = spawnSync('node', [path.join(tools, 'fetch-market.mjs'), checkId, '--months', '36', '--write'], { encoding: 'utf8', env, timeout: 8 * 60_000 });
+    if (fm.status !== 0) out(`INVALID 실거래 조회 실패 — 다음 실행에서 다시 본다: ${((fm.stderr ?? '').trim().split('\n').pop() ?? '').slice(0, 120)}`);
+    spawnSync('node', [path.join(tools, 'compute.mjs'), checkId], { encoding: 'utf8', timeout: 2 * 60_000 });
+    why = cleanReason(loadCase(checkId));
+  }
   out(why ? `NOT_CLEAN ${why}` : 'CLEAN');
 }
 
@@ -127,11 +147,14 @@ const buildingKey = a => { const s = (typeof a === 'string' ? a : JSON.stringify
 const registeredBuildings = new Set(registered.filter(c => c.sale?.sale_date >= today).map(c => buildingKey(c.case?.region)).filter(Boolean));
 const notes = [];
 
-// 2) 법원경매: 서울 5개 법원, 매각공고 목록(월 단위) → 기간 안 공고 상세 → 아파트·비고 깨끗·미등록
+// 2) 법원경매: 서울 5개·경기 10개 법원, 매각공고 목록(월 단위) → 기간 안 공고 상세 → 아파트·비고 깨끗·미등록
 const { searchSaleNotices, getSaleNoticeDetail, CourtAuctionHttpClient } = await import('court-auction-notice-search');
 const months = [...new Set([from.slice(0, 7), to.slice(0, 7)])];
 const dayNo = Math.floor(Date.parse(`${today}T00:00:00Z`) / 86_400_000);
-const courts = SEOUL_COURTS.map((_, i) => SEOUL_COURTS[(dayNo + i) % SEOUL_COURTS.length]); // 날마다 다른 법원부터
+// 법원 전환마다 1분을 쉬어서 15곳을 다 돌면 예약 작업의 명령 제한(10분)을 넘는다 — 하루 6곳씩 돌아가며 본다
+// (15곳이 2~3일에 한 번씩 돌고, 조회 기간이 14일이라 빠지는 공고는 없다)
+const COURTS_PER_RUN = 6;
+const courts = COURTS.map((_, i) => COURTS[(dayNo * COURTS_PER_RUN + i) % COURTS.length]).slice(0, COURTS_PER_RUN); // 날마다 다음 6곳
 const found = [];
 let blocked = false;
 for (const [ci, code] of courts.entries()) {
@@ -161,7 +184,7 @@ for (const [ci, code] of courts.entries()) {
       }
       if (found.length >= LIMIT) break;
     }
-    if (!hits) notes.push(`법원 ${code}: ${from}~${to} 깔끔한 서울 아파트 후보 없음(공고 ${targets.length}건)`);
+    if (!hits) notes.push(`법원 ${code}: ${from}~${to} 깔끔한 아파트 후보 없음(공고 ${targets.length}건)`);
   } catch (e) {
     if (e.code === 'BLOCKED') { blocked = true; notes.push(`법원경매정보 차단(${code}) — 오늘은 중단, 자동 재시도 금지`); }
     else if (e.code === 'BUDGET_EXCEEDED') notes.push(`법원 ${code}: 세션 호출 한도 — 남은 공고는 내일`);
@@ -178,14 +201,14 @@ else if (found.length) {
     ...rest.map(x => `대안: court ${x.code} ${x.caseNumber} ${x.date}`), ...notes]);
 }
 
-// 3) 온비드: 서울 아파트(압류재산 등) — scan-onbid.mjs 출력에서 고른다
+// 3) 온비드: 서울·경기 아파트(압류재산 등) — scan-onbid.mjs 출력에서 고른다
 const r = spawnSync('node', [path.join(ROOT, 'tools', 'analysis', 'scan-onbid.mjs'), '--days', String(WINDOW_DAYS), '--min-price', String(MIN_PRICE)], { encoding: 'utf8', timeout: 6 * 60_000 });
 if (r.status !== 0) notes.push(`온비드 스캔 오류: ${((r.stderr ?? '').split('\n').find(l => /Error|실패/.test(l)) ?? `exit ${r.status}`).trim().slice(0, 120)}`);
 const rows = [...(r.stdout ?? '').matchAll(/^(\d{4}-\d+-\d+) \| (\d{4}-\d{2}-\d{2}) \| [^|]+\| ([^|]+)\| (.+)$/gm)]
   .map(m => ({ no: m[1], date: m[2], ctgr: m[3].trim(), name: m[4].trim() }))
-  .filter(x => x.date >= from && isWeekday(x.date) && /아파트/.test(x.ctgr) && /서울/.test(x.name) && !RISKY.test(x.name) && !skip.has(x.no));
+  .filter(x => x.date >= from && isWeekday(x.date) && /아파트/.test(x.ctgr) && /서울|경기/.test(x.name) && !RISKY.test(x.name) && !skip.has(x.no));
 if (ALL) { for (const x of rows) allLines.push(`REGISTER onbid ${x.no} ${x.date}`); out([...allLines, 'DONE'].join('\n'), notes); }
 if (rows.length) out(`REGISTER onbid ${rows[0].no} ${rows[0].date}`, [rows[0].name.slice(0, 80), ...rows.slice(1, 3).map(x => `대안: onbid ${x.no} ${x.date}`), ...notes]);
-notes.push(`온비드: ${from}~${to} 서울 아파트 후보 없음`);
+notes.push(`온비드: ${from}~${to} 서울·경기 아파트 후보 없음`);
 
-out('STOP 오늘 쓸 깔끔한 서울 아파트 후보 없음', notes);
+out('STOP 오늘 쓸 깔끔한 서울·경기 아파트 후보 없음', notes);

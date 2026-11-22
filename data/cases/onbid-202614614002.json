@@ -66,9 +66,9 @@
     "checked_at": "2026-10-17"
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "d9a2450227e46e86",
-    "computed_at": "2026-10-12",
+    "engine_version": 8,
+    "input_hash": "72dc0f5fb4563310",
+    "computed_at": "2026-11-22",
     "base_right": null,
     "rights": [],
     "tenants": [],

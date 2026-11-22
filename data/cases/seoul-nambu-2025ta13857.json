@@ -54,9 +54,17 @@
     "remarks": ""
   },
   "market": {
-    "trades": [],
-    "source_url": null,
-    "checked_at": null
+    "trades": [
+      {
+        "source": "molit",
+        "date": "2026-10-08",
+        "price": 90000000,
+        "area_m2": 14.04,
+        "floor": 18
+      }
+    ],
+    "source_url": "https://k-skill-proxy.nomadamas.org/v1/real-estate/apartment/trade",
+    "checked_at": "2026-10-19"
   },
   "result": {
     "outcome": null,
@@ -65,9 +73,9 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "f29d61e4d2b44584",
-    "computed_at": "2026-10-19",
+    "engine_version": 8,
+    "input_hash": "ee68274110447966",
+    "computed_at": "2026-11-22",
     "base_right": {
       "index": 0,
       "date": "2025-02-20",
@@ -92,15 +100,35 @@
     "bid_deposit": 7360000,
     "minimum_plus_assumed_min": 73600000,
     "minimum_plus_assumed_max": 73600000,
-    "price_gap": null,
+    "price_gap": {
+      "market_avg": 90000000,
+      "trade_count": 1,
+      "diff_minimum": 16400000,
+      "gap_min": 16400000,
+      "gap_max": 16400000,
+      "basis_source": "molit",
+      "basis_label": "국토부 실거래가",
+      "by_source": [
+        {
+          "source": "molit",
+          "kind": null,
+          "label": "국토부 실거래가",
+          "count": 1,
+          "avg": 90000000,
+          "diff_minimum": 16400000,
+          "gap_min": 16400000,
+          "gap_max": 16400000
+        }
+      ]
+    },
     "score": {
       "items": [
         {
           "key": "price",
           "label": "가격 수준",
-          "value": "감정가의 64% (유찰 2회)",
-          "stars": 5,
-          "note": "시세 자료가 없어 감정가 대비로 매겼다(30% 이상 낮으면 5점). 감정가는 시세보다 늦게 따라와 참고로만 본다"
+          "value": "국토부 실거래가 90,000,000원(1건)의 82% · 감정가의 64% (유찰 2회)",
+          "stars": 3,
+          "note": "최저가가 비슷한 물건 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 \"권리 인수 위험\"에서 따로 본다"
         },
         {
           "key": "rights_risk",
@@ -119,19 +147,18 @@
         {
           "key": "review_load",
           "label": "확인 필요 사항",
-          "value": "특수 사항 2건, 계산 도구 확인 요청 3건",
-          "stars": 2,
+          "value": "특수 사항 2건, 계산 도구 확인 요청 2건",
+          "stars": 3,
           "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
         }
       ],
-      "total_stars": 4.5,
+      "total_stars": 4,
       "rated_count": 4,
-      "has_price_gap": false
+      "has_price_gap": true
     },
     "review": [
       "특수 사항 \"점유관계 확인 필요\" (법원경매정보 현황조사서 점유관계: \"미상\" — 이름은 저장하지 않음. 매각물건명세서·현황조사서 원본으로 직접 확인) — 등기만으로 판정 불가, 현장·서류 확인",
-      "특수 사항 \"특별매각조건(대항력 포기)\" (법원경매정보 2026-10-27 매각공고 비고: \"임차인 및 임차보증금반환채권승계인 서울보증보험 주식회사의 매수인에 대한 대항력 포기조건 매각\" — 공고 비고상 임차인이 있는 것으로 보이나 현황조사서 점유관계는 미상. 포기 범위와 다른 인수 요소는 매각물건명세서로 확인) — 등기만으로 판정 불가, 현장·서류 확인",
-      "시세 데이터(market.trades) 없음 — 넣으면 가격 수준 별점이 감정가가 아니라 시세 대비로 매겨짐(node tools/analysis/fetch-market.mjs <id> --write)"
+      "특수 사항 \"특별매각조건(대항력 포기)\" (법원경매정보 2026-10-27 매각공고 비고: \"임차인 및 임차보증금반환채권승계인 서울보증보험 주식회사의 매수인에 대한 대항력 포기조건 매각\" — 공고 비고상 임차인이 있는 것으로 보이나 현황조사서 점유관계는 미상. 포기 범위와 다른 인수 요소는 매각물건명세서로 확인) — 등기만으로 판정 불가, 현장·서류 확인"
     ]
   }
 }

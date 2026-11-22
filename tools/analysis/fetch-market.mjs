@@ -22,7 +22,7 @@
 import fs from 'node:fs';
 import { loadCase } from '../lib/cases.mjs';
 import { todayKST, casePath } from '../lib/paths.mjs';
-import { regionParts, matchSigungu, addressKeys, sameComplex } from '../lib/parse.mjs';
+import { regionParts, matchSigungu, addressKeys, complexMatch } from '../lib/parse.mjs';
 
 const PROXY = 'https://k-skill-proxy.nomadamas.org/v1/real-estate';
 const CATEGORY_TO_ASSET = { apartment: 'apartment', villa: 'villa', commercial: 'commercial' };
@@ -33,6 +33,8 @@ const monthsArg = rest.find(a => a.startsWith('--months='))?.slice('--months='.l
   ?? (rest.includes('--months') ? rest[rest.indexOf('--months') + 1] : null);
 const months = Number(monthsArg ?? 3);
 const write = rest.includes('--write');
+// --until <YYYY-MM-DD>: 이 날짜까지의 거래만(이미 공개된 글에 시세를 넣을 때 글 쓴 날 이후 거래가 섞이지 않게)
+const until = rest.find(a => a.startsWith('--until='))?.slice('--until='.length) ?? (rest.includes('--until') ? rest[rest.indexOf('--until') + 1] : null);
 // --name <단지명 일부>: 실거래 자료의 단지명 표기가 소재지와 많이 다를 때 직접 지정(예: --name 어반브릿지)
 const nameArg = rest.find(a => a.startsWith('--name='))?.slice('--name='.length) ?? (rest.includes('--name') ? rest[rest.indexOf('--name') + 1] : null);
 
@@ -55,7 +57,20 @@ const buildingHint = region.replace(/\s*외\s*\d+\s*건\s*$/, '');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ── 경로 1: k-skill-proxy ──────────────────────────────────────────────
-async function getJSON(url, { attempts = 3, baseDelayMs = 1500 } = {}) {
+// FETCH_MARKET_CACHE=<폴더>: 같은 URL(지역코드·월) 응답을 그날 하루 파일로 재사용 — 여러 사건을 한 번에 돌릴 때
+// 같은 구·월을 반복 조회하지 않게 한다. 지정하지 않으면 캐시 없이 매번 조회한다.
+const CACHE_DIR = process.env.FETCH_MARKET_CACHE;
+async function getJSON(url, opts) {
+  if (!CACHE_DIR) return getJSONRaw(url, opts);
+  const { createHash } = await import('node:crypto');
+  const f = `${CACHE_DIR}/${todayKST()}-${createHash('sha1').update(url).digest('hex')}.json`;
+  if (fs.existsSync(f)) return JSON.parse(fs.readFileSync(f, 'utf8'));
+  const data = await getJSONRaw(url, opts);
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
+  fs.writeFileSync(f, JSON.stringify(data));
+  return data;
+}
+async function getJSONRaw(url, { attempts = 3, baseDelayMs = 1500 } = {}) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
     if (i > 0) await sleep(baseDelayMs * i + Math.random() * 500);
@@ -88,19 +103,26 @@ async function tryProxy(lawdCd) {
   for (let i = 0; i < months; i++) {
     const ym = monthsBack(thisMonth, i);
     try {
-      const data = await getJSON(`${PROXY}/${asset}/trade?lawd_cd=${lawdCd}&deal_ymd=${ym}`);
+      // num_of_rows를 안 주면 프록시가 월 100건에서 잘라 거래가 많은 구에서 같은 단지 거래가 빠진다
+      const data = await getJSON(`${PROXY}/${asset}/trade?lawd_cd=${lawdCd}&deal_ymd=${ym}&num_of_rows=1000`);
       anyOk = true;
       const rows = data.results ?? data.items ?? data.data ?? (Array.isArray(data) ? data : []);
-      console.log(`  [프록시] ${ym}: ${rows.length}건`);
+      if (data.total_count != null && rows.length < Number(data.filtered_count ?? data.total_count)) console.error(`  [프록시] ${ym}: ${data.filtered_count ?? data.total_count}건 중 ${rows.length}건만 받음(잘림)`);
+      // 직거래는 증여성 저가 등 시세 왜곡 가능성이 커서 MOLIT 직접 경로와 똑같이 뺀다
+      const direct = rows.filter(r => pick(r, 'deal_type', 'dealingGbn') === '직거래').length;
+      console.log(`  [프록시] ${ym}: ${rows.length - direct}건${direct ? `(직거래 ${direct}건 제외)` : ''}`);
       for (const r of rows) {
+        if (pick(r, 'deal_type', 'dealingGbn') === '직거래') continue;
+        // 프록시 응답 칸 이름: 2026년 하반기부터 name·district·area_m2·price_10k·deal_date(만원 단위). 예전 MOLIT 원본 이름도 계속 읽는다
+        const tenK = pick(r, 'price_10k');
         out.push({
-          name: pick(r, 'aptNm', 'aptName', 'mhouseNm', 'buildingName', 'offiNm'),
-          dong: pick(r, 'umdNm', 'dong'),
+          name: pick(r, 'name', 'aptNm', 'aptName', 'mhouseNm', 'buildingName', 'offiNm'),
+          dong: pick(r, 'district', 'umdNm', 'dong'),
           jibun: pick(r, 'jibun'),
           road: pick(r, 'roadNm') && pick(r, 'roadNmBonbun') ? `${pick(r, 'roadNm')} ${Number(pick(r, 'roadNmBonbun'))}${Number(pick(r, 'roadNmBubun')) ? `-${Number(pick(r, 'roadNmBubun'))}` : ''}` : undefined,
-          date: pick(r, 'dealYear') && pick(r, 'dealMonth') ? `${pick(r, 'dealYear')}-${String(pick(r, 'dealMonth')).padStart(2, '0')}-${String(pick(r, 'dealDay') ?? 1).padStart(2, '0')}` : ym.replace(/(\d{4})(\d{2})/, '$1-$2'),
-          price: parsePrice(pick(r, 'dealAmount', 'dealAmt', 'price')),
-          area: pick(r, 'excluUseAr', 'area', 'exclusiveArea'),
+          date: pick(r, 'deal_date') ?? (pick(r, 'dealYear') && pick(r, 'dealMonth') ? `${pick(r, 'dealYear')}-${String(pick(r, 'dealMonth')).padStart(2, '0')}-${String(pick(r, 'dealDay') ?? 1).padStart(2, '0')}` : ym.replace(/(\d{4})(\d{2})/, '$1-$2')),
+          price: tenK != null ? Number(String(tenK).replace(/[,\s]/g, '')) * 10000 : parsePrice(pick(r, 'dealAmount', 'dealAmt', 'price')),
+          area: pick(r, 'area_m2', 'excluUseAr', 'area', 'exclusiveArea'),
           floor: pick(r, 'floor'),
         });
       }
@@ -201,7 +223,9 @@ if (!trades) {
 // 단지명 표기가 실거래 자료와 다를 수 있어(예: "이편한세상" vs "e편한세상") 법정동+지번이 같으면 같은 단지로 본다
 // 도로명 주소(예: "고산로6번길 45, … (고색동,대원아파트)")는 지번이 없어 도로명+건물번호, 같은 법정동의 단지명으로도 맞춘다
 const keys = addressKeys(region);
-const sameLot = t => sameComplex(t, keys);
+const sameLot = t => complexMatch(t, keys) === 'exact';
+// 단지명이 차수만 다른 거래("동성아파트" ↔ "동성3"). 같은 단지로 보이는 거래가 하나도 없을 때만 쓴다
+const sameSeries = t => complexMatch(t, keys) === 'series';
 const nameHit = t => nameArg && t.name && String(t.name).replace(/\s/g, '').includes(nameArg.replace(/\s/g, ''));
 // 단지명이 소재지 문자열에 들어 있으면 같은 단지로 보되, "관악"·"송파"처럼 시군구·동 이름과 겹치는 짧은 단지명은 빼야
 // 주소의 구 이름에 걸려 엉뚱한 단지가 섞이지 않는다
@@ -210,7 +234,10 @@ const nameInRegion = t => {
   const n = String(t.name ?? '').replace(/\s/g, '');
   return n.length >= 3 && !placeTokens.includes(n) && buildingHint.replace(/\s/g, '').includes(n);
 };
-const parsed = trades.map(t => ({ ...t, looksLikeSameBuilding: Boolean(nameHit(t) || (!nameArg && nameInRegion(t)) || (!nameArg && sameLot(t))) }));
+let parsed = trades.map(t => ({ ...t, looksLikeSameBuilding: Boolean(nameHit(t) || (!nameArg && nameInRegion(t)) || (!nameArg && sameLot(t))) }));
+const seriesOnly = !nameArg && !parsed.some(p => p.looksLikeSameBuilding);
+if (seriesOnly) parsed = parsed.map(t => ({ ...t, looksLikeSameBuilding: sameSeries(t) }));
+if (seriesOnly && parsed.some(p => p.looksLikeSameBuilding)) console.log('\n같은 단지명 거래가 없어 차수·단지 번호만 다른 같은 동 거래("동성3" 등)를 씁니다 — 다른 차수 단지일 수 있으니 확인하세요.');
 
 // 가격/면적(원/㎡)이 같은 단지 내 중앙값의 60% 미만인 거래는 증여성 저가 매매 등으로 보고 뺀다.
 // 단지 전체(예: 관악구 전체)를 기준으로 중앙값을 내면 단지·평형이 섞여 의미가 없어지므로
@@ -251,13 +278,19 @@ console.log(`\n사람이 확인 후, 비교 가능한 사례만 골라 data/case
 if (write) {
   const area = c.case?.area_m2;
   if (area == null) { console.log('\n--write: case.area_m2가 없어 비교할 면적을 고를 수 없다 — 쓰지 않음'); process.exit(0); }
-  const picked = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05);
+  const sameSize = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05 && (!until || String(t.date) <= until))
+    .sort((x, y) => String(y.date).localeCompare(String(x.date)));
+  // 오래 조회해도(--months 36) 평균이 옛 시세로 끌리지 않게: 최근 1년 거래가 있으면 그것만, 없으면 가장 최근 3건만
+  const ref = until ?? todayKST();
+  const yearAgo = `${Number(ref.slice(0, 4)) - 1}${ref.slice(4)}`;
+  const recent = sameSize.filter(t => String(t.date) >= yearAgo);
+  const picked = recent.length ? recent : sameSize.slice(0, 3);
   if (!picked.length) { console.log(`\n--write: 같은 단지에서 전용 ${area}㎡ ±5% 거래가 없음 — 쓰지 않음`); process.exit(0); }
   const p = casePath(id);
   const data = JSON.parse(fs.readFileSync(p, 'utf8'));
   const others = (data.market?.trades ?? []).filter(t => (t.source ?? 'molit') !== 'molit');
   const rows = picked.map(t => ({ source: 'molit', date: t.date, price: t.price, area_m2: Number(t.area), floor: t.floor != null ? Number(t.floor) : null }));
-  data.market = { ...(data.market ?? {}), trades: [...others, ...rows], checked_at: todayKST(), source_url: source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do' };
+  data.market = { ...(data.market ?? {}), trades: [...others, ...rows], checked_at: until ?? todayKST(), source_url: source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do' };
   fs.writeFileSync(p, JSON.stringify(data, null, 2) + '\n');
   console.log(`\n--write: 같은 단지 전용 ${area}㎡ ±5% 거래 ${rows.length}건을 market.trades에 넣음 — 다음: node tools/analysis/compute.mjs ${id}`);
 }

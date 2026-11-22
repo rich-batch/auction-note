@@ -90,9 +90,9 @@
     "checked_at": null
   },
   "computed": {
-    "engine_version": 7,
-    "input_hash": "f2b3dde7316fe0d2",
-    "computed_at": "2026-10-19",
+    "engine_version": 8,
+    "input_hash": "5d8290bf0474225d",
+    "computed_at": "2026-11-22",
     "base_right": {
       "index": 0,
       "date": "2024-04-11",

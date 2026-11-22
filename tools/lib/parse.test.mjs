@@ -75,6 +75,13 @@ test('같은 단지 판정: 지번·도로명·같은 동의 단지명', () => {
   assert.ok(!sameComplex({ name: '대원빌', dong: '고색동' }, suwon));
   assert.ok(!sameComplex({ name: '?', road: '고산로6번길 47' }, suwon));
 
+  // 실거래 자료의 줄인 단지명: "동성아파트" ↔ "동성3", "동성2차"
+  const dongsung = addressKeys('서울특별시 중랑구 신내동 591 동성아파트 402동 20층 2010호');
+  assert.ok(sameComplex({ name: '동성3', dong: '신내동' }, dongsung));
+  assert.ok(sameComplex({ name: '동성2차', dong: '신내동' }, dongsung));
+  assert.ok(!sameComplex({ name: '동성3', dong: '묵동' }, dongsung)); // 다른 동
+  assert.ok(!sameComplex({ name: '동성빌', dong: '신내동' }, dongsung));
+
   const lotOnly = addressKeys('서울특별시 강서구 화곡동 894-12 5층502호');
   assert.ok(sameComplex({ name: '가상', dong: '서울특별시 강서구 화곡동', jibun: '894-12' }, lotOnly));
   assert.ok(!sameComplex({ name: '가상', dong: '서울특별시 강서구 화곡동', jibun: '894-1' }, lotOnly));

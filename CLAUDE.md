@@ -71,7 +71,7 @@ node tools/analysis/fetch-onbid-result.mjs <id> --write  # 온비드 매각 결�
 node tools/analysis/fetch-court-result.mjs <id>... --write  # 법원경매 기일 내역·매각가 → result, 명세서 최선순위 설정·인수 권리 → spec_sheet(비었을 때만), 유찰 횟수 보정. 다음 회차는 콘솔에만
 node tools/analysis/compute.mjs <id>             # 사건 검증·권리 계산
 node --test tools/analysis/rights.test.mjs tools/lib/parse.test.mjs   # 계산 엔진·자료 읽기 테스트
-node tools/auto/daily-plan.mjs                   # 매일 예약 작업의 오늘 할 일(서울 아파트·권리 깔끔한 사건만, --check <id>로 판정)
+node tools/auto/daily-plan.mjs                   # 매일 예약 작업의 오늘 할 일(서울·경기 아파트·권리 깔끔·최근 3년 같은 단지 실거래 있는 사건만, --check <id>로 판정)
 tools/auto/batch.sh guide 3                      # 가이드 3편 자동 초안 → PR 3개
 tools/auto/batch.sh analysis 1                   # 분석 1편 자동 초안 → PR
 ```
