@@ -276,7 +276,12 @@ console.log(`\n사람이 확인 후, 비교 가능한 사례만 골라 data/case
 if (write) {
   const area = c.case?.area_m2;
   if (area == null) { console.log('\n--write: case.area_m2가 없어 비교할 면적을 고를 수 없다 — 쓰지 않음'); process.exit(0); }
-  const picked = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05);
+  const sameSize = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05)
+    .sort((x, y) => String(y.date).localeCompare(String(x.date)));
+  // 오래 조회해도(--months 36) 평균이 옛 시세로 끌리지 않게: 최근 1년 거래가 있으면 그것만, 없으면 가장 최근 3건만
+  const yearAgo = `${Number(todayKST().slice(0, 4)) - 1}${todayKST().slice(4)}`;
+  const recent = sameSize.filter(t => String(t.date) >= yearAgo);
+  const picked = recent.length ? recent : sameSize.slice(0, 3);
   if (!picked.length) { console.log(`\n--write: 같은 단지에서 전용 ${area}㎡ ±5% 거래가 없음 — 쓰지 않음`); process.exit(0); }
   const p = casePath(id);
   const data = JSON.parse(fs.readFileSync(p, 'utf8'));
