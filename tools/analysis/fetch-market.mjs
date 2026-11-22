@@ -33,6 +33,8 @@ const monthsArg = rest.find(a => a.startsWith('--months='))?.slice('--months='.l
   ?? (rest.includes('--months') ? rest[rest.indexOf('--months') + 1] : null);
 const months = Number(monthsArg ?? 3);
 const write = rest.includes('--write');
+// --until <YYYY-MM-DD>: 이 날짜까지의 거래만(이미 공개된 글에 시세를 넣을 때 글 쓴 날 이후 거래가 섞이지 않게)
+const until = rest.find(a => a.startsWith('--until='))?.slice('--until='.length) ?? (rest.includes('--until') ? rest[rest.indexOf('--until') + 1] : null);
 // --name <단지명 일부>: 실거래 자료의 단지명 표기가 소재지와 많이 다를 때 직접 지정(예: --name 어반브릿지)
 const nameArg = rest.find(a => a.startsWith('--name='))?.slice('--name='.length) ?? (rest.includes('--name') ? rest[rest.indexOf('--name') + 1] : null);
 
@@ -276,10 +278,11 @@ console.log(`\n사람이 확인 후, 비교 가능한 사례만 골라 data/case
 if (write) {
   const area = c.case?.area_m2;
   if (area == null) { console.log('\n--write: case.area_m2가 없어 비교할 면적을 고를 수 없다 — 쓰지 않음'); process.exit(0); }
-  const sameSize = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05)
+  const sameSize = sameBuilding.filter(t => t.price && t.area && Math.abs(t.area - area) / area <= 0.05 && (!until || String(t.date) <= until))
     .sort((x, y) => String(y.date).localeCompare(String(x.date)));
   // 오래 조회해도(--months 36) 평균이 옛 시세로 끌리지 않게: 최근 1년 거래가 있으면 그것만, 없으면 가장 최근 3건만
-  const yearAgo = `${Number(todayKST().slice(0, 4)) - 1}${todayKST().slice(4)}`;
+  const ref = until ?? todayKST();
+  const yearAgo = `${Number(ref.slice(0, 4)) - 1}${ref.slice(4)}`;
   const recent = sameSize.filter(t => String(t.date) >= yearAgo);
   const picked = recent.length ? recent : sameSize.slice(0, 3);
   if (!picked.length) { console.log(`\n--write: 같은 단지에서 전용 ${area}㎡ ±5% 거래가 없음 — 쓰지 않음`); process.exit(0); }
@@ -287,7 +290,7 @@ if (write) {
   const data = JSON.parse(fs.readFileSync(p, 'utf8'));
   const others = (data.market?.trades ?? []).filter(t => (t.source ?? 'molit') !== 'molit');
   const rows = picked.map(t => ({ source: 'molit', date: t.date, price: t.price, area_m2: Number(t.area), floor: t.floor != null ? Number(t.floor) : null }));
-  data.market = { ...(data.market ?? {}), trades: [...others, ...rows], checked_at: todayKST(), source_url: source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do' };
+  data.market = { ...(data.market ?? {}), trades: [...others, ...rows], checked_at: until ?? todayKST(), source_url: source === 'k-skill-proxy' ? `${PROXY}/${asset}/trade` : 'https://rt.molit.go.kr/pt/xls/xls.do' };
   fs.writeFileSync(p, JSON.stringify(data, null, 2) + '\n');
   console.log(`\n--write: 같은 단지 전용 ${area}㎡ ±5% 거래 ${rows.length}건을 market.trades에 넣음 — 다음: node tools/analysis/compute.mjs ${id}`);
 }

@@ -133,7 +133,8 @@ check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${s
   warn(bolds <= 4, `굵은 글씨 ${bolds}곳 — 항목마다 굵은 머리말을 달지 말고 꼭 필요한 2~3곳만`);
 }
 {
-  const plain = t => t.split(/^---$/m).slice(2).join('').replace(/\{\{<[^>]*>\}\}/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+  // 참고 자료 목록은 출처 이름·설명이 글마다 같은 형식이라(일관성을 위해 의도한 것) 중복 계산에서 뺀다
+  const plain = t => t.split(/^---$/m).slice(2).join('').split(/^## 참고 자료/m)[0].replace(/\{\{<[^>]*>\}\}/g, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
   const sentences = t => t.split(/(?<=[.다요])\s+|\n+/).map(x => x.replace(/[\s>*#\-\d]/g, '')).filter(x => x.length >= 25);
   const grams = x => { const g = new Set(); for (let i = 0; i < x.length - 5; i++) g.add(x.slice(i, i + 6)); return g; };
   const overlap = (x, y) => { let n = 0; for (const g of x) if (y.has(g)) n++; return n / Math.min(x.size, y.size); };
