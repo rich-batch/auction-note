@@ -7,21 +7,24 @@
         "five_hour": 0.01,
         "seven_day": 0.35
       },
-      "finished_at": "2026-11-22T22:41:32.386Z",
+      "finished_at": "2026-11-22T22:41:42.099Z",
       "end": {
         "five_hour": 0.08,
         "seven_day": 0.36
       },
       "articles": [
-        "uijeongbu-2026ta70636,uijeongbu-2026ta70237,uijeongbu-2023ta86580,seoul-nambu-2026ta6218"
+        "uijeongbu-2026ta70636",
+        "uijeongbu-2026ta70237",
+        "uijeongbu-2023ta86580",
+        "seoul-nambu-2026ta6218"
       ],
       "used": {
         "five_hour": 0.07,
         "seven_day": 0.01
       },
       "per_article": {
-        "five_hour": 0.07,
-        "seven_day": 0.01
+        "five_hour": 0.018,
+        "seven_day": 0.003
       }
     }
   ]
