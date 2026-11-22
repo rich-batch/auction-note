@@ -17,7 +17,20 @@ const file = `logs/batch/${date}.json`;
 const LABEL = 'batch-log';
 const TITLE = '배치 일지';
 
-const rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null;
+// 2026-11-20부터 매일 작업은 클라우드 예약 작업("경매 노트 매일 분석 글 공개")이 하고, 기록은
+// tools/auto/daily-plan.mjs --log가 logs/auto/<날짜>.json에 남긴다. Mac 배치 기록(logs/batch)이 없으면 이것을 본다.
+const autoFile = `logs/auto/${date}.json`;
+function fromAuto() {
+  if (!fs.existsSync(autoFile)) return null;
+  const runs = JSON.parse(fs.readFileSync(autoFile, 'utf8')).runs ?? [];
+  if (!runs.length) return null;
+  const last = runs[runs.length - 1];
+  if (!last.finished_at) return { status: 'running', started_at: last.started_at, source: autoFile };
+  const articles = runs.flatMap(r => r.articles ?? []);
+  return { status: 'ok', source: autoFile, articles, runs: runs.length };
+}
+const rec = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : fromAuto();
+const recFile = rec?.source ?? file;
 const md = date.slice(5).replace('-', '/').replace(/^0/, '').replace('/0', '/');
 const list = (title, xs) => (xs?.length ? `\n**${title}**\n${xs.map(x => `- ${x}`).join('\n')}\n` : '');
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8' }).trim();
@@ -47,10 +60,13 @@ const toolPRs = openToolPRs();
 let head, body = '';
 if (!rec) {
   head = `❌ 경매 노트 배치 ${md} — 오늘 실행 기록이 없습니다`;
-  body = '\n배치가 실행되지 않았거나 기록을 푸시하기 전에 멈췄습니다. Mac과 Claude 앱이 켜져 있었는지, 사이드바 "Scheduled"에 승인 대기·실패한 실행이 있는지 확인하세요.\n';
+  body = `\n\`${file}\`·\`${autoFile}\` 둘 다 없습니다. 클라우드 예약 작업 "경매 노트 매일 분석 글 공개"(KST 07:13)의 오늘 실행이 실패했거나 기록을 푸시하기 전에 멈췄습니다. claude.ai의 예약 작업 실행 내역을 확인하세요.\n`;
 } else if (rec.status === 'running') {
   head = `⚠️ 경매 노트 배치 ${md} — 시작은 했지만 끝난 기록이 없습니다`;
   body = `\n${rec.started_at}에 시작한 뒤 결과를 남기지 않았습니다. 아직 도는 중이거나 중간에 멈췄습니다. 사이드바 "Scheduled"의 오늘 실행을 확인하세요.\n`;
+} else if (rec.source) {
+  head = `✅ 경매 노트 매일 분석 ${md} — 실행 ${rec.runs}회, 글 ${rec.articles.length}편`;
+  body = list('쓴 글', rec.articles);
 } else {
   const ok = rec.status === 'ok';
   head = `${ok ? '✅' : '⚠️'} 경매 노트 배치 ${md} — 결과 ${rec.results?.length ?? 0}건 반영, PR ${rec.prs?.length ?? 0}건${ok ? '' : ', 문제 있음'}`;
@@ -59,7 +75,7 @@ if (!rec) {
     + list('문제', rec.errors?.map(markRepeat)) + list('새 PR', rec.prs) + list('결과 반영', rec.results) + list('할 일', rec.todo);
 }
 body += list('머지 안 된 도구 수정 PR', toolPRs);
-const comment = `@${owner} ${head}\n${body}\n<sub>기록: \`${file}\` · 확인: ${new Date().toISOString()}</sub>`;
+const comment = `@${owner} ${head}\n${body}\n<sub>기록: \`${recFile}\` · 확인: ${new Date().toISOString()}</sub>`;
 console.log(comment);
 if (dry) process.exit(0);
 
