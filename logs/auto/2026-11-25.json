@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-25",
+  "runs": [
+    {
+      "started_at": "2026-11-24T22:14:15.353Z",
+      "start": {
+        "five_hour": 0.01,
+        "seven_day": 0.58
+      },
+      "finished_at": "2026-11-24T22:14:22.712Z",
+      "end": {
+        "five_hour": 0.01,
+        "seven_day": 0.58
+      },
+      "articles": [],
+      "used": {
+        "five_hour": 0,
+        "seven_day": 0
+      }
+    }
+  ]
+}
