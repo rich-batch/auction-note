@@ -3,7 +3,7 @@ title: "경기 파주 해오름마을3단지제일풍경채그랑베뉴2차 85�
 author: "rich-batch"
 date: 2026-11-24
 lastmod: 2026-11-24
-draft: true
+draft: false
 case: "goyang-2026ta61281"
 categories: ["권리분석·명도"]
 tags: [파주시, 아파트, "인수 권리 없음", 다율동, 근저당권, 임의경매]

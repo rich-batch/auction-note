@@ -3,7 +3,7 @@ title: "서울 도봉구 창동금호어울림아파트 85㎡ 경매 (2025타경
 author: "rich-batch"
 date: 2026-11-24
 lastmod: 2026-11-24
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta13779"
 categories: ["권리분석·명도"]
 tags: [도봉구, 아파트, "인수 권리 없음", 창동, 근저당권, 임의경매]
