@@ -1,0 +1,4 @@
+{{- /* 원 단위 금액을 만 원 단위로 반올림해 "5억 6,438만 원"처럼. 사용: partial "krw-man.html" 564375000 */ -}}
+{{- $s := "미상" -}}
+{{- if ne . nil }}{{ $s = partial "krw.html" (int (mul (math.Round (div (float .) 10000)) 10000)) }}{{ end -}}
+{{- return $s -}}

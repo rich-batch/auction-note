@@ -129,8 +129,15 @@ check(!stock.length, `상투 표현(카드 되읽기·내용 없는 문장): ${s
   check(!(yo >= 3 && da >= 3), `합쇼체(~다 ${da}문장)와 해요체(~요 ${yo}문장)가 섞임 — 한 글은 합쇼체 한 가지로 쓴다`);
   const unchecked = (prose.match(/확인하지 못했/g) ?? []).length;
   check(unchecked <= 4, `"확인하지 못했"가 ${unchecked}번 — 입찰 전 확인할 것 첫머리에 한 번 밝히고 항목마다 되풀이하지 않는다(4번 이하)`);
-  const bolds = (prose.match(/\*\*[^*\n]+\*\*/g) ?? []).filter(x => x !== '**핵심 요약**').length;
-  warn(bolds <= 4, `굵은 글씨 ${bolds}곳 — 항목마다 굵은 머리말을 달지 말고 꼭 필요한 2~3곳만`);
+  // 굵은 글씨는 섹션 첫 줄 결론("**…**")과 목록 항목 제목("1. **…**")에만 — 문장 중간 강조만 센다
+  const midBolds = prose.split('\n').filter(l => !/^\s*(>|\d+\.\s+\*\*|[-*]\s+\*\*|\*\*)/.test(l)).join('\n').match(/\*\*[^*\n]+\*\*/g) ?? [];
+  warn(midBolds.length <= 2, `문장 중간 굵은 글씨 ${midBolds.length}곳 — 굵게는 섹션 결론 한 줄과 확인 항목 제목에만`);
+  // 훑어보기: 산문 문단은 3문장까지(목록·인용·shortcode 제외). 5문장 이상은 실패
+  const paras = prose.split(/\n\s*\n/).map(p => p.trim()).filter(p => p && !/^(#|>|\{\{|\d+\.\s|[-*]\s|\|)/.test(p));
+  const count = p => (p.replace(/\([^)]*\)/g, '').match(/[다요][.!?](?=\s|$)/g) ?? []).length;
+  const long = paras.filter(p => count(p) >= 4);
+  check(!long.some(p => count(p) >= 5), `5문장 이상 문단 — 결론 한 줄 + 목록으로 나눈다: ${long.filter(p => count(p) >= 5).map(p => p.slice(0, 30)).join(' / ')}`);
+  warn(!long.length, `4문장 문단 ${long.length}개 — 문단은 3문장까지, 근거는 "- 라벨: 내용" 목록으로: ${long.map(p => p.slice(0, 30)).join(' / ')}`);
 }
 {
   // 참고 자료 목록은 출처 이름·설명이 글마다 같은 형식이라(일관성을 위해 의도한 것) 중복 계산에서 뺀다
@@ -152,7 +159,15 @@ const reviewMarks = body.match(/\[확인 필요[^\]]*\]/g) ?? [];
 // 운영자는 [확인 필요]를 대신 확인할 수 없다 — 표시를 남기지 않고 "입찰 전 확인할 것"에 독자용 문장으로 쓴다
 if (a.isDraft) warn(!reviewMarks.length, `[확인 필요] ${reviewMarks.length}곳 — 표시 대신 "이 글에서 확인하지 못했다 + 어디서 확인하는지"를 독자용 문장으로 쓴다`);
 else check(!reviewMarks.length, `[확인 필요] ${reviewMarks.length}곳이 남아 있음 — 독자용 문장("이 글에서 확인하지 못했다 + 어디서 확인하는지")으로 바꾼다`);
+for (const name of ['물건 개요', '권리분석', '임차인과 점유']) {
+  if (!h2.includes(name)) continue;
+  const first = sectionText(name).replace(/^## .*\n/, '').replace(/\{\{<[^>]*>\}\}/g, '').trim().split('\n')[0] ?? '';
+  warn(/^\*\*[^*]+\*\*/.test(first), `"## ${name}" 표 다음 첫 줄이 굵은 한 문장 결론이 아님 — 결론 한 줄 → 근거 목록 순서로`);
+}
 if (h2.includes('입찰 전 확인할 것')) {
+  const st = sectionText('입찰 전 확인할 것');
+  const titled = (st.match(/^\d+\.\s+\*\*/gm) ?? []).length, numbered = (st.match(/^\d+\.\s/gm) ?? []).length;
+  warn(titled === numbered && /^\s+[-*]\s+왜:/m.test(st) && /^\s+[-*]\s+어디서:/m.test(st), '"## 입찰 전 확인할 것" 항목이 "1. **제목**" + "- 왜:" + "- 어디서:" 형식이 아님');
   const items = (sectionText('입찰 전 확인할 것').match(/^\s*(\d+\.|[-*])\s/gm) ?? []).length;
   const need = c?.computed?.review?.length ?? 0;
   check(items >= need, `"## 입찰 전 확인할 것" 항목 ${items}개 — 계산 도구가 사람 확인으로 넘긴 항목(review) ${need}개를 모두 옮겨야 함`);
