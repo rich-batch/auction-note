@@ -24,7 +24,7 @@ TocOpen: false
 
 {{< case-summary >}}
 
-첫 기일에 아무도 들어오지 않아 [최저매각가격]({{< relref "/guide/court-auction-bidding-guide" >}})이 6억 5,600만원으로 20% 깎였습니다. 감정은 배당요구종기 2026년 2월 12일 전후에 이뤄졌으니 열 달쯤 된 값입니다.
+첫 기일에 아무도 들어오지 않아 [최저매각가격]({{< relref "/guide/court-auction-bidding-guide" >}})이 6억 5,600만원으로 20% 깎였습니다.
 
 최저가 그대로 낙찰된다고 치면, 기일 당일 [입찰보증금]({{< relref "/guide/court-auction-bidding-guide" >}}) 6,560만원을 내고 대금 납부일에 나머지 5억 9,040만원을 냅니다. 떠안을 권리가 0원이라 현금 흐름은 6억 5,600만원에서 끝나고, [취득세]({{< relref "/guide/auction-total-cost-calc" >}})와 등기 비용만 따로 붙습니다.
 
