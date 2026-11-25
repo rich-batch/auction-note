@@ -2,16 +2,7 @@
 {{- $c := partial "case-data.html" .Page -}}
 {{- $s := $c.computed.score -}}
 <div class="case-card case-score">
-  <div class="case-score-total{{ if ne $s.total_stars nil }} tier-{{ if lt (float $s.total_stars) 2 }}low{{ else if lt (float $s.total_stars) 3.5 }}mid{{ else }}high{{ end }}{{ end }}">
-    {{- if ne $s.total_stars nil }}
-    <span class="case-score-stars">{{ partial "stars.html" $s.total_stars }}</span>
-    <span class="case-score-num">{{ $s.total_stars }} / 5</span>
-    <span class="case-score-note">계산 가능한 지표 {{ $s.rated_count }}개 기준</span>
-    {{- else }}
-    <span class="case-score-num">확인 필요</span>
-    <span class="case-score-note">계산 가능한 지표가 없음</span>
-    {{- end }}
-  </div>
+  {{- /* 매력도·안전도 요약은 글 맨 위(layouts/_partials/case-verdict.html)에만 둔다 — 여기서는 지표별 세부만 */}}
   <div class="case-score-items">
     {{- range $s.items }}
     <div class="case-score-item{{ if ne .stars nil }} tier-{{ if lt (int .stars) 2 }}low{{ else if lt (int .stars) 4 }}mid{{ else }}high{{ end }}{{ end }}">

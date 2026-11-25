@@ -41,6 +41,7 @@
     <span class="rb-go">결과 보기 →</span>
   </a>
   {{- end }}{{ end }}{{ end }}{{ end }}
+  {{- if .Params.case }}{{ partial "case-verdict.html" . }}{{ end }}
   {{- $isHidden := (.Param "cover.hiddenInSingle") | default (.Param "cover.hidden") | default false }}
   {{- partial "cover.html" (dict "cxt" . "IsSingle" true "isHidden" $isHidden) }}
   {{- if (.Param "ShowToc") }}
