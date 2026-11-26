@@ -3,7 +3,7 @@ title: "서울 구로구 신도림태영타운 85㎡ 경매 (2026타경33)"
 author: "rich-batch"
 date: 2026-11-25
 lastmod: 2026-11-25
-draft: true
+draft: false
 case: "seoul-nambu-2026ta33"
 categories: ["권리분석·명도"]
 tags: [구로구, 아파트, "인수 권리 없음", 신도림, 근저당권, 임의경매]
