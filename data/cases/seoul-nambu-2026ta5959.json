@@ -184,15 +184,16 @@
     "checked_at": "2026-11-22"
   },
   "result": {
-    "outcome": null,
+    "outcome": "유찰",
     "winning_bid": null,
     "bidders": null,
-    "checked_at": null
+    "checked_at": "2026-11-27",
+    "later": []
   },
   "computed": {
     "engine_version": 8,
     "input_hash": "bd50525303fe42ab",
-    "computed_at": "2026-11-22",
+    "computed_at": "2026-11-26",
     "base_right": {
       "index": 0,
       "date": "2020-08-28",
