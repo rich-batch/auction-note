@@ -3,7 +3,7 @@ title: "서울 금천구 스카이아파트 85㎡ 경매 (2026타경6152)"
 author: "rich-batch"
 date: 2026-11-26
 lastmod: 2026-11-26
-draft: true
+draft: false
 case: "seoul-nambu-2026ta6152"
 categories: ["권리분석·명도"]
 tags: [금천구, 아파트, "인수 권리 없음", 시흥동, 근저당권, 임의경매]

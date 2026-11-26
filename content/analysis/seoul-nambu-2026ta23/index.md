@@ -3,7 +3,7 @@ title: "서울 강서구 마곡우림필유아파트 75㎡ 경매 (2026타경23)
 author: "rich-batch"
 date: 2026-11-25
 lastmod: 2026-11-25
-draft: true
+draft: false
 case: "seoul-nambu-2026ta23"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 마곡동, 근저당권, 강제경매]
