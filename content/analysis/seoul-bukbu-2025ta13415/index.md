@@ -3,7 +3,7 @@ title: "서울 동대문구 장안삼성쉐르빌 120㎡ 경매 (2025타경13415
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta13415"
 categories: ["권리분석·명도"]
 tags: [동대문구, 아파트, "인수 권리 없음", 장안동, 근저당권, 임의경매, 대항력]

@@ -3,7 +3,7 @@ title: "서울 성북구 동신아파트 60㎡ 경매 (2026타경10194)"
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10194"
 categories: ["권리분석·명도"]
 tags: [성북구, 아파트, "인수 권리 없음", 하월곡동, 근저당권, 임의경매, 전입세대열람]

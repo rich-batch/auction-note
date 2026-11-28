@@ -3,7 +3,7 @@ title: "서울 강서구 등촌동아이파크 135㎡ 경매 (2026타경6550)"
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-nambu-2026ta6550"
 categories: ["권리분석·명도"]
 tags: [강서구, 아파트, "인수 권리 없음", 등촌동, 근저당권, 임의경매, 경매 취하]

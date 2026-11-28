@@ -3,7 +3,7 @@ title: "서울 노원구 중계6단지주공아파트 44㎡ 경매 (2026타경10
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta10303"
 categories: ["권리분석·명도"]
 tags: [노원구, 아파트, "인수 권리 없음", 중계동, 근저당권, 임의경매, 인도명령]

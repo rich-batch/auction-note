@@ -3,7 +3,7 @@ title: "서울 도봉구 한양아파트 77㎡ 경매 (2025타경13049)"
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-bukbu-2025ta13049"
 categories: ["권리분석·명도"]
 tags: [도봉구, 아파트, "인수 권리 없음", 쌍문동, 근저당권, 임의경매, 배당요구종기]

@@ -3,7 +3,7 @@ title: "서울 강북구 삼각산아이원아파트 85㎡ 경매 (2026타경110
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "seoul-bukbu-2026ta11097"
 categories: ["권리분석·명도"]
 tags: [강북구, 아파트, "인수 권리 없음", 미아동, 근저당권, 임의경매, 실거래가]

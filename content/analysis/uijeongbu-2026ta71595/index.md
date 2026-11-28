@@ -3,7 +3,7 @@ title: "경기 양주 양주옥정신도시한신더휴 97㎡ 경매 (2026타경
 author: "rich-batch"
 date: 2026-11-28
 lastmod: 2026-11-28
-draft: true
+draft: false
 case: "uijeongbu-2026ta71595"
 categories: ["권리분석·명도"]
 tags: [양주시, 아파트, "인수 권리 없음", 옥정동, 근저당권, 임의경매, 경매 취하]
