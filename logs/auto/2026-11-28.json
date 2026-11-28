@@ -7,21 +7,27 @@
         "five_hour": 0.01,
         "seven_day": 0
       },
-      "finished_at": "2026-11-28T00:26:47.809Z",
+      "finished_at": "2026-11-28T00:27:01.908Z",
       "end": {
         "five_hour": 0.14,
         "seven_day": 0.02
       },
       "articles": [
-        "seoul-bukbu-2026ta10303,seoul-bukbu-2025ta13415,seoul-bukbu-2025ta13049,seoul-bukbu-2026ta11097,seoul-bukbu-2026ta10194,uijeongbu-2026ta71595,seoul-nambu-2026ta6550"
+        "seoul-bukbu-2026ta10303",
+        "seoul-bukbu-2025ta13415",
+        "seoul-bukbu-2025ta13049",
+        "seoul-bukbu-2026ta11097",
+        "seoul-bukbu-2026ta10194",
+        "uijeongbu-2026ta71595",
+        "seoul-nambu-2026ta6550"
       ],
       "used": {
         "five_hour": 0.13,
         "seven_day": 0.02
       },
       "per_article": {
-        "five_hour": 0.13,
-        "seven_day": 0.02
+        "five_hour": 0.019,
+        "seven_day": 0.003
       }
     }
   ]
