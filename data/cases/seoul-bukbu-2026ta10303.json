@@ -1,0 +1,418 @@
+{
+  "id": "seoul-bukbu-2026ta10303",
+  "source": {
+    "checked_at": "2026-11-28",
+    "documents": [
+      "매각물건명세서",
+      "현황조사서"
+    ],
+    "type": "court",
+    "note": "법원경매정보 courtauction.go.kr — court-auction-notice-search로 조회(사건 조회 + 2026-12-08 매각공고 상세). 청구금액 292,658,255원."
+  },
+  "case": {
+    "number": "2026타경10303",
+    "item_no": 1,
+    "court": "서울북부지방법원",
+    "kind": "임의경매",
+    "category": "apartment",
+    "region": "서울특별시 노원구 중계동 364-12 중계6단지주공아파트 604동 4층 407호",
+    "area_m2": 44.1
+  },
+  "sale": {
+    "appraisal": 480000000,
+    "minimum": 480000000,
+    "failed_rounds": 0,
+    "sale_date": "2026-12-08",
+    "dividend_deadline": "2026-04-30",
+    "resale": false
+  },
+  "rights": [
+    {
+      "date": "2016-02-03",
+      "receipt_no": null,
+      "kind": "근저당권",
+      "amount": null,
+      "holder_type": "은행",
+      "note": "매각물건명세서 \"최선순위 설정\"(법원경매정보 물건상세, 2026-11-28 조회) — 등기부는 보지 않음(유료). 금액·접수번호·후순위 등기는 미확인"
+    }
+  ],
+  "tenants": [],
+  "special": [],
+  "spec_sheet": {
+    "base_right_text": "2016. 2. 3. 근저당",
+    "surviving_rights_text": "",
+    "superficies_text": "",
+    "remarks": ""
+  },
+  "market": {
+    "trades": [
+      {
+        "source": "molit",
+        "date": "2026-11-06",
+        "price": 550000000,
+        "area_m2": 44.1,
+        "floor": 10
+      },
+      {
+        "source": "molit",
+        "date": "2026-10-22",
+        "price": 520000000,
+        "area_m2": 44.1,
+        "floor": 14
+      },
+      {
+        "source": "molit",
+        "date": "2026-10-19",
+        "price": 480000000,
+        "area_m2": 44.1,
+        "floor": 1
+      },
+      {
+        "source": "molit",
+        "date": "2026-10-15",
+        "price": 548000000,
+        "area_m2": 44.1,
+        "floor": 12
+      },
+      {
+        "source": "molit",
+        "date": "2026-10-07",
+        "price": 550000000,
+        "area_m2": 44.1,
+        "floor": 4
+      },
+      {
+        "source": "molit",
+        "date": "2026-10-01",
+        "price": 470000000,
+        "area_m2": 44.1,
+        "floor": 1
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-23",
+        "price": 510000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-19",
+        "price": 510000000,
+        "area_m2": 44.1,
+        "floor": 9
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-09",
+        "price": 510000000,
+        "area_m2": 44.1,
+        "floor": 4
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-03",
+        "price": 520000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-03",
+        "price": 490000000,
+        "area_m2": 44.1,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2026-09-01",
+        "price": 500000000,
+        "area_m2": 44.1,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2026-08-10",
+        "price": 495000000,
+        "area_m2": 44.1,
+        "floor": 10
+      },
+      {
+        "source": "molit",
+        "date": "2026-08-08",
+        "price": 488000000,
+        "area_m2": 44.1,
+        "floor": 14
+      },
+      {
+        "source": "molit",
+        "date": "2026-08-01",
+        "price": 498000000,
+        "area_m2": 44.1,
+        "floor": 8
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-30",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 2
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-30",
+        "price": 480000000,
+        "area_m2": 44.1,
+        "floor": 7
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-29",
+        "price": 425000000,
+        "area_m2": 44.1,
+        "floor": 1
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-28",
+        "price": 480000000,
+        "area_m2": 44.1,
+        "floor": 7
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-28",
+        "price": 475000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-23",
+        "price": 460000000,
+        "area_m2": 44.1,
+        "floor": 15
+      },
+      {
+        "source": "molit",
+        "date": "2026-07-10",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 2
+      },
+      {
+        "source": "molit",
+        "date": "2026-06-13",
+        "price": 465000000,
+        "area_m2": 44.1,
+        "floor": 4
+      },
+      {
+        "source": "molit",
+        "date": "2026-06-11",
+        "price": 490000000,
+        "area_m2": 44.1,
+        "floor": 7
+      },
+      {
+        "source": "molit",
+        "date": "2026-05-08",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-05-06",
+        "price": 440000000,
+        "area_m2": 44.1,
+        "floor": 8
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-29",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 8
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-27",
+        "price": 455000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-25",
+        "price": 448000000,
+        "area_m2": 44.1,
+        "floor": 9
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-25",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 14
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-16",
+        "price": 437000000,
+        "area_m2": 44.1,
+        "floor": 9
+      },
+      {
+        "source": "molit",
+        "date": "2026-04-11",
+        "price": 465000000,
+        "area_m2": 44.1,
+        "floor": 14
+      },
+      {
+        "source": "molit",
+        "date": "2026-03-31",
+        "price": 450000000,
+        "area_m2": 44.1,
+        "floor": 12
+      },
+      {
+        "source": "molit",
+        "date": "2026-03-24",
+        "price": 445000000,
+        "area_m2": 44.1,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2026-03-23",
+        "price": 465000000,
+        "area_m2": 44.1,
+        "floor": 6
+      },
+      {
+        "source": "molit",
+        "date": "2026-02-14",
+        "price": 460000000,
+        "area_m2": 44.1,
+        "floor": 9
+      },
+      {
+        "source": "molit",
+        "date": "2026-02-07",
+        "price": 440000000,
+        "area_m2": 44.1,
+        "floor": 11
+      },
+      {
+        "source": "molit",
+        "date": "2025-12-22",
+        "price": 440000000,
+        "area_m2": 44.1,
+        "floor": 5
+      },
+      {
+        "source": "molit",
+        "date": "2025-12-09",
+        "price": 440000000,
+        "area_m2": 44.1,
+        "floor": 8
+      }
+    ],
+    "source_url": "https://rt.molit.go.kr/pt/xls/xls.do",
+    "checked_at": "2026-11-28"
+  },
+  "result": {
+    "outcome": null,
+    "winning_bid": null,
+    "bidders": null,
+    "checked_at": null
+  },
+  "computed": {
+    "engine_version": 8,
+    "input_hash": "abf093582d17768f",
+    "computed_at": "2026-11-28",
+    "base_right": {
+      "index": 0,
+      "date": "2016-02-03",
+      "kind": "근저당권"
+    },
+    "rights": [
+      {
+        "index": 0,
+        "date": "2016-02-03",
+        "kind": "근저당권",
+        "amount": null,
+        "effect": "소멸",
+        "reason": "말소기준권리"
+      }
+    ],
+    "tenants": [],
+    "ownership_risk": false,
+    "assumed_total_min": 0,
+    "assumed_total_max": 0,
+    "minimum_ratio": 100,
+    "deposit_rate": 0.1,
+    "bid_deposit": 48000000,
+    "minimum_plus_assumed_min": 480000000,
+    "minimum_plus_assumed_max": 480000000,
+    "price_gap": {
+      "market_avg": 475615385,
+      "trade_count": 39,
+      "diff_minimum": -4384615,
+      "gap_min": -4384615,
+      "gap_max": -4384615,
+      "basis_source": "molit",
+      "basis_label": "국토부 실거래가",
+      "by_source": [
+        {
+          "source": "molit",
+          "kind": null,
+          "label": "국토부 실거래가",
+          "count": 39,
+          "avg": 475615385,
+          "diff_minimum": -4384615,
+          "gap_min": -4384615,
+          "gap_max": -4384615
+        }
+      ]
+    },
+    "score": {
+      "items": [
+        {
+          "key": "price",
+          "label": "가격 수준",
+          "value": "국토부 실거래가 475,615,385원(39건)의 101% · 감정가의 100%",
+          "stars": 0,
+          "note": "최저가가 비슷한 물건 시세보다 낮을수록 별점이 높다(30% 이상 낮으면 5점). 떠안을 금액은 \"권리 인수 위험\"에서 따로 본다"
+        },
+        {
+          "key": "rights_risk",
+          "label": "권리 인수 위험",
+          "value": "인수 예상 최대 0원(최저가의 0%)",
+          "stars": 5,
+          "note": "매수인이 추가로 떠안을 수 있는 금액이 최저가 대비 적을수록 별점이 높다"
+        },
+        {
+          "key": "tenant_risk",
+          "label": "임차인 위험",
+          "value": "인수 부담 남는 대항력 임차인 0명",
+          "stars": 5,
+          "note": "대항력 있고 배당으로 보증금을 다 받지 못하는 임차인이 적을수록 별점이 높다"
+        },
+        {
+          "key": "review_load",
+          "label": "확인 필요 사항",
+          "value": "특수 사항 0건, 계산 도구 확인 요청 0건",
+          "stars": 5,
+          "note": "코드가 판정하지 못해 사람이 서류·현장으로 확인해야 하는 항목이 적을수록 별점이 높다"
+        }
+      ],
+      "total_stars": 4,
+      "rated_count": 4,
+      "has_price_gap": true
+    },
+    "review": []
+  }
+}
